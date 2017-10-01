@@ -25,9 +25,9 @@ public class TelaPrincipal {
         
         System.out.println("--- Bem vindo ao sistema! ---");
         System.out.println("--- Para acessar os módulos, escolha uma das opções abaixo e tecle enter. ---");
-        System.out.println("--- 1 - Cargos ---");
-        System.out.println("--- 2 - Funcionarios ---");
-        System.out.println("--- 3 - Acessos ---");
+        System.out.println("--- 1 - Cadastro de Cargos ---");
+        System.out.println("--- 2 - Cadastro de Funcionarios ---");
+        System.out.println("--- 3 - Acessar Setor Financeiro  ---");
         
         int opcao = teclado.nextInt();
         
