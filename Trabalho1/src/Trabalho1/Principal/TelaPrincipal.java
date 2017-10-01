@@ -1,6 +1,5 @@
 package Trabalho1.Principal;
 
-import Trabalho1.Principal.ControladorPrincipal;
 import java.util.Scanner;
 
 /**
@@ -10,8 +9,8 @@ import java.util.Scanner;
  * @author Marco Aurelio Geremias
  */
 public class TelaPrincipal {
-    private ControladorPrincipal controladorPrincipal;
-    private Scanner teclado;
+    private final ControladorPrincipal controladorPrincipal;
+    private final Scanner teclado;
     
     public TelaPrincipal(ControladorPrincipal controladorPrincipal) {
         this.controladorPrincipal = controladorPrincipal;
