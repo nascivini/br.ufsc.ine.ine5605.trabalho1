@@ -5,7 +5,6 @@
  */
 package Trabalho1.Cargo;
 
-import Trabalho1.Cargo.ControladorCargo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
@@ -17,8 +16,8 @@ import java.util.Scanner;
  * @author Marco Aurelio Geremias
  */
 public class TelaCargo {
-    private ControladorCargo controladorCargo;
-    private Scanner teclado;
+    private final ControladorCargo controladorCargo;
+    private final Scanner teclado;
     
     public TelaCargo(ControladorCargo controladorCargo){
         this.controladorCargo = controladorCargo;
@@ -39,22 +38,26 @@ public class TelaCargo {
         System.out.println("4 - Voltar ao Menu Principal");
         
         int opcao = teclado.nextInt();
+        try{
+            switch (opcao){    
+                case(1): 
+                    this.cadastroCargos();
+               
+                case(2):
+                    this.exclusaoCargos();
             
-            if(opcao == 1){ 
-                this.cadastroCargos();
-            }    
-            if(opcao == 2){
-                this.exclusaoCargos();
+                case(3):
+                    this.alterarCargos();
+            
+                case(4):
+                    controladorCargo.getControladorPrincipal().getTelaPrincipal().inicia();
             }
-            if(opcao == 3){
-                this.alterarCargos();
-            }
-            if(opcao == 4){
-                controladorCargo.getControladorPrincipal().getTelaPrincipal().inicia();
-            }
-  
+        }
+            catch(Exception InvallidArgumentException){
+                System.out.print("Opcao invalida! Selecione uma opcao dentre das opcoes possiveis e tente novamente.");
+                this.inicia();
+        }
     }
-    
     public void cadastroCargos(){
         System.out.println("Cadastro de Cargos");
                 System.out.println("Insira os dados requisitados. Após a inserção de todos os dados, seu cargo será cadastrado no sistema.");
