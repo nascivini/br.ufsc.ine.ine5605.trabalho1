@@ -48,7 +48,8 @@ public class ControladorCargo {
             for (Cargo cargoLista : cargos) {
                 if (cargoLista.getCodigo() == conteudo.getCodigo()) {
                     return null;
-                } else {
+                } 
+                else {
                     Cargo novo = new Cargo(conteudo);
                     cargos.add(novo);
                 }
@@ -91,18 +92,6 @@ public class ControladorCargo {
             }
         }
         return null;
-    }
-    /**
-     * Recebe um número inteiro como parâmetro, e retorna uma lista de cargos com o tamanho informado por parâmetro.
-     * @param tamanhoLista
-     * @return cargosLista
-     */
-    public ArrayList listarCargos(int tamanhoLista){
-        ArrayList<Cargo> cargosLista = new ArrayList<>();
-        for(int i = 0; i < tamanhoLista; i++){
-            cargosLista.add(cargos.get(i)); 
-    }
-        return cargosLista;
     }
 
 }

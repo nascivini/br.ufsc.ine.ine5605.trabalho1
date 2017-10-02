@@ -12,16 +12,22 @@ package Trabalho1.Cargo;
  * @author Marco Aurelio Geremias
  */
 public enum TipoCargo {
-    GERENCIAL("Cargo Gerencial"),
-    COMUM("Cargo Comum"),
-    CONVIDADO("Cargo Convidado");
+    GERENCIAL("Cargo Gerencial", true),
+    COMUM("Cargo Comum", true),
+    CONVIDADO("Cargo Convidado", false);
     private String descricao;
+    private boolean permiteAcesso;
     
-    TipoCargo(String descricao){
+    TipoCargo(String descricao, boolean permiteAcesso){
         this.descricao = descricao;
+        this.permiteAcesso = permiteAcesso;
     }
     
     public String getDescricao(){
         return this.descricao;
+    }
+    
+    public boolean getPermiteAcesso(){
+        return this.permiteAcesso;
     }
 }
