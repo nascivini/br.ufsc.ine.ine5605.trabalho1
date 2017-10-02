@@ -53,7 +53,7 @@ public class TelaCargo {
                     this.alterarCargos();
                 
                 case(4):
-                    this.listarCargos();
+                    this.listarCargos(2);
                     
                 case(5):
                     controladorCargo.getControladorPrincipal().getTelaPrincipal().inicia();
@@ -130,8 +130,8 @@ public class TelaCargo {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    private void listarCargos(){
-        ArrayList<Cargo> cargos = controladorCargo.getCargos();
+    private void listarCargos(int tamanhoLista){
+        ArrayList<Cargo> cargos = controladorCargo.listarCargos(tamanhoLista);
         for (Cargo cargo : cargos){
             System.out.println("Cargos cadastrados: ");    
             System.out.println("Código: " +cargo.getCodigo() + "Nome: " + cargo.getNome());
