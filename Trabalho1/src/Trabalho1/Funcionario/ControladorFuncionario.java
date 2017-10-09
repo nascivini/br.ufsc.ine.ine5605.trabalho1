@@ -30,7 +30,7 @@ public class ControladorFuncionario{
     }
     
     public void incluirFuncionario(DadosFuncionario conteudo){
-    
+        this.funcionarios.add(null);
     }
     
     public void excluirFuncionario(int matricula){
