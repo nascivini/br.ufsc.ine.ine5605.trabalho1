@@ -40,7 +40,7 @@ public class ControladorCargo {
     }
     /**
      * Recebe os dados do cargo a ser incluído via parâmetro, inclui o cargo na lista de cargos, e retorna o cargo incluído.
-     * @param codigo
+     * @param conteudo
      * @return Cargo
      */
     public Cargo incluirCargo(DadosCargo conteudo) {
