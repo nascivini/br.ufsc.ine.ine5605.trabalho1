@@ -107,16 +107,25 @@ public class TelaCargo {
                 System.out.println("3 - Convidado");
                 
                 opcaoCargo = teclado.nextInt();
-                TipoCargo tipo = TipoCargo.COMUM;
+                //TipoCargo tipo = TipoCargo.COMUM;
+                String tipoCargo =  "";
+                boolean tipo = false;
                 switch(opcaoCargo){
                     case (1):
-                        tipo = TipoCargo.GERENCIAL;
+                        //tipo = TipoCargo.GERENCIAL;
+                        tipo = true;
+                        tipoCargo = "GERENCIAL";
                     case (2):
-                        tipo = TipoCargo.COMUM;
+                        //tipo = TipoCargo.COMUM;
+                        tipoCargo = "COMUM";
+                        tipo = true;
                     case (3):
-                        tipo = TipoCargo.CONVIDADO;
+                        //tipo = TipoCargo.CONVIDADO;
+                        tipo = false;
+                        tipoCargo = "CONVIDADO";
                 }
-                DadosCargo cargoNovo = new DadosCargo (codigo,nome,tipo.getPermiteAcesso(),ehGerencial,horarioInicio1,tipo);
+                //DadosCargo cargoNovo = new DadosCargo (codigo,nome, tipo.getPermiteAcesso(), ehGerencial,horarioInicio1,tipo);
+                DadosCargo cargoNovo = new DadosCargo (codigo, nome, tipo, ehGerencial, horarioInicio1, tipoCargo);
                 this.controladorCargo.incluirCargo(cargoNovo);
                 this.inicia();
 

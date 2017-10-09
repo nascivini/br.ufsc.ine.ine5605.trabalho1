@@ -22,13 +22,19 @@ public class DadosCargo {
     private final Date horarioPermitido;
     private final TipoCargo tipoCargo;
 
-    public DadosCargo(int codigo, String nome, boolean permiteAcesso, boolean ehGerencial, Date horarioPermitido, TipoCargo tipo) {
+    public DadosCargo(int codigo, String nome, boolean permiteAcesso, boolean ehGerencial, Date horarioPermitido, String tipo) {
         this.codigo = codigo;
         this.nome = nome;
         this.permiteAcesso = permiteAcesso;
         this.ehGerencial = ehGerencial;
         this.horarioPermitido = horarioPermitido;
-        this.tipoCargo = tipo;
+        switch(tipo) {
+            case "GERENCIAL":
+                this.tipoCargo = TipoCargo.GERENCIAL;
+                break;
+            default:
+                this.tipoCargo = TipoCargo.COMUM;
+        }       
     }
 
     public int getCodigo() {
