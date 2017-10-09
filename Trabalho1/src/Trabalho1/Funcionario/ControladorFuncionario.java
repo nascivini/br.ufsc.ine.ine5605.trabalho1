@@ -29,12 +29,31 @@ public class ControladorFuncionario{
         return funcionarios;
     }
     
-    public void incluirFuncionario(DadosFuncionario conteudo){
-        //this.funcionarios.add(null);
+    public Funcionario incluirFuncionario(DadosFuncionario conteudo){
+        if (conteudo != null) {
+            for (Funcionario funcionarioLista: funcionarios) {
+                if (funcionarioLista.getNome().equals(conteudo.nome)) {
+                    return null;
+                } else {
+                    Funcionario novo = new Funcionario(conteudo);
+                    funcionarios.add(novo);
+                    
+                    
+                }
+            }
+        }
+    }
+    
+    public int matriculaSequencial() {
+        //método para gerar matrícula sequencial
     }
     
     public void excluirFuncionario(int matricula){
-    
+        if (matricula != null) {
+            for (Funcionario funcionarioLista: funcionarios) {
+                if (funcionarioLista.getNome().equals(conteud))
+            }
+        }
     }
     
     public void alterarFuncionario(DadosFuncionario conteudo){
