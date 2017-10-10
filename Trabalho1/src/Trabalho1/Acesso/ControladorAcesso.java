@@ -65,28 +65,54 @@ public class ControladorAcesso {
     }
     
     public Boolean verificaAcesso(int matricula) throws Exception{
-		
-		SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
-		
-		Calendar dataAgora = Calendar.getInstance();
-		dataAgora.setTime(formatarHora.parse(formatarHora.format(dataAgora.getTime())));
-		
-		List<Calendar> listaHorariosCargo = getListaHorariosCargo(matricula);
-		for (Calendar horarios : listaHorariosCargo) {
-			
-			Calendar horaEntrada = Calendar.getInstance();
-			horaEntrada.setTime(formatarHora.parse(horarios.getHoraInicial()));
-			
-			Calendar horaSaida = Calendar.getInstance();
-			horaSaida.setTime(formatarHora.parse(horarios.getHoraFinal()));
+		if(this.controladorPrincipal.getControladorFuncionario().validaMatricula(matricula)) { //validou a matricula, logo possui um funcionario com essa matricula
+			if(this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getCargo().isEhGerencial()) {
+				return true; //cargo gerencial possui acesso em qualquer hora
+			}
+			else if(!this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getCargo().isPermiteAcesso()) {
+				return false; //nao possui permissao em qualquer horario
+			}
+			else if(this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getCargo().isPermiteAcesso()) {
+				ArrayList<Calendar> listaHorariosCargo = this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getCargo().getHorarios();
+				
+				SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
+				
+				Calendar dataAgora = Calendar.getInstance();
+				dataAgora.setTime(formatarHora.parse(formatarHora.format(dataAgora.getTime())));
+				
+				for (int i = 0; i < listaHorariosCargo.size(); i = i + 2) {
+					Calendar horaEntrada = listaHorariosCargo.get(i);
+					horaEntrada.setTime(formatarHora.parse(formatarHora.format(horaEntrada.getTime())));
+					
+					Calendar horaSaida = listaHorariosCargo.get(i + 1);
+					horaSaida.setTime(formatarHora.parse(formatarHora.format(horaSaida.getTime())));
 
-			if (horaEntrada.getTime().before(dataAgora.getTime()) && horaSaida.getTime().after(dataAgora.getTime())){
-				return true;
+					if (horaEntrada.getTime().before(horaSaida.getTime()) && horaEntrada.getTime().before(dataAgora.getTime()) && horaSaida.getTime().after(dataAgora.getTime())){
+						return true;
+					}
+					else if(horaEntrada.getTime().after(horaSaida.getTime())) {
+						if(horaEntrada.HOUR_OF_DAY > dataAgora.HOUR_OF_DAY && horaSaida.HOUR_OF_DAY > dataAgora.HOUR_OF_DAY) {
+							return true; //acesso horario especial, ex: 22h as 5h com acesso a 1h
+						}
+						else if(horaEntrada.HOUR_OF_DAY < dataAgora.HOUR_OF_DAY && horaSaida.HOUR_OF_DAY < dataAgora.HOUR_OF_DAY) {
+							return true; //acesso horario especial, ex: 22h as 5h com acesso a 23h
+						}
+						else {
+							return false;
+						}
+					}
+				}
+				return false;					
 			}
 			
+			
+		} else {
+			return false; //matricula nao encontrada
 		}
+    	
+    	
+    	
 		
-		return false;
 	}
     
     private List<Calendar> getListaHorariosCargo(int matricula) {

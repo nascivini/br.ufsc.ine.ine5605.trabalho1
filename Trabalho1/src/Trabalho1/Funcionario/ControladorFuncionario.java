@@ -87,24 +87,22 @@ public class ControladorFuncionario {
         return this.matriculaSequencial;
     }
 
-    private Funcionario findFuncionarioByMatricula(int matricula) {
+    public Funcionario findFuncionarioByMatricula(int matricula) {
         for (Funcionario funcionario : funcionarios) {
             if (funcionario.getMatricula() == matricula) {
                 return funcionario;
-            } else {
-                return null;
             }
         }
+        return null;
     }
 
     public boolean validaMatricula(int matricula) {
         for (Funcionario funcionario : funcionarios) {
             if (funcionario.getMatricula() == matricula) {
                 return true;
-            } else {
-                return false;
             }
         }
+        return false;
     }
 
 }
