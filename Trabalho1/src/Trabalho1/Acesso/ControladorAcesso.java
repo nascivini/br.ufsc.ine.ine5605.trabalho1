@@ -64,7 +64,7 @@ public class ControladorAcesso {
     	return acessosNegados;
     }
     
-    public Boolean verificaAcesso(int matricula) throws Exception{
+    public boolean verificaAcesso(int matricula) throws Exception{
 		if(this.controladorPrincipal.getControladorFuncionario().validaMatricula(matricula)) { //validou a matricula, logo possui um funcionario com essa matricula
 			if(this.controladorPrincipal.getControladorFuncionario().findFuncionarioByMatricula(matricula).getCargo().isEhGerencial()) {
 				return true; //cargo gerencial possui acesso em qualquer hora
@@ -103,16 +103,10 @@ public class ControladorAcesso {
 					}
 				}
 				return false;					
-			}
-			
-			
+			}	
 		} else {
 			return false; //matricula nao encontrada
 		}
-    	
-    	
-    	
-		
 	}
     
     private List<Calendar> getListaHorariosCargo(int matricula) {
