@@ -46,7 +46,7 @@ public class ControladorCargo {
     public Cargo incluirCargo(DadosCargo conteudo) {
         if (conteudo != null) {
             for (Cargo cargoLista : cargos) {
-                if (cargoLista.getCodigo() == conteudo.getCodigo()) {
+                if (cargoLista.getCodigo() == conteudo.codigo) {
                     return null;
                 } else {
                     Cargo novo = new Cargo(conteudo);
@@ -80,11 +80,11 @@ public class ControladorCargo {
     public Cargo alterarCargo(DadosCargo conteudo) {
         if (conteudo != null) {
             for (Cargo cargoLista : cargos) {
-                if (cargoLista.getCodigo() == conteudo.getCodigo()) {
-                    cargoLista.setEhGerencial(conteudo.isEhGerencial());
-                    cargoLista.setPermiteAcesso(conteudo.isPermiteAcesso());
-                    cargoLista.setNome(conteudo.getNome());
-                    cargoLista.setHorarioPermitido(conteudo.getHorarioPermitido());
+                if (cargoLista.getCodigo() == conteudo.codigo) {
+                    cargoLista.setEhGerencial(conteudo.ehGerencial);
+                    cargoLista.setPermiteAcesso(conteudo.permiteAcesso);
+                    cargoLista.setNome(conteudo.nome);
+                    //cargoLista.setHorario(conteudo.horarios);
                     
                     return cargoLista;
                 } 

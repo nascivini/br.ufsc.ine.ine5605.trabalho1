@@ -5,6 +5,8 @@
  */
 package Trabalho1.Cargo;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -15,53 +17,40 @@ import java.util.Date;
  */
 public class DadosCargo {
     
-    private final int codigo;
-    private final String nome;
-    private final boolean  permiteAcesso;
-    private final boolean ehGerencial;
-    private final Date horarioPermitido;
-    private final TipoCargo tipoCargo;
-
-    public DadosCargo(int codigo, String nome, boolean permiteAcesso, boolean ehGerencial, Date horarioPermitido, String tipo) {
+    public final int codigo;
+    public final String nome;
+    public final boolean  permiteAcesso;
+    public final boolean ehGerencial;
+    public final ArrayList<Calendar> horarios;
+    public final TipoCargo tipoCargo;
+    
+    /**
+     * Recebe os dados de um cargo, vindos da TelaCargo, e instancia um objeto transiente para posterior uso para o cadastro de um cargo pelo ControladorCargo.
+     * @param codigo
+     * @param nome
+     * @param permiteAcesso
+     * @param ehGerencial
+     * @param horarios
+     * @param tipo 
+     */
+    public DadosCargo(int codigo, String nome, boolean permiteAcesso, boolean ehGerencial, ArrayList<Calendar> horarios, String tipo) {
         this.codigo = codigo;
         this.nome = nome;
         this.permiteAcesso = permiteAcesso;
         this.ehGerencial = ehGerencial;
-        this.horarioPermitido = horarioPermitido;
+        this.horarios = horarios;
         switch(tipo) {
             case "GERENCIAL":
                 this.tipoCargo = TipoCargo.GERENCIAL;
+                break;
+            case "COMUM":
+                this.tipoCargo = TipoCargo.COMUM;
+                break;
+            case "CONVIDADO":
+                this.tipoCargo = TipoCargo.CONVIDADO;
                 break;
             default:
                 this.tipoCargo = TipoCargo.COMUM;
         }       
     }
-
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public boolean isPermiteAcesso() {
-        return permiteAcesso;
-    }
-
-    public boolean isEhGerencial() {
-        return ehGerencial;
-    }
-
-    public Date getHorarioPermitido() {
-        return horarioPermitido;
-    }
-
-    public TipoCargo getTipoCargo() {
-        return tipoCargo;
-    }
-    
-    
-    
-    
 }
