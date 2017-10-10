@@ -18,6 +18,13 @@ public class ClassePrincipal {
     public static void main(String[] args) {
         ControladorPrincipal ctrl = new ControladorPrincipal();
         ctrl.getTelaPrincipal().inicia();
+        /*
+        try {
+			System.out.println((new Acesso().verificaAcessoPessoa(1l) ? "Entrada Permitida" : "Entrada Proibida"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		*/
     }
     
 }

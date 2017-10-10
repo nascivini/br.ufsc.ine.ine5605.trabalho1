@@ -15,7 +15,7 @@ public class ControladorFuncionario {
     private ControladorPrincipal controladorPrincipal;
     private TelaFuncionario telaFuncionario;
     private int matriculaSequencial = 0;
-
+ 
     public ControladorFuncionario(ControladorPrincipal controladorPrincipal) {
         this.funcionarios = new ArrayList<Funcionario>();
         this.controladorPrincipal = controladorPrincipal;
@@ -23,7 +23,7 @@ public class ControladorFuncionario {
     }
 
     public TelaFuncionario getTelaFuncionario() {
-        return telaFuncionario;
+        return telaFuncionario; 
     }
 
     public ArrayList<Funcionario> getFuncionarios() {

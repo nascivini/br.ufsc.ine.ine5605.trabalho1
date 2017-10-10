@@ -5,7 +5,7 @@
  */
 package Trabalho1.Acesso;
 
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  *
@@ -14,19 +14,19 @@ import java.util.Date;
  * @author Marco Aurelio Geremias
  */
 public class Acesso {
-    private final Date horario;
+    private final Calendar horario;
     private final boolean ehPermitido;
     private final int matricula;
     private MotivoAcesso motivo;
     
-    public Acesso(Date horario, boolean ehPermitido, int matricula, MotivoAcesso motivo){
+    public Acesso(Calendar horario, boolean ehPermitido, int matricula, MotivoAcesso motivo){
         this.horario = horario;
         this.ehPermitido = ehPermitido;
         this.matricula = matricula;
         this.motivo = motivo;
     }
 
-    public Date getHorario() {
+    public Calendar getHorario() {
         return horario;
     }
 

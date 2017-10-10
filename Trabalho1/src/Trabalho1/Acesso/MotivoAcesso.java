@@ -13,9 +13,10 @@ package Trabalho1.Acesso;
  */
 public enum MotivoAcesso {
     
-    TRANSITO("Trânsito, engarrafamento."),
-    CLIMA("Chuva"),
-    OUTRO("NÂO ESPECIFICADO");
+	OK("Acesso permitido"),
+    ATRASADO("Fora do horario do seu cargo"),
+    PERMISSAO("Nao possui permissao"),
+    OUTRO("NAO ESPECIFICADO");
     
     private String descricao;
     
