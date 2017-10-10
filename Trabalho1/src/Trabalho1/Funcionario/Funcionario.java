@@ -17,13 +17,13 @@ public class Funcionario {
     private long telefone;
     private float salario;
 
-    public Funcionario(int matricula, String nome, Cargo cargo, Date nascimento, long telefone, float salario) {
-        this.matricula = matricula;
-        this.nome = nome;
-        this.cargo = cargo;
-        this.nascimento = nascimento;
-        this.telefone = telefone;
-        this.salario = salario;
+    public Funcionario(DadosFuncionario conteudo) {
+        this.matricula = conteudo.matricula;
+        this.nome = conteudo.nome;
+        this.cargo = conteudo.cargo;
+        this.nascimento = conteudo.nascimento;
+        this.telefone = conteudo.telefone;
+        this.salario = conteudo.salario;
     }
 
     public int getMatricula() {
