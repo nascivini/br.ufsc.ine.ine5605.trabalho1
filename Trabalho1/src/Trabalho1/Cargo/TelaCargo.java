@@ -8,6 +8,7 @@ package Trabalho1.Cargo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -66,7 +67,7 @@ public class TelaCargo {
                 this.inicia();
         }
     }
-    public void cadastroCargos() throws ParseException{
+    public void cadastroCargos(){
         System.out.println("Cadastro de Cargos");
                 System.out.println("Insira os dados requisitados. Após a inserção de todos os dados, seu cargo será cadastrado no sistema.");
                 
@@ -78,25 +79,17 @@ public class TelaCargo {
                 
                 System.out.println("É gerencial? Digite 'Y' caso sim, e 'N' caso não.");
                 String gerencial = teclado.nextLine();
-                
+
                 boolean ehGerencial = true;
                 
-                Date horarioInicio1 = new Date();
+                ArrayList<Calendar> horarios = new ArrayList<Calendar>();
+                
                 try{
                     if(gerencial.equals("N") || gerencial.equals("n")){
                         ehGerencial = false;
-                        System.out.println("Digite o horário inicial em que o acesso é permitido.(com separador de :)");
-                        String horario = teclado.nextLine();
-                    
-                    if(horario.equals("09:00")){
-                        SimpleDateFormat formatador = new SimpleDateFormat("hh:mm");
-                        horarioInicio1 = formatador.parse(horario);
-                        }
-                    else{
-                        throw new ParseException("Hora inválida! Digite um horário entre 00:00 e 23:59",1);
-                    }
-                    }
-                  }
+                        this.cadastroHorarios();
+                    }    
+                }        
                 catch(ParseException e){
                     this.inicia();
                 }
@@ -107,29 +100,43 @@ public class TelaCargo {
                 System.out.println("3 - Convidado");
                 
                 opcaoCargo = teclado.nextInt();
-                //TipoCargo tipo = TipoCargo.COMUM;
                 String tipoCargo =  "";
                 boolean tipo = false;
                 switch(opcaoCargo){
                     case (1):
-                        //tipo = TipoCargo.GERENCIAL;
                         tipo = true;
                         tipoCargo = "GERENCIAL";
                     case (2):
-                        //tipo = TipoCargo.COMUM;
                         tipoCargo = "COMUM";
                         tipo = true;
                     case (3):
-                        //tipo = TipoCargo.CONVIDADO;
                         tipo = false;
                         tipoCargo = "CONVIDADO";
                 }
-                //DadosCargo cargoNovo = new DadosCargo (codigo,nome, tipo.getPermiteAcesso(), ehGerencial,horarioInicio1,tipo);
-                DadosCargo cargoNovo = new DadosCargo (codigo, nome, tipo, ehGerencial, horarioInicio1, tipoCargo);
+                DadosCargo cargoNovo = new DadosCargo (codigo, nome, tipo, ehGerencial, horarios, tipoCargo);
                 this.controladorCargo.incluirCargo(cargoNovo);
                 this.inicia();
 
-        }
+    }
+     
+    
+    
+    private ArrayList<Calendar> cadastroHorarios() throws ParseException{
+        ArrayList<Calendar> horarios = new ArrayList<Calendar>();    
+        SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");    
+        
+        System.out.println("Digite o horário inicial em que o acesso é permitido.(com separador de :)");
+        String horarioInicial = teclado.nextLine();
+        Date horario1 = formatador.parse(horarioInicial);
+             
+        System.out.println("Digite o horário final em que o acesso é permitido.(com separador de :)");
+        String horarioFinal = teclado.nextLine();
+        Date horario2 = formatador.parse(horarioFinal);
+        
+        return horarios;
+    }
+    
+    
 
     private void exclusaoCargos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

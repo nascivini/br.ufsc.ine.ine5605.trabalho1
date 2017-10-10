@@ -1,5 +1,7 @@
 package Trabalho1.Cargo;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -14,16 +16,16 @@ public class Cargo {
     private String nome;
     private boolean permiteAcesso;
     private boolean ehGerencial;
-    private Date horarioPermitido;
+    private ArrayList<Calendar> horarios;
     private TipoCargo tipoCargo;
     
     public Cargo(DadosCargo dados) {
-        this.codigo = dados.getCodigo();
-        this.nome = dados.getNome();
-        this.permiteAcesso = dados.isPermiteAcesso();
-        this.ehGerencial = dados.isEhGerencial();
-        this.horarioPermitido = dados.getHorarioPermitido();
-        this.tipoCargo = dados.getTipoCargo();
+        this.codigo = dados.codigo;
+        this.nome = dados.nome;
+        this.permiteAcesso = dados.permiteAcesso;
+        this.ehGerencial = dados.ehGerencial;
+        this.horarios = dados.horarios;
+        this.tipoCargo = dados.tipoCargo;
     }
 
     public int getCodigo() {
@@ -58,12 +60,10 @@ public class Cargo {
         this.ehGerencial = ehGerencial;
     }
 
-    public Date getHorarioPermitido() {
-        return horarioPermitido;
+    public ArrayList<Calendar> getHorarios() {
+        return horarios;
     }
 
-    public void setHorarioPermitido(Date horarioPermitido) {
-        this.horarioPermitido = horarioPermitido;
-    }
+
     
 }
