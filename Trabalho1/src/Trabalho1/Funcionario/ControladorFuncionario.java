@@ -41,6 +41,7 @@ public class ControladorFuncionario {
                 }
             }
         }
+        return null;
     }
 
     public void excluirFuncionario(int matricula) {
@@ -70,6 +71,7 @@ public class ControladorFuncionario {
         } else {
             return null;
         }
+        return null;
     }
 
     

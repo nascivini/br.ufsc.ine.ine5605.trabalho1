@@ -107,6 +107,7 @@ public class ControladorAcesso {
 		} else {
 			return false; //matricula nao encontrada
 		}
+		return false;
 	}
     
     private List<Calendar> getListaHorariosCargo(int matricula) {
