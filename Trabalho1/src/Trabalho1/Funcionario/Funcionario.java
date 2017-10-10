@@ -11,14 +11,16 @@ import java.util.Date;
  */
 public class Funcionario {
     private int matricula;
+    private long cpf;
     private String nome;
     private Cargo cargo;
     private Date nascimento;
     private long telefone;
     private float salario;
 
-    public Funcionario(DadosFuncionario conteudo) {
-        this.matricula = conteudo.matricula;
+    public Funcionario(int matricula, DadosFuncionario conteudo) {
+        this.matricula = matricula;
+        this.cpf = conteudo.cpf;
         this.nome = conteudo.nome;
         this.cargo = conteudo.cargo;
         this.nascimento = conteudo.nascimento;
@@ -73,5 +75,14 @@ public class Funcionario {
     public void setSalario(float salario) {
         this.salario = salario;
     }
+
+    public long getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(long cpf) {
+        this.cpf = cpf;
+    }
+    
     
 }

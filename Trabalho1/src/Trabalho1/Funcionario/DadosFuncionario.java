@@ -10,15 +10,15 @@ import java.util.Date;
  * @author Marco Aurelio Geremias
  */
 public abstract class DadosFuncionario {
-    public final int matricula;
+    public final long cpf;
     public final String nome;
     public final Cargo cargo;
     public final Date nascimento;
     public final long telefone;
     public final float salario;
 
-    public DadosFuncionario(int matricula, String nome, Cargo cargo, Date nascimento, long telefone, float salario) {
-        this.matricula = matricula;
+    public DadosFuncionario(long cpf, String nome, Cargo cargo, Date nascimento, long telefone, float salario) {
+        this.cpf = cpf;
         this.nome = nome;
         this.cargo = cargo;
         this.nascimento = nascimento;
