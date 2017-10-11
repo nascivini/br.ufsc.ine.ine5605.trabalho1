@@ -91,11 +91,14 @@ public class ControladorAcesso {
 						return true;
 					}
 					else if(horaEntrada.getTime().after(horaSaida.getTime())) {
-						if(horaEntrada.HOUR_OF_DAY > dataAgora.HOUR_OF_DAY && horaSaida.HOUR_OF_DAY > dataAgora.HOUR_OF_DAY) {
+						if(horaSaida.HOUR_OF_DAY == dataAgora.HOUR_OF_DAY && horaSaida.MINUTE >= dataAgora.MINUTE) {
+							return true; //acesso horario especial, hora atual = hora saida, verificar minutos
+						}
+						else if(horaEntrada.HOUR_OF_DAY > dataAgora.HOUR_OF_DAY && horaSaida.HOUR_OF_DAY > dataAgora.HOUR_OF_DAY) {	
 							return true; //acesso horario especial, ex: 22h as 5h com acesso a 1h
 						}
 						else if(horaEntrada.HOUR_OF_DAY < dataAgora.HOUR_OF_DAY && horaSaida.HOUR_OF_DAY < dataAgora.HOUR_OF_DAY) {
-							return true; //acesso horario especial, ex: 22h as 5h com acesso a 23h
+							return true; //acesso horario especial, ex: 22h as 5h com acesso a 23h 
 						}
 						else {
 							return false;
@@ -109,18 +112,5 @@ public class ControladorAcesso {
 		}
 		return false;
 	}
-    
-    private List<Calendar> getListaHorariosCargo(int matricula) {
-		
-		List<Calendar> lista = new ArrayList<Calendar>();
-		
-		if (matricula == 1) {
-			Calendar hora = Calendar.getInstance();
-			hora.set(Calendar.HOUR_OF_DAY, 9);
-			hora.set(Calendar.MINUTE, 30);
-			lista.add(hora);
-		}
-		
-		return lista;
-	}
+
 }

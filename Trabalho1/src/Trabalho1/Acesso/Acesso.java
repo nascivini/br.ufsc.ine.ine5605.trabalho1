@@ -41,6 +41,4 @@ public class Acesso {
     public MotivoAcesso getMotivo() {
         return motivo;
     }
-    
-    
 }
