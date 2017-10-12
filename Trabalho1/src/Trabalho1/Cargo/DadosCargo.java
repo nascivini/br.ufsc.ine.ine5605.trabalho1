@@ -7,7 +7,6 @@ package Trabalho1.Cargo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -52,5 +51,14 @@ public class DadosCargo {
             default:
                 this.tipoCargo = TipoCargo.COMUM;
         }       
+    }
+
+    public DadosCargo() {
+        this.codigo = 00;
+        this.ehGerencial = false;
+        this.horarios = null;
+        this.nome = null;
+        this.permiteAcesso = false;
+        this.tipoCargo = null;
     }
 }

@@ -12,9 +12,9 @@ import java.util.ArrayList;
  */
 public class ControladorCargo {
     
-    private ControladorPrincipal controladorPrincipal;
-    private ArrayList<Cargo> cargos;
-    private TelaCargo telaCargo;
+    private final ControladorPrincipal controladorPrincipal;
+    private final ArrayList<Cargo> cargos;
+    private final TelaCargo telaCargo;
     
 
     public ControladorCargo(ControladorPrincipal controladorPrincipal) {

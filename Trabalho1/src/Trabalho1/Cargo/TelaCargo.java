@@ -9,7 +9,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -19,10 +18,11 @@ import java.util.Scanner;
  * @author Marco Aurelio Geremias
  */
 public class TelaCargo {
+
     private final ControladorCargo controladorCargo;
     private final Scanner teclado;
-    
-    public TelaCargo(ControladorCargo controladorCargo){
+
+    public TelaCargo(ControladorCargo controladorCargo) {
         this.controladorCargo = controladorCargo;
         teclado = new Scanner(System.in);
     }
@@ -30,9 +30,9 @@ public class TelaCargo {
     public ControladorCargo getControladorCargo() {
         return controladorCargo;
     }
-    
-    public void inicia() throws IllegalArgumentException{
-        
+
+    public void inicia() throws IllegalArgumentException {
+
         System.out.println("--- Menu de Cadastro de Cargos: ---");
         System.out.println("Escolha a opção desejada, insira o número e tecle enter: ---");
         System.out.println("1 - Cadastrar um Cargo");
@@ -40,103 +40,135 @@ public class TelaCargo {
         System.out.println("3 - Alterar os dados de um Cargo");
         System.out.println("4 - Listar os cargos já cadastrados");
         System.out.println("5 - Voltar ao Menu Principal");
-        
+
         int opcao = teclado.nextInt();
-        try{
-            switch (opcao){    
-                case(1): 
+        try {
+            switch (opcao) {
+                case (1):
                     this.cadastroCargos();
-               
-                case(2):
+
+                case (2):
                     this.exclusaoCargos();
-            
-                case(3):
+
+                case (3):
                     this.alterarCargos();
-                
-                case(4):
+
+                case (4):
                     this.listarCargos(2);
-                    
-                case(5):
+
+                case (5):
                     controladorCargo.getControladorPrincipal().getTelaPrincipal().inicia();
-                    
+
                 default:
                     throw new IllegalArgumentException("Opção Inválida! Escolha uma opção dentre das opções na lista.");
             }
-        }
-            catch(Exception InvallidArgumentException){
-                this.inicia();
+        } catch (IllegalArgumentException e) {
+            this.inicia();
         }
     }
-    public void cadastroCargos(){
+
+    public void cadastroCargos() {
         System.out.println("Cadastro de Cargos");
-                System.out.println("Insira os dados requisitados. Após a inserção de todos os dados, seu cargo será cadastrado no sistema.");
-                
-                System.out.println("Codigo: ");
-                int codigo = teclado.nextInt();
-                
-                System.out.println("Nome: ");
-                String nome = teclado.nextLine();
-                
-                System.out.println("É gerencial? Digite 'Y' caso sim, e 'N' caso não.");
-                String gerencial = teclado.nextLine();
+        System.out.println("Insira os dados requisitados. Após a inserção de todos os dados, seu cargo será cadastrado no sistema.");
 
-                boolean ehGerencial = true;
-                
-                ArrayList<Calendar> horarios = new ArrayList<Calendar>();
-                
-                try{
-                    if(gerencial.equals("N") || gerencial.equals("n")){
-                        ehGerencial = false;
-                        this.cadastroHorarios();
-                    }    
-                }        
-                catch(ParseException e){
-                    this.inicia();
-                }
-                int opcaoCargo = 0;
-                System.out.println("Escolha o tipo de cargo dentre os listados abaixo. Digite o respectivo número e tecle enter para selecionar. ");
-                System.out.println("1 - Gerencial");
-                System.out.println("2 - Comum");
-                System.out.println("3 - Convidado");
-                
-                opcaoCargo = teclado.nextInt();
-                String tipoCargo =  "";
-                boolean tipo = false;
-                switch(opcaoCargo){
-                    case (1):
-                        tipo = true;
-                        tipoCargo = "GERENCIAL";
-                    case (2):
-                        tipoCargo = "COMUM";
-                        tipo = true;
-                    case (3):
-                        tipo = false;
-                        tipoCargo = "CONVIDADO";
-                }
-                DadosCargo cargoNovo = new DadosCargo (codigo, nome, tipo, ehGerencial, horarios, tipoCargo);
-                this.controladorCargo.incluirCargo(cargoNovo);
-                this.inicia();
+        System.out.println("Codigo: ");
+        int codigo = teclado.nextInt();
+
+        System.out.println("Nome: ");
+        String nome = teclado.nextLine();
+
+        int opcaoCargo = 0;
+        System.out.println("Escolha o tipo de cargo dentre os listados abaixo. Digite o respectivo número e tecle enter para selecionar. ");
+        System.out.println("1 - Gerencial");
+        System.out.println("2 - Comum");
+        System.out.println("3 - Convidado");
+
+        boolean ehGerencial = false;
+        opcaoCargo = teclado.nextInt();
+        String tipoCargo = "";
+        boolean tipo = false;
+        switch (opcaoCargo) {
+            case (1):
+                tipo = true;
+                tipoCargo = "GERENCIAL";
+                ehGerencial = true;
+            case (2):
+                tipoCargo = "COMUM";
+                tipo = true;
+            case (3):
+                tipo = false;
+                tipoCargo = "CONVIDADO";
+        }
+
+        ArrayList<Calendar> horarios = new ArrayList<>();
+        DadosCargo cargoNovo = new DadosCargo();
+        if (tipoCargo.equals("GERENCIAL")) {
+            cargoNovo = new DadosCargo(codigo, nome, tipo, ehGerencial, horarios, tipoCargo);
+        } else {
+            ArrayList<Calendar> horarios1 = new ArrayList<Calendar>();
+            try {
+                horarios1 = this.cadastroHorarios();
+            } catch (IllegalArgumentException e) {
+                System.out.println("Digite os horários novamente.");
+                horarios1 = this.cadastroHorarios();
+            }
+            cargoNovo = new DadosCargo(codigo, nome, tipo, ehGerencial, horarios1, tipoCargo);
+        }
+        this.controladorCargo.incluirCargo(cargoNovo);
+        this.inicia();
 
     }
-     
-    
-    
-    private ArrayList<Calendar> cadastroHorarios() throws ParseException{
-        ArrayList<Calendar> horarios = new ArrayList<Calendar>();    
-        SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");    
-        
-        System.out.println("Digite o horário inicial em que o acesso é permitido.(com separador de :)");
-        String horarioInicial = teclado.nextLine();
-        Date horario1 = formatador.parse(horarioInicial);
-             
-        System.out.println("Digite o horário final em que o acesso é permitido.(com separador de :)");
-        String horarioFinal = teclado.nextLine();
-        Date horario2 = formatador.parse(horarioFinal);
-        
+
+    private ArrayList<Calendar> cadastroHorarios() throws IllegalArgumentException {
+        ArrayList<Calendar> horarios = new ArrayList<Calendar>();
+        SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");
+        boolean continuaCadastro = true;
+        while (continuaCadastro) {
+
+            System.out.println("Digite o horário inicial em que o acesso é permitido.(com separador de :)");
+            teclado.nextLine();
+            String horarioInicial = teclado.nextLine();
+            Calendar horario1 = Calendar.getInstance();
+            if (horarioInicial != null) {
+                try {
+                    horario1.setTime(formatador.parse(horarioInicial));
+                } catch (ParseException e) {
+                    System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
+                    this.cadastroCargos();
+                }
+            } else {
+                throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
+            }
+
+            System.out.println("Digite o horário final em que o acesso é permitido.(com separador de :)");
+            String horarioFinal = teclado.nextLine();
+            Calendar horario2 = Calendar.getInstance();
+            if (horarioFinal != null) {
+                try {
+                    horario2.setTime(formatador.parse(horarioFinal));
+                } catch (ParseException e) {
+                    System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
+                    this.cadastroCargos();
+                }
+            } else {
+                throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
+            }
+
+            System.out.println("Deseja cadastrar mais horários de acesso? Digite Y caso sim, e N caso não");
+            String continuar = teclado.nextLine();
+
+            if (continuar.equals("Y") || continuar.equals("y")) {
+                continuaCadastro = true;
+            }
+            else{
+                continuaCadastro = false;
+            }
+            horarios.add(horario1);
+            horarios.add(horario2);
+
+        }
         return horarios;
     }
-    
-    
 
     private void exclusaoCargos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -145,14 +177,17 @@ public class TelaCargo {
     private void alterarCargos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    private void listarCargos(int tamanhoLista){
+
+    private void findCargoByCodigo() {
+
+    }
+
+    private void listarCargos(int tamanhoLista) {
         ArrayList<Cargo> cargos = controladorCargo.listarCargos(tamanhoLista);
-        for (Cargo cargo : cargos){
-            System.out.println("Cargos cadastrados: ");    
-            System.out.println("Código: " +cargo.getCodigo() + "Nome: " + cargo.getNome());
+        for (Cargo cargo : cargos) {
+            System.out.println("Cargos cadastrados: ");
+            System.out.println("Código: " + cargo.getCodigo() + "Nome: " + cargo.getNome());
         }
         this.inicia();
     }
 }
-
