@@ -54,7 +54,7 @@ public class TelaCargo {
                     this.alterarCargos();
 
                 case (4):
-                    this.listarCargos(2);
+                    this.listarCargos();
 
                 case (5):
                     controladorCargo.getControladorPrincipal().getTelaPrincipal().inicia();
@@ -73,6 +73,8 @@ public class TelaCargo {
 
         System.out.println("Codigo: ");
         int codigo = teclado.nextInt();
+
+        teclado.nextLine();
 
         System.out.println("Nome: ");
         String nome = teclado.nextLine();
@@ -99,27 +101,68 @@ public class TelaCargo {
                 tipo = false;
                 tipoCargo = "CONVIDADO";
         }
-
         ArrayList<Calendar> horarios = new ArrayList<>();
         DadosCargo cargoNovo = new DadosCargo();
         if (tipoCargo.equals("GERENCIAL")) {
             cargoNovo = new DadosCargo(codigo, nome, tipo, ehGerencial, horarios, tipoCargo);
-        } else {
-            ArrayList<Calendar> horarios1 = new ArrayList<Calendar>();
-            try {
-                horarios1 = this.cadastroHorarios();
-            } catch (IllegalArgumentException e) {
-                System.out.println("Digite os horários novamente.");
-                horarios1 = this.cadastroHorarios();
-            }
-            cargoNovo = new DadosCargo(codigo, nome, tipo, ehGerencial, horarios1, tipoCargo);
-        }
-        this.controladorCargo.incluirCargo(cargoNovo);
-        this.inicia();
+        } 
+        
+        else {
+            SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");
+            boolean continuaCadastro = true;
+            while (continuaCadastro) {
 
+                System.out.println("Digite o horário inicial em que o acesso é permitido.(com separador de :)");
+                teclado.nextLine();
+                String horarioInicial = teclado.nextLine();
+                Calendar horario1 = Calendar.getInstance();
+                if (horarioInicial != null) {
+                    try {
+                        horario1.setTime(formatador.parse(horarioInicial));
+                    } catch (ParseException e) {
+                        System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
+                        this.cadastroCargos();
+                    }
+                } else {
+                    throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
+                }
+
+                System.out.println("Digite o horário final em que o acesso é permitido.(com separador de :)");
+                String horarioFinal = teclado.nextLine();
+                Calendar horario2 = Calendar.getInstance();
+                if (horarioFinal != null) {
+                    try {
+                        horario2.setTime(formatador.parse(horarioFinal));
+                    } catch (ParseException e) {
+                        System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
+                        this.cadastroCargos();
+                    }
+                } else {
+                    throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
+                }
+
+                System.out.println("Deseja cadastrar mais horários de acesso? Digite Y caso sim, e N caso não");
+                String continuar = teclado.nextLine();
+
+                if (continuar.equals("Y") || continuar.equals("y")) {
+                    continuaCadastro = true;
+                } else {
+                    continuaCadastro = false;
+                }
+                horarios.add(horario1);
+                horarios.add(horario2);
+                cargoNovo = new DadosCargo(codigo, nome, tipo, ehGerencial, horarios, tipoCargo);
+            }
+            
+            this.controladorCargo.incluirCargo(cargoNovo);
+            this.inicia();
+
+        }
     }
 
-    private ArrayList<Calendar> cadastroHorarios() throws IllegalArgumentException {
+    
+
+    /*private ArrayList<Calendar> cadastroHorarios() throws IllegalArgumentException {
         ArrayList<Calendar> horarios = new ArrayList<Calendar>();
         SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");
         boolean continuaCadastro = true;
@@ -159,8 +202,7 @@ public class TelaCargo {
 
             if (continuar.equals("Y") || continuar.equals("y")) {
                 continuaCadastro = true;
-            }
-            else{
+            } else {
                 continuaCadastro = false;
             }
             horarios.add(horario1);
@@ -169,25 +211,34 @@ public class TelaCargo {
         }
         return horarios;
     }
+    */
+    private void exclusaoCargos() throws IllegalArgumentException {
+        System.out.println("Para excluir um cargo do sistema, digite o código do mesmo.");
+        int codigo = teclado.nextInt();
 
-    private void exclusaoCargos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if ((this.controladorCargo.excluirCargo(codigo)) == true) {
+            System.out.println("Cargo excluído com sucesso!");
+            this.inicia();
+        } else {
+            System.out.println("O código informado não pertence a nenhum cargo cadastrado.");
+            System.out.println("Deseja tentar novamente? Digite Y ou N");
+            String opcaoExclusao = teclado.nextLine();
+            if (opcaoExclusao.equals("Y") || opcaoExclusao.equals("y")) {
+                this.exclusaoCargos();
+            }
+
+        }
     }
 
     private void alterarCargos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void findCargoByCodigo() {
-
-    }
-
-    private void listarCargos(int tamanhoLista) {
-        ArrayList<Cargo> cargos = controladorCargo.listarCargos(tamanhoLista);
-        for (Cargo cargo : cargos) {
+    private void listarCargos() {
+        for (Cargo cargo : this.controladorCargo.getCargos()) {
             System.out.println("Cargos cadastrados: ");
             System.out.println("Código: " + cargo.getCodigo() + "Nome: " + cargo.getNome());
         }
-        this.inicia();
+        //this.inicia();
     }
 }

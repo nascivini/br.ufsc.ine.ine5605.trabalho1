@@ -46,7 +46,7 @@ public class ControladorCargo {
     public Cargo incluirCargo(DadosCargo conteudo) {
         if (conteudo != null) {
             for (Cargo cargoLista : cargos) {
-                if (cargoLista.getCodigo() == conteudo.codigo) {
+                if (this.findCargoByCodigo(conteudo.codigo) == null) {
                     return null;
                 } else {
                     Cargo novo = new Cargo(conteudo);
@@ -61,14 +61,16 @@ public class ControladorCargo {
      * Exclui o cargo da lista de cargos com base no código informado via parâmetro.
      * @param codigo 
      */
-    public void excluirCargo(int codigo) {
-        if (codigo > 0) {
+    public boolean excluirCargo(int codigo) {
+        if (this.findCargoByCodigo(codigo) != null) {
             for (int i = 0; i < cargos.size(); i++) {
                 if (cargos.get(i).getCodigo() == codigo) {
                     cargos.remove(i);
+                    return true;
                 }
             }
         }
+        return false;
     }
     
     /**
@@ -92,17 +94,19 @@ public class ControladorCargo {
         }
         return null;
     }
+    
     /**
-     * Recebe um número inteiro como parâmetro, e retorna uma lista de cargos com o tamanho informado por parâmetro.
-     * @param tamanhoLista
-     * @return cargosLista
+     * "Varre" a lista de cargos cadastrados, buscando por um cargo que contenha o código passado como parâmetro. Retorna um Cargo nulo, caso não o encontre, e o Cargo encontrado, caso o encontre.
+     * @param codigo
+     * @return Cargo
      */
-    public ArrayList listarCargos(int tamanhoLista){
-        ArrayList<Cargo> cargosLista = new ArrayList<>();
-        for(int i = 0; i < tamanhoLista; i++){
-            cargosLista.add(cargos.get(i)); 
-    }
-        return cargosLista;
+    public Cargo findCargoByCodigo(int codigo){
+        for(Cargo cargoAtual : cargos){
+            if(cargoAtual.getCodigo() == codigo){
+                return cargoAtual; 
+            }
+        }
+        return null;
     }
 
 }
