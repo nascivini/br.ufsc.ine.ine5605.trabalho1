@@ -1,12 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Trabalho1.Acesso;
 
 import java.util.Scanner;
-
 /**
  *
  * @author Vinicius Cerqueira Nascimento
@@ -14,39 +8,118 @@ import java.util.Scanner;
  * @author Marco Aurelio Geremias
  */
 public class TelaAcesso {
+
     private Scanner teclado;
     private ControladorAcesso controladorAcesso;
-    
-    public TelaAcesso(ControladorAcesso controladorAcesso){
+
+    /**
+     * Recebe o controlador Acesso como parametro para possibilitar a
+     * comunicacao e cria um objeto da Classe TelaAcesso
+     *
+     * @param controladorAcesso
+     */
+    public TelaAcesso(ControladorAcesso controladorAcesso) {
         this.controladorAcesso = controladorAcesso;
+        this.teclado = new Scanner(System.in);
     }
 
     public ControladorAcesso getControladorAcesso() {
         return this.controladorAcesso;
     }
-    
-    public void inicia() throws IllegalArgumentException{
-    	System.out.println("--- Menu para Acesso / Controle de Acesso: ---");
+
+    public void inicia() throws IllegalArgumentException {
+        System.out.println("--- Menu para Acesso / Controle de Acesso: ---");
         System.out.println("Escolha a opcao desejada, insira o numero e tecle enter: ---");
         System.out.println("1 - Realizar um Acesso");
         System.out.println("2 - Listar Acessos Negados");
-        System.out.println("5 - Voltar ao Menu Principal");
-        
+        System.out.println("3 - Voltar ao Menu Principal");
+
         int opcao = teclado.nextInt();
-        try{
-            switch (opcao){    
-                case(1): 
+        try {
+            switch (opcao) {
+                case (1):
+                    this.realizarAcesso();
                     break;
-                case(5):
+                case (2):
+                    this.menuAcessosNegados();
+                    break;
+                case (3):
                     this.controladorAcesso.getControladorPrincipal().getTelaPrincipal().inicia();
-                	break;
-                    
+                    break;
+
                 default:
                     throw new IllegalArgumentException("Opcaio Invalida! Escolha uma opcao dentre das opcoes na lista.");
             }
-        }
-            catch(Exception InvallidArgumentException){
-                this.inicia();
+        } catch (Exception InvallidArgumentException) {
+            this.inicia();
         }
     }
+
+    public void menuAcessosNegados() throws IllegalArgumentException {
+        System.out.println("--- Menu de Listagem de Acessos Negados: ---");
+        System.out.println("Escolha a opcao desejada, insira o numero e tecle enter: ---");
+        System.out.println("1 - Listar todos acessos negados");
+        System.out.println("2 - Listar acessos negados por matricula");
+        System.out.println("3 - Listar acessos negados por motivo");
+        System.out.println("4 - Voltar ao menu geral Acesso.");
+
+        int opcao = teclado.nextInt();
+        try {
+            switch (opcao) {
+                case (1):
+                    this.controladorAcesso.findAcessosNegados();
+                    this.menuAcessosNegados();
+                    break;
+                case (2):
+                    this.controladorAcesso.findAcessosNegadosByMatricula();
+                    this.menuAcessosNegados();
+                    break;
+                case (3):
+                    this.controladorAcesso.findAcessosNegadosByMotivo();
+                    this.menuAcessosNegados();
+                    break;
+                case (4):
+                    this.inicia();
+                    break;
+                default:
+                    throw new IllegalArgumentException("Opcao Invalida! Escolha uma opcao dentre das opcoes na lista.");
+            }
+        } catch (Exception InvallidArgumentException) {
+            this.inicia();
+        }
+    }
+
+    public void realizarAcesso() {
+        System.out.println("Digite a matricula na qual deseja efetuar o acesso");
+        int matricula = teclado.nextInt();
+        if (this.controladorAcesso.getControladorPrincipal().getControladorFuncionario().validaMatricula(matricula)) {
+            Acesso acesso = this.controladorAcesso.verificaAcesso(matricula);
+            switch (acesso.getMotivo()) {
+                case OK:
+                    System.out.println("Acesso realizado com sucesso.");
+                    this.inicia();
+                    break;
+                case ATRASADO:
+                    System.out.println("Acesso negado, atrasado.");
+                    this.inicia();
+                    break;
+                case PERMISSAO:
+                    System.out.println("Acesso negado, sem permissao.");
+                    this.inicia();
+                    break;
+                case BLOQUEADO:
+                    System.out.println("Acesso negado, bloqueado.");
+                    this.inicia();
+                    break;
+                case OUTRO:
+                    System.out.println("Acesso negado, motivo nao cadastrado. Consulte o administrador do sistema.");
+                    this.inicia();
+                    break;
+            }
+        } else {
+            System.out.println("Matricula nao encontrada.");
+            this.realizarAcesso();
+        }
+    }
+
 }

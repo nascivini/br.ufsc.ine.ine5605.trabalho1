@@ -8,6 +8,7 @@ import java.util.Calendar;
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
+
 public class Acesso {
 
     private final Calendar horario;
