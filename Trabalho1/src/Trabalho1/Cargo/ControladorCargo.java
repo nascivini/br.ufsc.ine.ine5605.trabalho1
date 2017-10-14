@@ -23,10 +23,6 @@ public class ControladorCargo {
         this.controladorPrincipal = controladorPrincipal;
     }
     
-    /**
-     * 
-     * @return Retorna um ArrayList com a lista de cargos.
-     */
     public ArrayList<Cargo> getCargos() {
         return cargos;
     }
@@ -43,7 +39,7 @@ public class ControladorCargo {
      * @param conteudo
      * @return Cargo
      */
-    public Cargo incluirCargo(DadosCargo conteudo) {
+    public Cargo incluirCargo(DadosCargo conteudo) throws IllegalArgumentException{
         if (conteudo != null) {
             for (Cargo cargoLista : cargos) {
                 if (this.findCargoByCodigo(conteudo.codigo) == null) {
@@ -54,7 +50,9 @@ public class ControladorCargo {
                 }
             }
         }
-        return null;
+        else{
+            throw new IllegalArgumentException("Cargo não cadastrado! Verifique os dados e tente novamente.");
+        }
     }
     
     /**
@@ -107,6 +105,13 @@ public class ControladorCargo {
             }
         }
         return null;
+    }
+    
+    public void listarCargos(){
+        for(Cargo cargoAtual : this.cargos){
+            System.out.println("Cargos cadastrados: ");
+            System.out.println("Código : " + cargoAtual.getCodigo() + "Nome : " + cargoAtual.getNome());
+        }
     }
 
 }

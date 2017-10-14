@@ -46,19 +46,19 @@ public class TelaCargo {
             switch (opcao) {
                 case (1):
                     this.cadastroCargos();
-
+                    break;
                 case (2):
                     this.exclusaoCargos();
-
+                    break;
                 case (3):
                     this.alterarCargos();
-
+                    break;
                 case (4):
                     this.listarCargos();
-
+                    break;
                 case (5):
                     controladorCargo.getControladorPrincipal().getTelaPrincipal().inicia();
-
+                    break;
                 default:
                     throw new IllegalArgumentException("Opção Inválida! Escolha uma opção dentre das opções na lista.");
             }
@@ -85,29 +85,38 @@ public class TelaCargo {
         System.out.println("2 - Comum");
         System.out.println("3 - Convidado");
 
-        boolean ehGerencial = false;
         opcaoCargo = teclado.nextInt();
+        
+        boolean ehGerencial = false;
         String tipoCargo = "";
         boolean tipo = false;
+        try{
         switch (opcaoCargo) {
             case (1):
                 tipo = true;
                 tipoCargo = "GERENCIAL";
                 ehGerencial = true;
+                break;
             case (2):
                 tipoCargo = "COMUM";
                 tipo = true;
+                break;
             case (3):
                 tipo = false;
                 tipoCargo = "CONVIDADO";
+                break;
         }
+        }
+        catch(IllegalArgumentException e){
+            System.out.println("Cargo não cadastrado. Você deverá digitar opções válidas.");
+            this.cadastroCargos();
+        }
+        
         ArrayList<Calendar> horarios = new ArrayList<>();
         DadosCargo cargoNovo = new DadosCargo();
         if (tipoCargo.equals("GERENCIAL")) {
             cargoNovo = new DadosCargo(codigo, nome, tipo, ehGerencial, horarios, tipoCargo);
-        } 
-        
-        else {
+        } else {
             SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");
             boolean continuaCadastro = true;
             while (continuaCadastro) {
@@ -141,7 +150,7 @@ public class TelaCargo {
                     throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
                 }
 
-                System.out.println("Deseja cadastrar mais horários de acesso? Digite Y caso sim, e N caso não");
+                System.out.println("Deseja cadastrar mais horários de acesso? Digite Y caso sim, ou digite qualquer caractere para finalizar o cadastro do cargo.");
                 String continuar = teclado.nextLine();
 
                 if (continuar.equals("Y") || continuar.equals("y")) {
@@ -149,18 +158,24 @@ public class TelaCargo {
                 } else {
                     continuaCadastro = false;
                 }
+                teclado.nextLine();
                 horarios.add(horario1);
                 horarios.add(horario2);
                 cargoNovo = new DadosCargo(codigo, nome, tipo, ehGerencial, horarios, tipoCargo);
             }
-            
+        }
+        
+        try{
             this.controladorCargo.incluirCargo(cargoNovo);
+        }
+        catch(IllegalArgumentException e){
+            System.out.println("Você digitou dados inválidos. Verifique todos os dados, e faça o cadastro novamente. A tela de cadastro será reiniciada.");
+        }
+        finally{
             this.inicia();
-
         }
     }
 
-    
 
     /*private ArrayList<Calendar> cadastroHorarios() throws IllegalArgumentException {
         ArrayList<Calendar> horarios = new ArrayList<Calendar>();
@@ -211,7 +226,7 @@ public class TelaCargo {
         }
         return horarios;
     }
-    */
+     */
     private void exclusaoCargos() throws IllegalArgumentException {
         System.out.println("Para excluir um cargo do sistema, digite o código do mesmo.");
         int codigo = teclado.nextInt();
@@ -235,10 +250,6 @@ public class TelaCargo {
     }
 
     private void listarCargos() {
-        for (Cargo cargo : this.controladorCargo.getCargos()) {
-            System.out.println("Cargos cadastrados: ");
-            System.out.println("Código: " + cargo.getCodigo() + "Nome: " + cargo.getNome());
-        }
-        //this.inicia();
+        this.controladorCargo.listarCargos();
     }
 }
