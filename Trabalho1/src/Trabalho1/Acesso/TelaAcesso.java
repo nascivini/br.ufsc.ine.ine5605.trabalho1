@@ -1,6 +1,7 @@
 package Trabalho1.Acesso;
 
 import java.util.Scanner;
+
 /**
  *
  * @author Vinicius Cerqueira Nascimento
@@ -71,11 +72,44 @@ public class TelaAcesso {
                     this.menuAcessosNegados();
                     break;
                 case (2):
-                    this.controladorAcesso.findAcessosNegadosByMatricula();
+                    System.out.println("Digite a matricula e tecle enter: ---");
+                    int matricula = teclado.nextInt();
+                    this.controladorAcesso.findAcessosNegadosByMatricula(matricula);
                     this.menuAcessosNegados();
                     break;
                 case (3):
-                    this.controladorAcesso.findAcessosNegadosByMotivo();
+                    System.out.println("Escolha o motivo, digite o respectivo numero e tecle enter: ---");
+                    System.out.println("1 - OK");
+                    System.out.println("2 - ATRASADO");
+                    System.out.println("3 - PERMISSAO");
+                    System.out.println("4 - BLOQUEADO");
+                    System.out.println("5 - OUTRO");
+
+                    int opcaoMotivo = teclado.nextInt();
+                    MotivoAcesso motivo;
+                    try {
+                        switch (opcaoMotivo) {
+                            case (1):
+                                motivo = MotivoAcesso.OK;
+                                break;
+                            case (2):
+                                motivo = MotivoAcesso.ATRASADO;
+                                break;
+                            case (3):
+                                motivo = MotivoAcesso.PERMISSAO;
+                                break;
+                            case (4):
+                                motivo = MotivoAcesso.BLOQUEADO;
+                                break;
+                            case (5):
+                                motivo = MotivoAcesso.OUTRO;
+                                break;
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Motivo não cadastrado. Você deveria digitar opções válidas.");
+                        this.menuAcessosNegados();
+                    }
+                    this.controladorAcesso.findAcessosNegadosByMotivo(motivo);
                     this.menuAcessosNegados();
                     break;
                 case (4):
