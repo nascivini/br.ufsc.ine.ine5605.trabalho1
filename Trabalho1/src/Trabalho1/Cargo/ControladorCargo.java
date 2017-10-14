@@ -1,6 +1,5 @@
 package Trabalho1.Cargo;
 
-import Trabalho1.Cargo.Cargo;
 import Trabalho1.Principal.ControladorPrincipal;
 import java.util.ArrayList;
 
@@ -18,7 +17,7 @@ public class ControladorCargo {
     
 
     public ControladorCargo(ControladorPrincipal controladorPrincipal) {
-        this.cargos = new ArrayList<Cargo>();
+        this.cargos = new ArrayList<>();
         this.telaCargo = new TelaCargo(this);
         this.controladorPrincipal = controladorPrincipal;
     }
@@ -40,12 +39,13 @@ public class ControladorCargo {
      * @return Cargo
      */
     public Cargo incluirCargo(DadosCargo conteudo) throws IllegalArgumentException{
+        Cargo novo = null;
         if (conteudo != null) {
             for (Cargo cargoLista : cargos) {
                 if (this.findCargoByCodigo(conteudo.codigo) == null) {
-                    return null;
+                    novo = null;
                 } else {
-                    Cargo novo = new Cargo(conteudo);
+                    novo = new Cargo(conteudo);
                     cargos.add(novo);
                 }
             }
@@ -53,11 +53,13 @@ public class ControladorCargo {
         else{
             throw new IllegalArgumentException("Cargo não cadastrado! Verifique os dados e tente novamente.");
         }
+        return novo;
     }
     
     /**
      * Exclui o cargo da lista de cargos com base no código informado via parâmetro.
-     * @param codigo 
+     * @param codigo Codigo do cargo a ser excluído. 
+     * @return True or false indicando se o cargo foi exclu[ido ou não.
      */
     public boolean excluirCargo(int codigo) {
         if (this.findCargoByCodigo(codigo) != null) {
@@ -74,8 +76,8 @@ public class ControladorCargo {
     /**
      * Altera os dados de um cargo para os novos dados informados via parâmetro, com exceção de seu código.
      * O código de um cargo não pode ser alterado.
-     * @param conteudo
-     * @return Cargo
+     * @param conteudo Conteúdo a ser alterado no cargo.
+     * @return Cargo Retorna o cargo que sofreu alterações.
      */
     public Cargo alterarCargo(DadosCargo conteudo) {
         if (conteudo != null) {
