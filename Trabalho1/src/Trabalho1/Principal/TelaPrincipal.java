@@ -55,8 +55,8 @@ public class TelaPrincipal {
         
         catch(InputMismatchException e){
             System.out.println("Opção inválida! Escolha uma opção dentre as opções da lista.");
-            e.getMessage();
-            this.inicia();
+            String [] args = null;
+            ClassePrincipal.main(args);
         }
         
     }   
