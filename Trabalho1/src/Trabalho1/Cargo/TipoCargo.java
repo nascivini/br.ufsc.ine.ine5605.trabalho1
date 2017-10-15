@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Trabalho1.Cargo;
 
 /**
@@ -15,8 +10,8 @@ public enum TipoCargo {
     GERENCIAL("Cargo Gerencial", true),
     COMUM("Cargo Comum", true),
     CONVIDADO("Cargo Convidado", false);
-    private String descricao;
-    private boolean permiteAcesso;
+    private final String descricao;
+    private final boolean permiteAcesso;
     
     TipoCargo(String descricao, boolean permiteAcesso){
         this.descricao = descricao;

@@ -27,7 +27,12 @@ public class TelaCargo {
     public ControladorCargo getControladorCargo() {
         return controladorCargo;
     }
-
+    
+    /**
+     * Inicia a tela com o Menu das opções para o módulo Cargo. Pode jogar exceções do tipo IllegalArgumentException e InputMismatchException.
+     * @throws IllegalArgumentException Caso seja digitada uma opção inválida.
+     * @throws InputMismatchException Caso seja digitado um caractere inválido.
+     */
     public void inicia() throws IllegalArgumentException, InputMismatchException {
 
         System.out.println("--- Menu de Cadastro de Cargos: ---");
@@ -37,6 +42,7 @@ public class TelaCargo {
         System.out.println("3 - Alterar os dados de um Cargo");
         System.out.println("4 - Listar os cargos já cadastrados");
         System.out.println("5 - Voltar ao Menu Principal");
+        
         try {
             int opcao = teclado.nextInt();
             teclado.nextLine();
@@ -59,13 +65,19 @@ public class TelaCargo {
                 default:
                     throw new IllegalArgumentException();
             }
-        } catch (IllegalArgumentException | InputMismatchException e) {
+        } 
+        
+        catch (IllegalArgumentException | InputMismatchException e) {
             System.out.println("Opção Inválida! Escolha uma opção dentre das opções na lista.");
             String[] args = null;
             ClassePrincipal.main(args);
         }
     }
-
+    
+    /**
+     * Inicia o módulo de cadastro de Cargos no sistema. Faz o tratamento dos dados inseridos e efetiva o cadastro de um cargo, se utilizando do controladorCargo(atributo).
+     * Utiliza os métodos incluirCargo, geraSequencialCargo, reduzSequencialCargo e findCargoByNome do controladorCargo.
+     */
     private void cadastroCargos(){
         System.out.println("Cadastro de Cargos");
         System.out.println("Insira os dados requisitados. Após a inserção de todos os dados, seu cargo será cadastrado no sistema.");
@@ -267,25 +279,27 @@ public class TelaCargo {
                         } else {
                             continuaCadastro = false;
                         }
-                        teclado.nextLine();
                         
                         if(horario1OK && horario2OK){
                             horarios.add(horario3);
                             horarios.add(horario4);
                         }
+                        
                         DadosCargo cargoNovo = new DadosCargo(nome, tipo, ehGerencial, horarios, tipoCargo);
                         this.getControladorCargo().incluirCargo(cargoNovo, codigo);
                         System.out.println("Cargo cadastrado com sucesso!");
-                    }
-                    
+                    }  
                 }   
                 break;
         }
-
         this.inicia();
-
     }
-
+    
+    /**
+     * Inicia a tela de exclusão de cargos, faz o tratamento dos dados inseridos pelo usuário e, 
+     * antes da exclusão, verifica a existência do cargo utilizando se do método findCargoByCodigo, do controladorCargo.
+     * Utiliza o método excluirCargo, também do controladorCargo.
+     */
     private void exclusaoCargos() {
         System.out.println("Para excluir um cargo do sistema, digite o código do mesmo.");
         int codigo = teclado.nextInt();
@@ -308,7 +322,11 @@ public class TelaCargo {
             }
         }
     }
-
+    
+    /**
+     * Inicia a tela de alteração de cargos. Permite apenas a alteração de um dado do cargo por vez.
+     * Utiliza se dos métodos findCargoByCodigo, findcargoByNome e alterarCargo do controladorCargo.
+     */
     private void alteracaoCargos() {
         System.out.println("Bem vindo à tela de alteração dos Cargos.");
         System.out.println("Só é possível alterar um dado por vez. Digite o código do cargo a ser alterado, e selecione qual dado deseja alterar. Horários não podem ser alterados, caso deseje realizar alterações, exclua o cargo e realize o cadastro novamente.");
@@ -347,7 +365,10 @@ public class TelaCargo {
             }
         }
     }
-
+    
+    /**
+     * Chama o método listarCargos do controladorCargo para listar os cargos já cadastrados no sistema.
+     */
     private void listarCargos() {
         this.getControladorCargo().listarCargos();
         this.inicia();

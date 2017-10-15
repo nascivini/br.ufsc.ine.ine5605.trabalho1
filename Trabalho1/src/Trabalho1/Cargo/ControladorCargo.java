@@ -4,16 +4,15 @@ import Trabalho1.Principal.ControladorPrincipal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
  *
- * @author Vinicius Nascimento
+ * @author Vinicius Cerqueira Nascimento
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
-public class ControladorCargo {
+public class ControladorCargo implements IControladorCargo {
     
     private final ControladorPrincipal controladorPrincipal;
     private final ArrayList<Cargo> cargos;
@@ -39,22 +38,15 @@ public class ControladorCargo {
     public ControladorPrincipal getControladorPrincipal() {
         return this.controladorPrincipal;
     }
-    /**
-     * Recebe os dados do cargo a ser incluído via parâmetro, inclui o cargo na lista de cargos, e retorna o cargo incluído.
-     * @param conteudo
-     * @return Cargo
-     */
+    
+    @Override
     public Cargo incluirCargo(DadosCargo conteudo, int codigo){
         Cargo novo = new Cargo(conteudo, codigo);
         cargos.add(novo);
         return novo; 
     }
     
-    /**
-     * Exclui o cargo da lista de cargos com base no código informado via parâmetro.
-     * @param codigo Codigo do cargo a ser excluído. 
-     * @return True or false indicando se o cargo foi exclu[ido ou não.
-     */
+    @Override
     public boolean excluirCargo(int codigo) {
         if (this.findCargoByCodigo(codigo)) {
             for (int i = 0; i < cargos.size(); i++) {
@@ -67,12 +59,7 @@ public class ControladorCargo {
         return false;
     }
     
-    /**
-     * Altera os dados de um cargo para os novos dados informados via parâmetro, com exceção de seu código.
-     * O código de um cargo não pode ser alterado.
-     * @param conteudo Conteúdo a ser alterado no cargo.
-     * @return Cargo Retorna o cargo que sofreu alterações.
-     */
+    @Override
     public Cargo alterarCargo(DadosCargo conteudo, int codigo) {
         if (conteudo != null) {
             for (Cargo cargoLista : cargos) {
@@ -89,11 +76,7 @@ public class ControladorCargo {
         return null;
     }
     
-    /**
-     * "Varre" a lista de cargos cadastrados, buscando por um cargo que contenha o código passado como parâmetro. Retorna um Cargo nulo, caso não o encontre, e o Cargo encontrado, caso o encontre.
-     * @param codigo
-     * @return Cargo
-     */
+    @Override
     public boolean findCargoByCodigo(int codigo){
         for(Cargo cargoAtual : cargos){
             if(cargoAtual.getCodigo() == codigo){
@@ -103,6 +86,7 @@ public class ControladorCargo {
         return false;
     }
     
+    @Override
     public boolean findCargoByNome(String nome){
         for(Cargo cargoAtual : cargos){
             if(cargoAtual.getNome().equals(nome)){
@@ -112,10 +96,19 @@ public class ControladorCargo {
         return false;
     }
     
+    /**
+     * Gera um número sequencial para uso da TelaCargo no cadastro de um novo cargo, permitindo a consistência dos códigos de cargos novos a serem cadastrados no sistema.
+     * @return Sequencial gerado.
+     */
     public int geraSequencialCargo(){
         this.sequencialCargo++;
         return this.sequencialCargo;
     }
+    
+    /**
+     * É usado pela TelaCargo para listar os cargos já cadastrados.
+     */
+    //ficamos em dúvida entre colocar este método na tela ou no controlador
     public void listarCargos(){
         DateFormat formatador = new SimpleDateFormat("HH:mm");
         for(Cargo cargoLista : cargos){
@@ -129,7 +122,10 @@ public class ControladorCargo {
             System.out.println();
         }
     }
-
+    
+    /**
+     * Reduz o sequencial de cargos em uma unidade.
+     */
     public void reduzSequencialCargo() {
        this.sequencialCargo = sequencialCargo - 1;
     }

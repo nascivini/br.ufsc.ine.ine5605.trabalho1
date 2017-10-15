@@ -2,7 +2,6 @@ package Trabalho1.Cargo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -64,6 +63,12 @@ public class Cargo {
         return horarios;
     }
 
+    public TipoCargo getTipoCargo() {
+        return tipoCargo;
+    }
 
-    
+    public void setTipoCargo(TipoCargo tipoCargo) {
+        this.tipoCargo = tipoCargo;
+    }
+ 
 }
