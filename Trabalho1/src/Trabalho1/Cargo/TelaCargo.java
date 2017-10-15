@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -26,7 +27,7 @@ public class TelaCargo {
         return controladorCargo;
     }
 
-    public void inicia() throws IllegalArgumentException {
+    public void inicia() throws IllegalArgumentException, InputMismatchException {
 
         System.out.println("--- Menu de Cadastro de Cargos: ---");
         System.out.println("Escolha a opção desejada, insira o número e tecle enter: ---");
@@ -35,9 +36,9 @@ public class TelaCargo {
         System.out.println("3 - Alterar os dados de um Cargo");
         System.out.println("4 - Listar os cargos já cadastrados");
         System.out.println("5 - Voltar ao Menu Principal");
-
-        int opcao = teclado.nextInt();
         try {
+        int opcao = teclado.nextInt();
+        teclado.nextLine();
             switch (opcao) {
                 case (1):
                     this.cadastroCargos();
@@ -46,7 +47,7 @@ public class TelaCargo {
                     this.exclusaoCargos();
                     break;
                 case (3):
-                    this.alterarCargos();
+                    this.alteracaoCargos();
                     break;
                 case (4):
                     this.listarCargos();
@@ -57,9 +58,11 @@ public class TelaCargo {
                 default:
                     throw new IllegalArgumentException();
             }
-        } catch (IllegalArgumentException e) {
+        } 
+        
+        catch (IllegalArgumentException | InputMismatchException e) {
             System.out.println("Opção Inválida! Escolha uma opção dentre das opções na lista.");
-            this.inicia();
+            this.controladorCargo.getTelaCargo().inicia();
         }
     }
 
@@ -304,14 +307,14 @@ public class TelaCargo {
         }
     }
 
-    private void alterarCargos() {
+    private void alteracaoCargos() {
         System.out.println("Bem vindo à tela de alteração dos Cargos.");
         System.out.println("Só é possível alterar um dado por vez. Digite o código do cargo a ser alterado, e selecione qual dado deseja alterar. Horários não podem ser alterados, caso deseje realizar alterações, exclua o cargo e realize o cadastro novamente.");
         
         int codigo = teclado.nextInt();
         if(this.getControladorCargo().findCargoByCodigo(codigo) == null){
             System.out.println("Cargo não encontrado. Digite um código válido.");
-            this.alterarCargos();
+            this.alteracaoCargos();
         }
         else{
             System.out.println("---------------------------------------------------------");
