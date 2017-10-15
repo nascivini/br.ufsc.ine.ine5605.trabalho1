@@ -1,7 +1,11 @@
 package Trabalho1.Cargo;
 
 import Trabalho1.Principal.ControladorPrincipal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -14,12 +18,14 @@ public class ControladorCargo {
     private final ControladorPrincipal controladorPrincipal;
     private final ArrayList<Cargo> cargos;
     private final TelaCargo telaCargo;
+    private int sequencialCargo;
     
 
     public ControladorCargo(ControladorPrincipal controladorPrincipal) {
         this.cargos = new ArrayList<>();
         this.telaCargo = new TelaCargo(this);
         this.controladorPrincipal = controladorPrincipal;
+        this.sequencialCargo = 0;
     }
     
     public ArrayList<Cargo> getCargos() {
@@ -38,22 +44,10 @@ public class ControladorCargo {
      * @param conteudo
      * @return Cargo
      */
-    public Cargo incluirCargo(DadosCargo conteudo){
-        if(this.cargos.isEmpty()){
-            Cargo novo = new Cargo(conteudo);
-            cargos.add(novo);
-            return novo; 
-        }
-        
-        else{
-            for(Cargo cargoLista : this.cargos){
-                if(!(cargoLista.getCodigo() == conteudo.codigo && cargoLista.getNome().equals(conteudo.nome))){}
-                    Cargo novo = new Cargo(conteudo);
-                    cargos.add(novo);
-                    return novo;
-                }   
-        }
-        return null;
+    public Cargo incluirCargo(DadosCargo conteudo, int codigo){
+        Cargo novo = new Cargo(conteudo, codigo);
+        cargos.add(novo);
+        return novo; 
     }
     
     /**
@@ -62,7 +56,7 @@ public class ControladorCargo {
      * @return True or false indicando se o cargo foi exclu[ido ou não.
      */
     public boolean excluirCargo(int codigo) {
-        if (this.findCargoByCodigo(codigo) != null) {
+        if (this.findCargoByCodigo(codigo)) {
             for (int i = 0; i < cargos.size(); i++) {
                 if (cargos.get(i).getCodigo() == codigo) {
                     cargos.remove(i);
@@ -79,10 +73,10 @@ public class ControladorCargo {
      * @param conteudo Conteúdo a ser alterado no cargo.
      * @return Cargo Retorna o cargo que sofreu alterações.
      */
-    public Cargo alterarCargo(DadosCargo conteudo) {
+    public Cargo alterarCargo(DadosCargo conteudo, int codigo) {
         if (conteudo != null) {
             for (Cargo cargoLista : cargos) {
-                if (cargoLista.getCodigo() == conteudo.codigo) {
+                if (cargoLista.getCodigo() == codigo) {
                     cargoLista.setEhGerencial(conteudo.ehGerencial);
                     cargoLista.setPermiteAcesso(conteudo.permiteAcesso);
                     cargoLista.setNome(conteudo.nome);
@@ -100,28 +94,44 @@ public class ControladorCargo {
      * @param codigo
      * @return Cargo
      */
-    public Cargo findCargoByCodigo(int codigo){
+    public boolean findCargoByCodigo(int codigo){
         for(Cargo cargoAtual : cargos){
             if(cargoAtual.getCodigo() == codigo){
-                return cargoAtual; 
+                return true; 
             }
         }
-        return null;
+        return false;
     }
     
-    public Cargo findCargoByNome(String nome){
+    public boolean findCargoByNome(String nome){
         for(Cargo cargoAtual : cargos){
             if(cargoAtual.getNome().equals(nome)){
-                return cargoAtual;
+                return true;
             }
         }
-        return null;
+        return false;
     }
     
+    public int geraSequencialCargo(){
+        this.sequencialCargo++;
+        return this.sequencialCargo;
+    }
     public void listarCargos(){
+        DateFormat formatador = new SimpleDateFormat("HH:mm");
         for(Cargo cargoLista : cargos){
             System.out.println("Nome: " + cargoLista.getNome() + " | Código: " + cargoLista.getCodigo());
+            System.out.println("Horários deste cargo :");
+            for(int i = 0; i < cargoLista.getHorarios().size(); i = i+2){
+                Date horario1 = cargoLista.getHorarios().get(i).getTime();
+                Date horario2 = cargoLista.getHorarios().get(i+1).getTime();
+                System.out.println("De : " + formatador.format(horario1) + " à " + formatador.format(horario2) + ";");
+            }
+            System.out.println();
         }
+    }
+
+    public void reduzSequencialCargo() {
+       this.sequencialCargo = sequencialCargo - 1;
     }
 
 }

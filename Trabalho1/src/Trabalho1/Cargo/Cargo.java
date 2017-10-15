@@ -19,8 +19,8 @@ public class Cargo {
     private ArrayList<Calendar> horarios;
     private TipoCargo tipoCargo;
     
-    public Cargo(DadosCargo dados) {
-        this.codigo = dados.codigo;
+    public Cargo(DadosCargo dados, int codigo) {
+        this.codigo = codigo;
         this.nome = dados.nome;
         this.permiteAcesso = dados.permiteAcesso;
         this.ehGerencial = dados.ehGerencial;

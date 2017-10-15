@@ -16,7 +16,6 @@ import java.util.Calendar;
  */
 public class DadosCargo {
     
-    public final int codigo;
     public String nome;
     public boolean  permiteAcesso;
     public final boolean ehGerencial;
@@ -32,8 +31,7 @@ public class DadosCargo {
      * @param horarios
      * @param tipo 
      */
-    public DadosCargo(int codigo, String nome, boolean permiteAcesso, boolean ehGerencial, ArrayList<Calendar> horarios, String tipo) {
-        this.codigo = codigo;
+    public DadosCargo(String nome, boolean permiteAcesso, boolean ehGerencial, ArrayList<Calendar> horarios, String tipo) {
         this.nome = nome;
         this.permiteAcesso = permiteAcesso;
         this.ehGerencial = ehGerencial;
@@ -54,7 +52,6 @@ public class DadosCargo {
     }
 
     public DadosCargo() {
-        this.codigo = 00;
         this.ehGerencial = false;
         this.horarios = null;
         this.nome = null;
