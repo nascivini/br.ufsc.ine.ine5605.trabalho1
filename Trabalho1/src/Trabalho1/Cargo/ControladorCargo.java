@@ -48,7 +48,7 @@ public class ControladorCargo implements IControladorCargo {
     
     @Override
     public boolean excluirCargo(int codigo) {
-        if (this.findCargoByCodigo(codigo)) {
+        if (this.findCargoByCodigo(codigo) != null) {
             for (int i = 0; i < cargos.size(); i++) {
                 if (cargos.get(i).getCodigo() == codigo) {
                     cargos.remove(i);
@@ -77,13 +77,15 @@ public class ControladorCargo implements IControladorCargo {
     }
     
     @Override
-    public boolean findCargoByCodigo(int codigo){
-        for(Cargo cargoAtual : cargos){
-            if(cargoAtual.getCodigo() == codigo){
-                return true; 
-            }
-        }
-        return false;
+    public Cargo findCargoByCodigo(int codigo){
+       if(codigo > 0){ 
+           for(Cargo cargoLista : this.cargos){
+               if(codigo == cargoLista.getCodigo()){
+                   return cargoLista;
+               }
+           }
+       }
+       return null;
     }
     
     @Override
