@@ -86,7 +86,7 @@ public class TelaAcesso {
                     System.out.println("5 - OUTRO");
 
                     int opcaoMotivo = teclado.nextInt();
-                    MotivoAcesso motivo;
+                    MotivoAcesso motivo = MotivoAcesso.OK;
                     try {
                         switch (opcaoMotivo) {
                             case (1):
@@ -104,6 +104,8 @@ public class TelaAcesso {
                             case (5):
                                 motivo = MotivoAcesso.OUTRO;
                                 break;
+                            default:
+                                throw new IllegalArgumentException("Selecione um motivo dentre os motivos listados.");
                         }
                     } catch (IllegalArgumentException e) {
                         System.out.println("Motivo não cadastrado. Você deveria digitar opções válidas.");
