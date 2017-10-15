@@ -45,6 +45,7 @@ public class TelaCargo {
         
         try {
             int opcao = teclado.nextInt();
+
             teclado.nextLine();
             switch (opcao) {
                 case (1):
@@ -156,12 +157,16 @@ public class TelaCargo {
                 while (continuaCadastro) {
                     
                     if (horarios.isEmpty()) {
-                        System.out.println("Digite o horário inicial em que o acesso é permitido.(com separador de :)");
+                        
                         teclado.nextLine();
+
+                        System.out.println("Digite o horário inicial em que o acesso é permitido.(com separador de :)");
                         String horarioInicial = teclado.nextLine();
+                        
+                        
                         Calendar horario1 = Calendar.getInstance();
                         Calendar horario2 = Calendar.getInstance();
-                        
+                        try{
                         if (horarioInicial != null) {
                             try {
                                 horario1.setTime(formatador.parse(horarioInicial));
@@ -172,7 +177,11 @@ public class TelaCargo {
                         } else {
                             throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
                         }
-                        
+                        }
+                        catch(IllegalArgumentException e){
+                            System.out.println(e.getMessage());
+                            this.inicia();
+                        }
                         System.out.println("Digite o horário final em que o acesso é permitido.(com separador de :)");
                         String horarioFinal = teclado.nextLine();
                         if (horarioFinal != null) {
@@ -223,7 +232,7 @@ public class TelaCargo {
                                             throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
                                         }
                                         else {
-                                            horario1OK = false;
+                                            horario1OK = true;
                                         }
                                     } catch (ParseException e) {
                                         System.out.println("Digite um horário válido! Entre 00:00 e 23:59. Cadastro não realizado.");
@@ -247,7 +256,7 @@ public class TelaCargo {
                                 if (horarioFinal != null) {
                                     try {
                                         horario4.setTime(formatador.parse(horarioFinal));
-                                        if (!(horario4.getTime().before(horarios.get(i).getTime()))) {
+                                        if ((!(horario4.getTime().before(horarios.get(i).getTime())))&& horario4.getTime().after(horario3.getTime())) {
                                             horario2OK = true;
                                         }
                                         else{
@@ -285,13 +294,12 @@ public class TelaCargo {
                             horarios.add(horario3);
                             horarios.add(horario4);
                         }
-                        
-                        DadosCargo cargoNovo = new DadosCargo(nome, tipo, ehGerencial, horarios, tipoCargo);
-                        this.getControladorCargo().incluirCargo(cargoNovo, codigo);
-                        System.out.println("Cargo cadastrado com sucesso!");
-                    }  
-                }   
-                break;
+                    }
+                }
+            DadosCargo cargoNovo = new DadosCargo(nome, tipo, ehGerencial, horarios, tipoCargo);
+            this.getControladorCargo().incluirCargo(cargoNovo, codigo);
+            System.out.println("Cargo cadastrado com sucesso!");
+            break;
         }
         this.inicia();
     }
