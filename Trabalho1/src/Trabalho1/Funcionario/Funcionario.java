@@ -19,7 +19,7 @@ public class Funcionario {
     private float salario;
     private int nAcessosNegados;
 
-    public Funcionario(int matricula, DadosFuncionario conteudo, int nAcessosNegados) {
+    public Funcionario(int matricula, DadosFuncionario conteudo) {
         this.matricula = matricula;
         this.cpf = conteudo.cpf;
         this.nome = conteudo.nome;
@@ -27,7 +27,7 @@ public class Funcionario {
         this.nascimento = conteudo.nascimento;
         this.telefone = conteudo.telefone;
         this.salario = conteudo.salario;
-        this.nAcessosNegados = nAcessosNegados;
+        this.nAcessosNegados = 0;
     }
 
     public int getMatricula() {
