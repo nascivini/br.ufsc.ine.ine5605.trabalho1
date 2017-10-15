@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Trabalho1.Cargo;
 
 import java.text.ParseException;
@@ -60,9 +55,10 @@ public class TelaCargo {
                     controladorCargo.getControladorPrincipal().getTelaPrincipal().inicia();
                     break;
                 default:
-                    throw new IllegalArgumentException("Opção Inválida! Escolha uma opção dentre das opções na lista.");
+                    throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException e) {
+            System.out.println("Opção Inválida! Escolha uma opção dentre das opções na lista.");
             this.inicia();
         }
     }
@@ -78,156 +74,189 @@ public class TelaCargo {
 
         System.out.println("Nome: ");
         String nome = teclado.nextLine();
-
-        int opcaoCargo = 0;
+        teclado.nextLine();
+        
         System.out.println("Escolha o tipo de cargo dentre os listados abaixo. Digite o respectivo número e tecle enter para selecionar. ");
         System.out.println("1 - Gerencial");
         System.out.println("2 - Comum");
         System.out.println("3 - Convidado");
-
-        opcaoCargo = teclado.nextInt();
+        
+        int opcaoCargo = teclado.nextInt();
         
         boolean ehGerencial = false;
         String tipoCargo = "";
         boolean tipo = false;
         try{
-        switch (opcaoCargo) {
-            case (1):
-                tipo = true;
-                tipoCargo = "GERENCIAL";
-                ehGerencial = true;
-                break;
-            case (2):
-                tipoCargo = "COMUM";
-                tipo = true;
-                break;
-            case (3):
-                tipo = false;
-                tipoCargo = "CONVIDADO";
-                break;
-        }
+            switch (opcaoCargo) {
+                case (1):
+                    tipo = true;
+                    tipoCargo = "GERENCIAL";
+                    ehGerencial = true;
+                    break;
+                case (2):
+                    tipoCargo = "COMUM";
+                    tipo = true;
+                    break;
+                case (3):
+                    tipo = false;
+                    tipoCargo = "CONVIDADO";
+                    break;
+                default:
+                    throw new IllegalArgumentException("Cargo não cadastrado. Você deverá digitar opções válidas.");
+            }
         }
         catch(IllegalArgumentException e){
-            System.out.println("Cargo não cadastrado. Você deverá digitar opções válidas.");
-            this.cadastroCargos();
+            System.out.println(e.getMessage());
+            this.inicia();
         }
         
         ArrayList<Calendar> horarios = new ArrayList<>();
-        DadosCargo cargoNovo = new DadosCargo();
+        
         if (tipoCargo.equals("GERENCIAL")) {
-            cargoNovo = new DadosCargo(codigo, nome, tipo, ehGerencial, horarios, tipoCargo);
-        } else {
+            try{
+                DadosCargo cargoNovo = new DadosCargo(codigo, nome, tipo, ehGerencial, horarios, tipoCargo);
+                this.controladorCargo.incluirCargo(cargoNovo);
+                System.out.println("Cargo cadastrado com sucesso!");
+            }
+            
+            catch(IllegalArgumentException e){
+                System.out.println(e.getMessage());
+            }
+            
+            finally{
+                this.inicia();
+            }
+        } 
+        
+        else {
             SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");
             boolean continuaCadastro = true;
-            while (continuaCadastro) {
-
-                System.out.println("Digite o horário inicial em que o acesso é permitido.(com separador de :)");
-                teclado.nextLine();
-                String horarioInicial = teclado.nextLine();
-                Calendar horario1 = Calendar.getInstance();
-                if (horarioInicial != null) {
-                    try {
-                        horario1.setTime(formatador.parse(horarioInicial));
-                    } catch (ParseException e) {
-                        System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
-                        this.cadastroCargos();
-                    }
-                } else {
-                    throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
-                }
-
-                System.out.println("Digite o horário final em que o acesso é permitido.(com separador de :)");
-                String horarioFinal = teclado.nextLine();
-                Calendar horario2 = Calendar.getInstance();
-                if (horarioFinal != null) {
-                    try {
-                        horario2.setTime(formatador.parse(horarioFinal));
-                    } catch (ParseException e) {
-                        System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
-                        this.cadastroCargos();
-                    }
-                } else {
-                    throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
-                }
-
-                System.out.println("Deseja cadastrar mais horários de acesso? Digite Y caso sim, ou digite qualquer caractere para finalizar o cadastro do cargo.");
-                String continuar = teclado.nextLine();
-
-                if (continuar.equals("Y") || continuar.equals("y")) {
-                    continuaCadastro = true;
-                } else {
-                    continuaCadastro = false;
-                }
-                teclado.nextLine();
-                horarios.add(horario1);
-                horarios.add(horario2);
-                cargoNovo = new DadosCargo(codigo, nome, tipo, ehGerencial, horarios, tipoCargo);
-            }
-        }
-        
-        try{
-            this.controladorCargo.incluirCargo(cargoNovo);
-        }
-        catch(IllegalArgumentException e){
-            System.out.println("Você digitou dados inválidos. Verifique todos os dados, e faça o cadastro novamente. A tela de cadastro será reiniciada.");
-        }
-        finally{
-            this.inicia();
-        }
-    }
-
-
-    /*private ArrayList<Calendar> cadastroHorarios() throws IllegalArgumentException {
-        ArrayList<Calendar> horarios = new ArrayList<Calendar>();
-        SimpleDateFormat formatador = new SimpleDateFormat("HH:mm");
-        boolean continuaCadastro = true;
-        while (continuaCadastro) {
-
-            System.out.println("Digite o horário inicial em que o acesso é permitido.(com separador de :)");
-            teclado.nextLine();
-            String horarioInicial = teclado.nextLine();
+            
             Calendar horario1 = Calendar.getInstance();
-            if (horarioInicial != null) {
-                try {
-                    horario1.setTime(formatador.parse(horarioInicial));
-                } catch (ParseException e) {
-                    System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
-                    this.cadastroCargos();
-                }
-            } else {
-                throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
-            }
-
-            System.out.println("Digite o horário final em que o acesso é permitido.(com separador de :)");
-            String horarioFinal = teclado.nextLine();
             Calendar horario2 = Calendar.getInstance();
-            if (horarioFinal != null) {
-                try {
-                    horario2.setTime(formatador.parse(horarioFinal));
-                } catch (ParseException e) {
-                    System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
-                    this.cadastroCargos();
+            
+            while (continuaCadastro) {
+                
+                if(horarios.isEmpty()){
+                    System.out.println("Digite o horário inicial em que o acesso é permitido.(com separador de :)");
+                    teclado.nextLine();
+                    String horarioInicial = teclado.nextLine();
+                
+                    if (horarioInicial != null) {
+                        try {
+                            horario1.setTime(formatador.parse(horarioInicial));
+                        } 
+                        catch (ParseException e) {
+                            System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
+                        }
+                    
+                        finally{
+                            this.cadastroCargos();
+                        }
+                    }
+                
+                    else {
+                        throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
+                    }
+                    
+                    System.out.println("Digite o horário final em que o acesso é permitido.(com separador de :)");
+                    String horarioFinal = teclado.nextLine();
+                    if (horarioFinal != null) {
+                        try {
+                            horario2.setTime(formatador.parse(horarioFinal));
+                            if(horario2.getTime().after(horario1.getTime())){
+                                System.out.println("Horários Cadastrados com Sucesso!");
+                            }
+                            else{
+                                throw new IllegalArgumentException("Horário Final é menor que o horário inicial. Faça o cadastro novamente.");
+                            }
+                        } 
+                        catch (ParseException e) {
+                            System.out.println("Horário Inválido! Tente novamente.");
+                            this.cadastroCargos();
+                        }
+                        catch(IllegalArgumentException e){
+                            System.out.println(e.getMessage());
+                            this.cadastroCargos();
+                        }
+                    } 
+                    
                 }
-            } else {
-                throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
+                else{
+                    for(int i = 1; i < horarios.size(); i = i + 2){
+                        System.out.println("Digite o horário inicial em que o acesso é permitido.(com separador de :)");
+                        teclado.nextLine();
+                        String horarioInicial = teclado.nextLine();
+                
+                        if (horarioInicial != null && horarios.get(i).after(horario1)) {
+                            try {
+                                horario1.setTime(formatador.parse(horarioInicial));
+                            } 
+                            catch (ParseException e) {
+                                System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
+                            }
+                    
+                            finally{
+                                this.cadastroCargos();
+                            }   
+                        }
+                        
+                        else{
+                            throw new IllegalArgumentException ();
+                        }
+                
+                        else {
+                            throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
+                        }
+                    }
+                
+                    for(int i = 1; i < horarios.size(); i = i + 2){
+                        System.out.println("Digite o horário final em que o acesso é permitido.(com separador de :)");
+                        String horarioFinal = teclado.nextLine();
+                        if (horarioFinal != null) {
+                            try {
+                                horario2.setTime(formatador.parse(horarioFinal));
+                            } 
+                            catch (ParseException e) {
+                                System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
+                                this.cadastroCargos();
+                            }
+                        } 
+                        else {
+                            throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
+                        }
+
+                        System.out.println("Deseja cadastrar mais horários de acesso? Digite Y caso sim, ou digite qualquer caractere para finalizar o cadastro do cargo.");
+                        String continuar = teclado.nextLine();
+
+                        if (continuar.equals("Y") || continuar.equals("y")) {
+                            continuaCadastro = true;
+                        } 
+                        else {
+                            continuaCadastro = false;
+                        }
+                        teclado.nextLine();
+                        horarios.add(horario1);
+                        horarios.add(horario2);
+                    }
+                
+                }
+                try{
+                    DadosCargo cargoNovo = new DadosCargo(codigo, nome, tipo, ehGerencial, horarios, tipoCargo);
+                    this.controladorCargo.incluirCargo(cargoNovo);
+                }
+                catch(IllegalArgumentException e){
+                    System.out.println(e.getMessage());
+                }
+                finally{
+                    this.inicia();
+                }
             }
-
-            System.out.println("Deseja cadastrar mais horários de acesso? Digite Y caso sim, e N caso não");
-            String continuar = teclado.nextLine();
-
-            if (continuar.equals("Y") || continuar.equals("y")) {
-                continuaCadastro = true;
-            } else {
-                continuaCadastro = false;
-            }
-            horarios.add(horario1);
-            horarios.add(horario2);
-
+        
         }
-        return horarios;
     }
-     */
-    private void exclusaoCargos() throws IllegalArgumentException {
+
+    private void exclusaoCargos(){
         System.out.println("Para excluir um cargo do sistema, digite o código do mesmo.");
         int codigo = teclado.nextInt();
 
@@ -241,15 +270,56 @@ public class TelaCargo {
             if (opcaoExclusao.equals("Y") || opcaoExclusao.equals("y")) {
                 this.exclusaoCargos();
             }
+            else{
+                this.inicia();
+            }
 
         }
     }
 
     private void alterarCargos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+        System.out.println("Bem vindo à tela de alteração dos Cargos.");
+        System.out.println("Só é possível alterar um dado por vez. Digite o código do cargo a ser alterado, e selecione qual dado deseja alterar. Horários não podem ser alterados, caso deseje realizar alterações, exclua o cargo e realize o cadastro novamente.");
+        
+        int codigo = teclado.nextInt();
+        if(this.getControladorCargo().findCargoByCodigo(codigo) == null){
+            System.out.println("Cargo não encontrado. Digite um código válido.");
+            this.alterarCargos();
+        }
+        else{
+            System.out.println("---------------------------------------------------------");
+            System.out.println("1 - Alterar nome do cargo.");
+            System.out.println("2 - Alterar tipo do cargo.");
+            System.out.println("3 - Alterar nome do cargo");
+            System.out.println("4 - Alterar permissão de acesso do cargo");
+            System.out.println("4 - Alterar permissão de acesso do cargo");
+            
+            int opcao = teclado.nextInt();
+            switch(opcao){
+                
+                case(1):
+                    System.out.println("Digite o novo nome para o cargo. Não é possível cadastrar dois cargos com o mesmo nome no sistema.");
+                    String novoNome = teclado.nextLine();
+                    if(this.getControladorCargo().findCargoByNome(novoNome) != null){
+                       DadosCargo novosDados = new DadosCargo();
+                       novosDados.nome = novoNome;
+                       this.controladorCargo.alterarCargo(novosDados);
+                       this.inicia();
+                       break;
+                    }
+                    else{
+                        throw new IllegalArgumentException("Nome inválido! Já existe um cargo cadastrado com este nome no sistema. Verifique o nome e tente novamente.");
+                    }
+                case(2):
+                    System.out.println("Selecione um dos tipos de cargo abaixo.");
+                    System.out.println("1 - Gerencial");
+                    System.out.println("2 - Comum");
+                    System.out.println("3 - Convidado");                    
+            }
+        }
+        }
     private void listarCargos() {
         this.controladorCargo.listarCargos();
+        this.inicia();
     }
 }

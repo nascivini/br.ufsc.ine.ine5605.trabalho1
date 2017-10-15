@@ -17,11 +17,11 @@ import java.util.Calendar;
 public class DadosCargo {
     
     public final int codigo;
-    public final String nome;
-    public final boolean  permiteAcesso;
+    public String nome;
+    public boolean  permiteAcesso;
     public final boolean ehGerencial;
     public final ArrayList<Calendar> horarios;
-    public final TipoCargo tipoCargo;
+    public TipoCargo tipoCargo;
     
     /**
      * Recebe os dados de um cargo, vindos da TelaCargo, e instancia um objeto transiente para posterior uso para o cadastro de um cargo pelo ControladorCargo.

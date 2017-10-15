@@ -38,22 +38,22 @@ public class ControladorCargo {
      * @param conteudo
      * @return Cargo
      */
-    public Cargo incluirCargo(DadosCargo conteudo) throws IllegalArgumentException{
-        Cargo novo = null;
-        if (conteudo != null) {
-            for (Cargo cargoLista : cargos) {
-                if (this.findCargoByCodigo(conteudo.codigo) == null) {
-                    novo = null;
-                } else {
-                    novo = new Cargo(conteudo);
-                    cargos.add(novo);
-                }
-            }
+    public Cargo incluirCargo(DadosCargo conteudo){
+        if(this.cargos.isEmpty()){
+            Cargo novo = new Cargo(conteudo);
+            cargos.add(novo);
+            return novo; 
         }
+        
         else{
-            throw new IllegalArgumentException("Cargo não cadastrado! Verifique os dados e tente novamente.");
+            for(Cargo cargoLista : this.cargos){
+                if(!(cargoLista.getCodigo() == conteudo.codigo && cargoLista.getNome().equals(conteudo.nome))){}
+                    Cargo novo = new Cargo(conteudo);
+                    cargos.add(novo);
+                    return novo;
+                }   
         }
-        return novo;
+        return null;
     }
     
     /**
@@ -109,10 +109,18 @@ public class ControladorCargo {
         return null;
     }
     
+    public Cargo findCargoByNome(String nome){
+        for(Cargo cargoAtual : cargos){
+            if(cargoAtual.getNome().equals(nome)){
+                return cargoAtual;
+            }
+        }
+        return null;
+    }
+    
     public void listarCargos(){
-        for(Cargo cargoAtual : this.cargos){
-            System.out.println("Cargos cadastrados: ");
-            System.out.println("Código : " + cargoAtual.getCodigo() + "Nome : " + cargoAtual.getNome());
+        for(Cargo cargoLista : cargos){
+            System.out.println("Nome: " + cargoLista.getNome() + " | Código: " + cargoLista.getCodigo());
         }
     }
 
