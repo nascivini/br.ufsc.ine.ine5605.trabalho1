@@ -16,6 +16,10 @@ public class ControladorFuncionario {
     private TelaFuncionario telaFuncionario;
     private int matriculaSequencial = 0;
  
+    /**
+     * 
+     * @param controladorPrincipal 
+     */
     public ControladorFuncionario(ControladorPrincipal controladorPrincipal) {
         this.funcionarios = new ArrayList<Funcionario>();
         this.controladorPrincipal = controladorPrincipal;
@@ -30,6 +34,7 @@ public class ControladorFuncionario {
         return funcionarios;
     }
 
+    
     public Funcionario incluirFuncionario(DadosFuncionario conteudo) {
         if (conteudo != null) {
             for (Funcionario funcionario : funcionarios) {
@@ -77,7 +82,9 @@ public class ControladorFuncionario {
     
 
     public void listarFuncionarios() {
-
+        for(Funcionario funcionario: funcionarios){
+            System.out.println("Matrícula: " + funcionario.getMatricula() + " | Nome: " + funcionario.getNome());
+        }
     }
 
     /**
