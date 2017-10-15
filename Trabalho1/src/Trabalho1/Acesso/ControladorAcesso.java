@@ -14,19 +14,20 @@ import java.util.Calendar;
  */
 public class ControladorAcesso {
 
-    private ArrayList<Acesso> acessos;
-    private ControladorPrincipal controladorPrincipal;
-    private TelaAcesso telaAcesso;
+    private final ArrayList<Acesso> acessos;
+    private final ControladorPrincipal controladorPrincipal;
+    private final TelaAcesso telaAcesso;
 
     /**
      * Recebe o controlador Principal como parametro para possibilitar a
      * comunicacao e cria um objeto da Classe ControladorAcesso
      *
      * @param controladorPrincipal
-     * @return Retorna um objeto da Classe ControladorAcesso
      */
     public ControladorAcesso(ControladorPrincipal controladorPrincipal) {
         this.controladorPrincipal = controladorPrincipal;
+        this.acessos = new ArrayList<>();
+        this.telaAcesso = new TelaAcesso(this);
     }
 
     public ArrayList<Acesso> getAcessos() {
