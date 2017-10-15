@@ -12,7 +12,7 @@ import java.util.Calendar;
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
-public class ControladorAcesso {
+public class ControladorAcesso implements IControladorAcesso {
 
     private final ArrayList<Acesso> acessos;
     private final ControladorPrincipal controladorPrincipal;
@@ -21,8 +21,7 @@ public class ControladorAcesso {
     /**
      * Recebe o controlador Principal como parametro para possibilitar a
      * comunicacao e cria um objeto da Classe ControladorAcesso
-     *
-     * @param controladorPrincipal
+     * @param controladorPrincipal ControladorPrincipal em execução no programa.
      */
     public ControladorAcesso(ControladorPrincipal controladorPrincipal) {
         this.controladorPrincipal = controladorPrincipal;
@@ -42,67 +41,45 @@ public class ControladorAcesso {
         return telaAcesso;
     }
 
-    /**
-     * Recebe uma matricula e lista os acessos negados da mesma
-     *
-     * @param matricula
-     *
-     */
+    @Override
     public void findAcessosNegadosByMatricula(int matricula) {
         //ArrayList<Acesso> acessosNegadosMat = new ArrayList<Acesso>();
         SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
         for (Acesso acesso : acessos) {
             if (acesso.getMotivo() != MotivoAcesso.OK && acesso.getMatricula() == matricula) {
                 //acessosNegadosMat.add(acesso);
-                System.out.println("Matricula: " + acesso.getMatricula() + " | Horario: " + acesso.getHorario().setTime(formatarHora.parse(formatarHora.format(acesso.getHorario().getTime()))) + " | Motivo: " + acesso.getMotivo().getDescricao());
+                System.out.println("Matricula: " + acesso.getMatricula() + " | Horario: " + formatarHora.format(acesso.getHorario().getTime()) + " | Motivo: " + acesso.getMotivo().getDescricao());
             }
         }
         //return acessosNegadosMat;
     }
 
-    /**
-     * Recebe um motivo e lista os acessos negados do mesmo
-     *
-     * @param motivo
-     *
-     */
+    @Override
     public void findAcessosNegadosByMotivo(MotivoAcesso motivo) {
         //ArrayList<Acesso> acessosNegadosMot = new ArrayList<Acesso>();
         SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
         for (Acesso acesso : acessos) {
             if (acesso.getMotivo() != MotivoAcesso.OK && acesso.getMotivo() == motivo) {
                 //acessosNegadosMot.add(acesso);
-                System.out.println("Matricula: " + acesso.getMatricula() + " | Horario: " + acesso.getHorario().setTime(formatarHora.parse(formatarHora.format(acesso.getHorario().getTime()))) + " | Motivo: " + acesso.getMotivo().getDescricao());
+                System.out.println("Matricula: " + acesso.getMatricula() + " | Horario: " + formatarHora.format(acesso.getHorario().getTime()) + " | Motivo: " + acesso.getMotivo().getDescricao());
             }
         }
         //return acessosNegadosMot;
     }
 
-    /**
-     * Lista todos os acessos negados
-     *
-     *
-     */
-    public void findAcessosNegados() throws ParseException {
+    @Override
+    public void findAcessosNegados() {
         //ArrayList<Acesso> acessosNegados = new ArrayList<Acesso>();
         SimpleDateFormat formatarHora = new SimpleDateFormat("HH:mm");
         for (Acesso acesso : acessos) {
             if (acesso.getMotivo() != MotivoAcesso.OK) {
                 //acessosNegados.add(acesso);
-                System.out.println("Matricula: " + acesso.getMatricula() + " | Horario: " + acesso.getHorario().setTime(formatarHora.parse(formatarHora.format(acesso.getHorario().getTime()))) + " | Motivo: " + acesso.getMotivo().getDescricao());
+                System.out.println("Matricula: " + acesso.getMatricula() + " | Horario: " + formatarHora.format(acesso.getHorario().getTime()) + " | Motivo: " + acesso.getMotivo().getDescricao());
             }
         }
-        //return acessosNegados;
     }
 
-    /**
-     * Recebe uma matricula e realiza a verificacao se a mesma esta apta a
-     * acessar a porta
-     *
-     * @param matricula
-     * @return Verdadeiro ou falso, dependendo se a matricula possui ou nao
-     * acesso a porta
-     */
+    @Override
     public Acesso verificaAcesso(int matricula) {
         Calendar dataAgora = Calendar.getInstance();
         if (this.controladorPrincipal.getControladorFuncionario().validaMatricula(matricula)) { //validou a matricula, logo possui um funcionario com essa matricula
