@@ -125,9 +125,10 @@ public class TelaCargo {
                     tipoCargo = "CONVIDADO";
                     break;
                 default:
-                    throw new IllegalArgumentException("Cargo não cadastrado. Você deverá digitar opções válidas.");
+                    throw new IllegalArgumentException("Cargo não cadastrado. Você deve digitar opções válidas. Selecione um tipo dentre os tipos listados.");
             }
-        } catch (IllegalArgumentException e) {
+        } 
+        catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             this.inicia();
         }

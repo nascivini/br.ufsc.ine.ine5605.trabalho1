@@ -7,7 +7,7 @@ package Trabalho1.Cargo;
  * @author Marco Aurélio Geremias
  */
 public interface IControladorCargo {
-
+    
     /**
      * Recebe os dados do cargo a ser incluído via parâmetro, inclui o cargo na
      * lista de cargos, e retorna o cargo incluído.
