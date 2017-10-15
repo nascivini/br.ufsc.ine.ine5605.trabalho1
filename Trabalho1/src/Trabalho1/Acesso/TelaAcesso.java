@@ -1,5 +1,7 @@
 package Trabalho1.Acesso;
 
+import Trabalho1.Principal.ClassePrincipal;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -10,14 +12,13 @@ import java.util.Scanner;
  */
 public class TelaAcesso {
 
-    private Scanner teclado;
-    private ControladorAcesso controladorAcesso;
+    private final Scanner teclado;
+    private final ControladorAcesso controladorAcesso;
 
     /**
      * Recebe o controlador Acesso como parametro para possibilitar a
      * comunicacao e cria um objeto da Classe TelaAcesso
-     *
-     * @param controladorAcesso
+     * @param controladorAcesso ControladorAcesso em execução no programa.
      */
     public TelaAcesso(ControladorAcesso controladorAcesso) {
         this.controladorAcesso = controladorAcesso;
@@ -27,8 +28,12 @@ public class TelaAcesso {
     public ControladorAcesso getControladorAcesso() {
         return this.controladorAcesso;
     }
-
-    public void inicia() throws IllegalArgumentException {
+    /**
+     * Inicia a tela com o Menu das opções para o módulo de Acesso. Pode jogar exceções do tipo IllegalArgumentException e InputMismatchException.
+     * @throws IllegalArgumentException Caso seja digitada uma opção inválida.
+     * @throws InputMismatchException Caso seja digitado um caractere inválido.
+     */
+    public void inicia() throws IllegalArgumentException, InputMismatchException {
         System.out.println("--- Menu para Acesso / Controle de Acesso: ---");
         System.out.println("Escolha a opcao desejada, insira o numero e tecle enter: ---");
         System.out.println("1 - Realizar um Acesso");
@@ -45,18 +50,24 @@ public class TelaAcesso {
                     this.menuAcessosNegados();
                     break;
                 case (3):
-                    this.controladorAcesso.getControladorPrincipal().getTelaPrincipal().inicia();
+                    this.getControladorAcesso().getControladorPrincipal().getTelaPrincipal().inicia();
                     break;
 
                 default:
-                    throw new IllegalArgumentException("Opcaio Invalida! Escolha uma opcao dentre das opcoes na lista.");
+                    throw new IllegalArgumentException();
             }
-        } catch (Exception InvallidArgumentException) {
-            this.inicia();
+        } 
+        catch (IllegalArgumentException | InputMismatchException e) {
+            System.out.println("Opção Inválida! Escolha uma opção dentre das opções na lista.");
+            String[] args = null;
+            ClassePrincipal.main(args);
         }
     }
-
-    public void menuAcessosNegados() throws IllegalArgumentException {
+    /**
+     * Inicia a tela de listagem de acessos negados. Faz o tratamento dos dados inseridos pelo usuário e, 
+     * antes da exclusão, verifica a existência do cargo utilizando se dos métodos de controladorAcesso.
+     */
+    public void menuAcessosNegados(){
         System.out.println("--- Menu de Listagem de Acessos Negados: ---");
         System.out.println("Escolha a opcao desejada, insira o numero e tecle enter: ---");
         System.out.println("1 - Listar todos acessos negados");
@@ -68,13 +79,13 @@ public class TelaAcesso {
         try {
             switch (opcao) {
                 case (1):
-                    this.controladorAcesso.findAcessosNegados();
+                    this.getControladorAcesso().findAcessosNegados();
                     this.menuAcessosNegados();
                     break;
                 case (2):
                     System.out.println("Digite a matricula e tecle enter: ---");
                     int matricula = teclado.nextInt();
-                    this.controladorAcesso.findAcessosNegadosByMatricula(matricula);
+                    this.getControladorAcesso().findAcessosNegadosByMatricula(matricula);
                     this.menuAcessosNegados();
                     break;
                 case (3):
@@ -105,13 +116,14 @@ public class TelaAcesso {
                                 motivo = MotivoAcesso.OUTRO;
                                 break;
                             default:
-                                throw new IllegalArgumentException("Selecione um motivo dentre os motivos listados.");
+                                throw new IllegalArgumentException("Motivo não cadastrado. Você deve digitar opções válidas. Selecione um motivo dentre os motivos listados.");
                         }
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Motivo não cadastrado. Você deveria digitar opções válidas.");
-                        this.menuAcessosNegados();
+                    } 
+                    catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                        this.inicia();
                     }
-                    this.controladorAcesso.findAcessosNegadosByMotivo(motivo);
+                    this.getControladorAcesso().findAcessosNegadosByMotivo(motivo);
                     this.menuAcessosNegados();
                     break;
                 case (4):
@@ -120,16 +132,22 @@ public class TelaAcesso {
                 default:
                     throw new IllegalArgumentException("Opcao Invalida! Escolha uma opcao dentre das opcoes na lista.");
             }
-        } catch (Exception InvallidArgumentException) {
+        } 
+        catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
             this.inicia();
         }
     }
 
+     /**
+     * Inicia a tela de acesso ao sistema. Faz o tratamento dos dados inseridos pelo usuário e, 
+     * realiza o acesso utilizando-se dos métodos de controladorAcesso.
+     */
     public void realizarAcesso() {
         System.out.println("Digite a matricula na qual deseja efetuar o acesso");
         int matricula = teclado.nextInt();
-        if (this.controladorAcesso.getControladorPrincipal().getControladorFuncionario().validaMatricula(matricula)) {
-            Acesso acesso = this.controladorAcesso.verificaAcesso(matricula);
+        if (this.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().validaMatricula(matricula)) {
+            Acesso acesso = this.getControladorAcesso().verificaAcesso(matricula);
             switch (acesso.getMotivo()) {
                 case OK:
                     System.out.println("Acesso realizado com sucesso.");
@@ -152,7 +170,8 @@ public class TelaAcesso {
                     this.inicia();
                     break;
             }
-        } else {
+        } 
+        else {
             System.out.println("Matricula nao encontrada.");
             this.realizarAcesso();
         }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Trabalho1.Cargo;
 
 import java.util.ArrayList;
@@ -16,7 +11,6 @@ import java.util.Calendar;
  */
 public class DadosCargo {
     
-    public final int codigo;
     public String nome;
     public boolean  permiteAcesso;
     public final boolean ehGerencial;
@@ -25,15 +19,13 @@ public class DadosCargo {
     
     /**
      * Recebe os dados de um cargo, vindos da TelaCargo, e instancia um objeto transiente para posterior uso para o cadastro de um cargo pelo ControladorCargo.
-     * @param codigo
-     * @param nome
-     * @param permiteAcesso
-     * @param ehGerencial
-     * @param horarios
-     * @param tipo 
+     * @param nome Nome do cargo.
+     * @param permiteAcesso Permite acesso ou não à porta do financeiro. 
+     * @param ehGerencial É gerencial ou não.
+     * @param horarios ArrayList com os horários do cargo.
+     * @param tipo Tipo do cargo.
      */
-    public DadosCargo(int codigo, String nome, boolean permiteAcesso, boolean ehGerencial, ArrayList<Calendar> horarios, String tipo) {
-        this.codigo = codigo;
+    public DadosCargo(String nome, boolean permiteAcesso, boolean ehGerencial, ArrayList<Calendar> horarios, String tipo) {
         this.nome = nome;
         this.permiteAcesso = permiteAcesso;
         this.ehGerencial = ehGerencial;
@@ -54,7 +46,6 @@ public class DadosCargo {
     }
 
     public DadosCargo() {
-        this.codigo = 00;
         this.ehGerencial = false;
         this.horarios = null;
         this.nome = null;
