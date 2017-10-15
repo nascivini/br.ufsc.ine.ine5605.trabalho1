@@ -45,7 +45,7 @@ public interface IControladorCargo {
      * @param codigo Código do cargo a ser buscado.
      * @return boolean Falso, caso não encontre, e verdadeiro, caso encontre.
      */
-    public boolean findCargoByCodigo(int codigo);
+    public Cargo findCargoByCodigo(int codigo);
     
     /**
      * "Varre" a lista de cargos cadastrados, buscando por um cargo que contenha

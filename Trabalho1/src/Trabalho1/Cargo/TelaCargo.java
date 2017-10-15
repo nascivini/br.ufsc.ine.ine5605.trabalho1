@@ -313,7 +313,7 @@ public class TelaCargo {
         System.out.println("Para excluir um cargo do sistema, digite o código do mesmo.");
         int codigo = teclado.nextInt();
 
-        if (this.getControladorCargo().findCargoByCodigo(codigo)) {
+        if (this.getControladorCargo().findCargoByCodigo(codigo) != null) {
             this.getControladorCargo().excluirCargo(codigo);
             System.out.println("Cargo excluído com sucesso!");
             this.inicia();
@@ -341,7 +341,7 @@ public class TelaCargo {
         System.out.println("Só é possível alterar um dado por vez. Digite o código do cargo a ser alterado, e selecione qual dado deseja alterar. Horários não podem ser alterados, caso deseje realizar alterações, exclua o cargo e realize o cadastro novamente.");
 
         int codigo = teclado.nextInt();
-        if (!this.getControladorCargo().findCargoByCodigo(codigo)) {
+        if (this.getControladorCargo().findCargoByCodigo(codigo) == null) {
             System.out.println("Cargo não encontrado. Digite um código válido.");
             this.alteracaoCargos();
         } else {
