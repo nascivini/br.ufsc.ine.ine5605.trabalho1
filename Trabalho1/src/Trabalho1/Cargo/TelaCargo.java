@@ -148,9 +148,6 @@ public class TelaCargo {
                         } 
                         catch (ParseException e) {
                             System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
-                        }
-                    
-                        finally{
                             this.cadastroCargos();
                         }
                     }
@@ -172,58 +169,86 @@ public class TelaCargo {
                             }
                         } 
                         catch (ParseException e) {
-                            System.out.println("Horário Inválido! Tente novamente.");
+                            System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
                             this.cadastroCargos();
                         }
                         catch(IllegalArgumentException e){
                             System.out.println(e.getMessage());
                             this.cadastroCargos();
                         }
-                    } 
+                        System.out.println("Deseja cadastrar mais horários de acesso? Digite Y caso sim, ou digite qualquer caractere para finalizar o cadastro do cargo.");
+                        String continuar = teclado.nextLine();
+
+                        if (continuar.equals("Y") || continuar.equals("y")) {
+                            continuaCadastro = true;
+                        } 
+                        else {
+                            continuaCadastro = false;
+                        }
+                        teclado.nextLine();
+                        horarios.add(horario1);
+                        horarios.add(horario2);
+                    }
+                } 
                     
-                }
+                
                 else{
                     for(int i = 1; i < horarios.size(); i = i + 2){
                         System.out.println("Digite o horário inicial em que o acesso é permitido.(com separador de :)");
-                        teclado.nextLine();
                         String horarioInicial = teclado.nextLine();
-                
-                        if (horarioInicial != null && horarios.get(i).after(horario1)) {
-                            try {
-                                horario1.setTime(formatador.parse(horarioInicial));
-                            } 
-                            catch (ParseException e) {
-                                System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
-                            }
+                        teclado.nextLine();
+                        try{
+                            if (horarioInicial != null && horarios.get(i).after(horario1)) {
+                                try {
+                                    horario1.setTime(formatador.parse(horarioInicial));
+                                } 
+                                catch (ParseException e) {
+                                    System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
+                                }
                     
-                            finally{
-                                this.cadastroCargos();
-                            }   
+                                finally{
+                                    this.cadastroCargos();
+                                }   
+                            }
+                        
+                            else{
+                                throw new IllegalArgumentException ("Horário inicial está dentro de uma faixa de horários já cadastrada. Verifique o mesmo e tente novamente.");   
+                            }
                         }
                         
-                        else{
-                            throw new IllegalArgumentException ();
-                        }
-                
-                        else {
-                            throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
+                        catch(IllegalArgumentException e){
+                            System.out.println(e.getMessage());
+                            this.cadastroCargos();
                         }
                     }
                 
-                    for(int i = 1; i < horarios.size(); i = i + 2){
+                    for(int i = 0; i < horarios.size(); i = i + 2){
                         System.out.println("Digite o horário final em que o acesso é permitido.(com separador de :)");
-                        String horarioFinal = teclado.nextLine();
-                        if (horarioFinal != null) {
-                            try {
-                                horario2.setTime(formatador.parse(horarioFinal));
-                            } 
-                            catch (ParseException e) {
-                                System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
-                                this.cadastroCargos();
+                        teclado.nextLine();
+                        String horarioInicial = teclado.nextLine();
+                
+                        try{
+                            if (horarioInicial != null && horarios.get(i).after(horario1)) {
+                                try {
+                                    horario1.setTime(formatador.parse(horarioInicial));
+                                } 
+                                catch (ParseException e) {
+                                    System.out.println("Digite um horário válido! Entre 00:00 e 23:59");
+                                }
+                    
+                                finally{
+                                    this.cadastroCargos();
+                                }   
                             }
-                        } 
-                        else {
-                            throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59");
+                        
+                            else{
+                                throw new IllegalArgumentException ("Horário final está dentro de uma faixa de horários já cadastrada. Verifique o mesmo e tente novamente.");   
+                            }
+                        }
+                        
+                        catch(IllegalArgumentException e){
+                            System.out.println(e.getMessage());
+                            this.cadastroCargos();
                         }
 
                         System.out.println("Deseja cadastrar mais horários de acesso? Digite Y caso sim, ou digite qualquer caractere para finalizar o cadastro do cargo.");
@@ -241,9 +266,11 @@ public class TelaCargo {
                     }
                 
                 }
+            }
                 try{
                     DadosCargo cargoNovo = new DadosCargo(codigo, nome, tipo, ehGerencial, horarios, tipoCargo);
                     this.controladorCargo.incluirCargo(cargoNovo);
+                    System.out.println("Cargo cadastrado com sucesso!");
                 }
                 catch(IllegalArgumentException e){
                     System.out.println(e.getMessage());
@@ -251,7 +278,7 @@ public class TelaCargo {
                 finally{
                     this.inicia();
                 }
-            }
+            
         
         }
     }
