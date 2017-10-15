@@ -32,6 +32,7 @@ public interface IControladorCargo {
      * com exceção de seu código. O código de um cargo não pode ser alterado.
      *
      * @param conteudo Conteúdo a ser alterado no cargo.
+     * @param codigo Código do cargo que sofrerá alterações.
      * @return Cargo Retorna o cargo que sofreu alterações.
      */
     public Cargo alterarCargo(DadosCargo conteudo, int codigo);
