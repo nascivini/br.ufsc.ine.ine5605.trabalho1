@@ -121,7 +121,7 @@ public class ControladorFuncionario {
         return null;
     }
     
-        public boolean findFuncionarioByCpf(int cpf) {
+        public boolean findFuncionarioByCpf(long cpf) {
         for (Funcionario funcionario : funcionarios) {
             if (funcionario.getCpf() == cpf) {
                 return true;
