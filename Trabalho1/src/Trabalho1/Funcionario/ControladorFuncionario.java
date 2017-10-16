@@ -41,14 +41,13 @@ public class ControladorFuncionario {
     
     public Funcionario incluirFuncionario(DadosFuncionario conteudo) {
         if (conteudo != null) {
-            for (Funcionario funcionario : funcionarios) {
-                if (funcionario.getCpf() == conteudo.cpf) { //a classe transiente só é usada para passar parâmetros para a classe Funcionario, por isso ela pode ser pública, não precisa de get e set
-                    return null;
-                } else {
+            //for (Funcionario funcionario : funcionarios) {
+                //if (funcionario.getCpf() == conteudo.cpf) { //a classe transiente só é usada para passar parâmetros para a classe Funcionario, por isso ela pode ser pública, não precisa de get e set
+                //    return null;
+                //} else {
                     Funcionario novo = new Funcionario(this.gerarMatriculaSequencial(), conteudo);
                     funcionarios.add(novo);
-                }
-            }
+                    return novo;
         }
         return null;
     }
@@ -120,6 +119,15 @@ public class ControladorFuncionario {
             }
         }
         return null;
+    }
+    
+        public boolean findFuncionarioByCpf(int cpf) {
+        for (Funcionario funcionario : funcionarios) {
+            if (funcionario.getCpf() == cpf) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean validaMatricula(int matricula) {

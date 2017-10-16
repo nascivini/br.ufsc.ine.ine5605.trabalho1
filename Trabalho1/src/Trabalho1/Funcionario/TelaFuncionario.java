@@ -69,6 +69,15 @@ public class TelaFuncionario {
 
         System.out.println("CPF: ");
         int cpf = teclado.nextInt();
+        
+        try {
+            if (this.controladorFuncionario.findFuncionarioByCpf(cpf)) {
+                throw new IllegalArgumentException("Este CPF já está em uso.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            this.inicia();
+        }
 
         System.out.println("Nome: ");
         String nome = teclado.nextLine();
