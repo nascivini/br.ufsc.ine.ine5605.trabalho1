@@ -11,10 +11,10 @@ import Trabalho1.Acesso.ControladorAcesso;
  * @author Marco Aurelio Geremias
  */
 public class ControladorPrincipal {
-    private TelaPrincipal telaPrincipal;
-    private ControladorFuncionario controladorFuncionario;
-    private ControladorCargo controladorCargo;
-    private ControladorAcesso controladorAcesso;
+    private final TelaPrincipal telaPrincipal;
+    private final ControladorFuncionario controladorFuncionario;
+    private final ControladorCargo controladorCargo;
+    private final ControladorAcesso controladorAcesso;
     
     
     public ControladorPrincipal() {
