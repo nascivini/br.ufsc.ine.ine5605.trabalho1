@@ -67,7 +67,7 @@ public class TelaAcesso {
      * Inicia a tela de listagem de acessos negados. Faz o tratamento dos dados inseridos pelo usuário e, 
      * antes da exclusão, verifica a existência do cargo utilizando se dos métodos de controladorAcesso.
      */
-    public void menuAcessosNegados(){
+    private void menuAcessosNegados(){
         System.out.println("--- Menu de Listagem de Acessos Negados: ---");
         System.out.println("Escolha a opcao desejada, insira o numero e tecle enter: ---");
         System.out.println("1 - Listar todos acessos negados");
@@ -143,7 +143,7 @@ public class TelaAcesso {
      * Inicia a tela de acesso ao sistema. Faz o tratamento dos dados inseridos pelo usuário e, 
      * realiza o acesso utilizando-se dos métodos de controladorAcesso.
      */
-    public void realizarAcesso() {
+    private void realizarAcesso() {
 		System.out.println("Digite a hora atual. Ex.: 22");
 		int hora = teclado.nextInt();
 		System.out.println("Digite o minuto atual. Ex.: 53");

@@ -13,7 +13,7 @@ public class Acesso {
 
     private final Calendar horario;
     private final int matricula;
-    private MotivoAcesso motivo;
+    private final MotivoAcesso motivo;
 
     /**
      * Recebe os parametros e cria um objeto da Classe acesso
