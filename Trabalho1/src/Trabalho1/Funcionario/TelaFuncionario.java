@@ -77,7 +77,8 @@ public class TelaFuncionario {
         int codigo = teclado.nextInt();        
         Cargo cargo = this.controladorFuncionario.getControladorPrincipal().getControladorCargo().findCargoByCodigo(codigo);
         
-        System.out.println("Nascimento");
+        System.out.println("Nascimento: ");
+        System.out.println("O formato dia/mês/ano deve ser respeitado. Exemplo: 15/02/1994");
         try {
             SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
             String data = teclado.nextLine();
@@ -91,14 +92,14 @@ public class TelaFuncionario {
         }
         
         System.out.println("Telefone: ");
-        Long telefone = teclado.nextLong();
+        long telefone = teclado.nextLong();
         
         System.out.println("Salário: ");
-        Float salario = teclado.nextFloat();
+        float salario = teclado.nextFloat();
         
     }
 
-    public void exclusaoFuncionario() throws IllegalArgumentException, InputMismatchException, ParseException {
+    public void exclusaoFuncionario() throws ParseException {
         System.out.println("Para excluir um funcionário do sistema, digite a matrícula do mesmo.");
         int matricula = teclado.nextInt();
 
@@ -118,8 +119,8 @@ public class TelaFuncionario {
         }
     }
 
-    private void alteracaoFuncionario() {
-        System.out.println("Bem-vindo à tela de alteração dos Cargos.");
+    private void alteracaoFuncionario() throws ParseException {
+        System.out.println("Bem-vindo à tela de alteração de dados dos funcionários.");
         System.out.println("Só é possível alterar um dado por vez. Digite a matrícula a ser alterada, e selecione qual dado deseja alterar.");
         
         int matricula = teclado.nextInt();
@@ -127,45 +128,48 @@ public class TelaFuncionario {
             System.out.println("Funcionário não encontrado. Digite uma matrícula válida.");
             this.alteracaoFuncionario();
         }
-        else{
+        else {
             System.out.println("--------------------------------------");
-            System.out.println("--------------------------------------");
-            System.out.println("--------------------------------------");
-            System.out.println("1 - Alterar CPF do funcionário");
-            System.out.println("2 - Alterar nome do funcionário");
-            System.out.println("3 - Alterar nomecargo");
-            System.out.println("4 - Alterar permissão de acesso do cargo");
-            System.out.println("4 - Alterar permissão de acesso do cargo");
+            System.out.println("ATENÇÃO: Digite 0 nos campos que você não quiser alterar.");
+           
+            System.out.println("CPF: ");
+            int cpf = teclado.nextInt();
             
-            int opcao = teclado.nextInt();
-            switch(opcao){
-                
-                case(1):
-                    System.out.println("Digite o novo nome para o cargo. Não é possível cadastrar dois cargos com o mesmo nome no sistema.");
-                    String novoNome = teclado.nextLine();
-                    if(this.getControladorCargo().findCargoByNome(novoNome) != null){
-                       DadosCargo novosDados = new DadosCargo();
-                       novosDados.nome = novoNome;
-                       this.controladorCargo.alterarCargo(novosDados);
-                       this.inicia();
-                       break;
-                    }
-                    else{
-                        throw new IllegalArgumentException("Nome inválido! Já existe um cargo cadastrado com este nome no sistema. Verifique o nome e tente novamente.");
-                    }
-                case(2):
-                    System.out.println("Selecione um dos tipos de cargo abaixo.");
-                    System.out.println("1 - Gerencial");
-                    System.out.println("2 - Comum");
-                    System.out.println("3 - Convidado");                    
-            }
+            System.out.println("Nome: ");
+            String nome = teclado.nextLine();
+            
+            System.out.println("Codigo do cargo: ");
+            int codigo = teclado.nextInt();
+            Cargo cargo = this.controladorFuncionario.getControladorPrincipal().getControladorCargo().findCargoByCodigo(codigo);
+           
+            System.out.println("Nascimento:");
+                    System.out.println("O formato dia/mês/ano deve ser respeitado. Exemplo: 15/02/1994");
+                try {
+                SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+                String data = teclado.nextLine();
+                Calendar nascimento = Calendar.getInstance();
+                nascimento.setTime(formatador.parse(data));
+                }
+        
+                catch (ParseException erro) {
+                System.out.println("Essa não é uma data válida.");
+                this.controladorFuncionario.getTelaFuncionario().inicia();
+                }
+            
+            System.out.println("Telefone ");
+            long telefone = teclado.nextLong();
+            
+            System.out.println("Salário: ");
+            float salario = teclado.nextFloat();
+            
+            DadosFuncionario novosDados = new DadosFuncionario(long cpf, String nome, Cargo cargo, Calendar nascimento, long telefone, float salario);
+            this.controladorFuncionario.alterarFuncionario(matricula, novosDados);
+            
         }
         }
-    private void listarCargos() {
-        this.controladorCargo.listarCargos();
+    private void listarFuncionarios() throws ParseException {
+        this.controladorFuncionario.listarFuncionarios();
         this.inicia();
     }
-}
-
 }
 

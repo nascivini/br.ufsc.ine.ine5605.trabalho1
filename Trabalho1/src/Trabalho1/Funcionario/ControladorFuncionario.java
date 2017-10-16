@@ -75,8 +75,18 @@ public class ControladorFuncionario {
                 if (!conteudo.nome.equals("0")) {
                     this.findFuncionarioByMatricula(matricula).setNome(conteudo.nome);
                 }
-                
-
+                if (!conteudo.cargo.equals(0)) {
+                    this.findFuncionarioByMatricula(matricula).setCargo(conteudo.cargo);
+                }
+                if (!conteudo.nascimento.equals(0)) {
+                    this.findFuncionarioByMatricula(matricula).setNascimento(conteudo.nascimento);
+                }
+                if (conteudo.telefone != 0) {
+                    this.findFuncionarioByMatricula(matricula).setTelefone(conteudo.telefone);
+                }
+                if (conteudo.salario != 0) {
+                    this.findFuncionarioByMatricula(matricula).setSalario(conteudo.salario);
+                }              
             } else {
                 this.findFuncionarioByMatricula(matricula);
             }

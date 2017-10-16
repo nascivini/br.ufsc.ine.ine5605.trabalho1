@@ -1,7 +1,7 @@
 package Trabalho1.Funcionario;
 
 import Trabalho1.Cargo.Cargo;
-import java.util.Date;
+import java.util.Calendar;
 
 /**
  *
@@ -14,7 +14,7 @@ public class Funcionario {
     private long cpf;
     private String nome;
     private Cargo cargo;
-    private Date nascimento;
+    private Calendar nascimento;
     private long telefone;
     private float salario;
     private int nAcessosNegados;
@@ -54,11 +54,11 @@ public class Funcionario {
         this.cargo = cargo;
     }
 
-    public Date getNascimento() {
+    public Calendar getNascimento() {
         return nascimento;
     }
 
-    public void setNascimento(Date nascimento) {
+    public void setNascimento(Calendar nascimento) {
         this.nascimento = nascimento;
     }
 
