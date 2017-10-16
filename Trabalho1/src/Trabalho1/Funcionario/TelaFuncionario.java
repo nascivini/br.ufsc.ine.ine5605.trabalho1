@@ -79,10 +79,10 @@ public class TelaFuncionario {
         
         System.out.println("Nascimento: ");
         System.out.println("O formato dia/mês/ano deve ser respeitado. Exemplo: 15/02/1994");
+        Calendar nascimento = Calendar.getInstance();
         try {
             SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
             String data = teclado.nextLine();
-            Calendar nascimento = Calendar.getInstance();
             nascimento.setTime(formatador.parse(data));
         }
         
@@ -96,6 +96,9 @@ public class TelaFuncionario {
         
         System.out.println("Salário: ");
         float salario = teclado.nextFloat();
+        
+        DadosFuncionario novoFuncionario = new DadosFuncionario(cpf, nome, cargo, nascimento, telefone, salario);
+        this.controladorFuncionario.incluirFuncionario(novoFuncionario);
         
     }
 
@@ -143,11 +146,11 @@ public class TelaFuncionario {
             Cargo cargo = this.controladorFuncionario.getControladorPrincipal().getControladorCargo().findCargoByCodigo(codigo);
            
             System.out.println("Nascimento:");
-                    System.out.println("O formato dia/mês/ano deve ser respeitado. Exemplo: 15/02/1994");
+            System.out.println("O formato dia/mês/ano deve ser respeitado. Exemplo: 15/02/1994");
+                Calendar nascimento = Calendar.getInstance();
                 try {
                 SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
                 String data = teclado.nextLine();
-                Calendar nascimento = Calendar.getInstance();
                 nascimento.setTime(formatador.parse(data));
                 }
         
@@ -162,7 +165,7 @@ public class TelaFuncionario {
             System.out.println("Salário: ");
             float salario = teclado.nextFloat();
         
-            DadosFuncionario novosDados = new DadosFuncionario(long cpf, String nome, Cargo cargo, Calendar nascimento, long telefone, float salario);
+            DadosFuncionario novosDados = new DadosFuncionario(cpf, nome, cargo, nascimento, telefone, salario);
             this.controladorFuncionario.alterarFuncionario(matricula, novosDados);
             
         }
