@@ -17,10 +17,9 @@ public class Acesso {
 
     /**
      * Recebe os parametros e cria um objeto da Classe acesso
-     *
-     * @param horario
-     * @param matricula
-     * @param motivo
+     * @param horario Horario do Acesso
+     * @param matricula Matrícula do Funcionário que realizou o Acesso
+     * @param motivo Motivo do Acesso
      */
     public Acesso(Calendar horario, int matricula, MotivoAcesso motivo) {
         this.horario = horario;

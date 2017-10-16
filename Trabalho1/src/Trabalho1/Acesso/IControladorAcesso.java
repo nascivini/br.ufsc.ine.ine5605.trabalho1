@@ -30,6 +30,8 @@ public interface IControladorAcesso {
      * Recebe uma matricula e realiza a verificacao se a mesma esta apta a
      * acessar a porta
      * @param matricula Matrícula para validação de acesso
+     * @param hora Hora para verificação
+     * @param minuto Minuto para verificação
      * @return Verdadeiro ou falso, dependendo se a matricula possui ou nao
      * acesso a porta
      */    
