@@ -75,7 +75,7 @@ public class TelaFuncionario {
      * e incluiFuncionario.
      * Utiliza também o método findCargoByCodigo do controladorCargo em execução no programa, passando pelo controladorPrincipal.
      */
-        public void cadastroFuncionario() {
+        private void cadastroFuncionario() {
         System.out.println("Cadastro de Funcionário");
         System.out.println("Insira os dados requisitados. Após a inserção de todos os dados, o funcionário será cadastrado no sistema.");
 
@@ -143,7 +143,7 @@ public class TelaFuncionario {
      * pelo usuário e, antes da exclusão, verifica a existência do funcionário (retorno true or false).
      * Utiliza o método excluirFuncionario, do controladorFuncionario(atributo).
      */
-    public void exclusaoFuncionario() {
+    private void exclusaoFuncionario() {
         System.out.println("Para excluir um funcionário do sistema, digite a matrícula do mesmo.");
         int matricula = teclado.nextInt();
 
