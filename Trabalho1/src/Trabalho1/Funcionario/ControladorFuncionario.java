@@ -17,7 +17,7 @@ public class ControladorFuncionario {
     private int matriculaSequencial = 0;
  
     /**
-     * 
+     * Inicia a classe ControladorFuncionario
      * @param controladorPrincipal 
      */
     public ControladorFuncionario(ControladorPrincipal controladorPrincipal) {
@@ -38,13 +38,14 @@ public class ControladorFuncionario {
         return this.controladorPrincipal;
     }
 
-    
+    /**
+     * É utilizado pela TelaFuncionario para incluir um novo funcionário na lista de funcionários e gerar matrícula sequencial
+     * para cada nova inclusão
+     * @param conteudo - Conteúdo do tipo DadosFuncionario recebido na entrada do método cadastroFuncionario da TelaFuncionario
+     * @return novo - Novo funcionário quando o conteudo não recebido não é vazio
+     */
     public Funcionario incluirFuncionario(DadosFuncionario conteudo) {
         if (conteudo != null) {
-            //for (Funcionario funcionario : funcionarios) {
-                //if (funcionario.getCpf() == conteudo.cpf) { //a classe transiente só é usada para passar parâmetros para a classe Funcionario, por isso ela pode ser pública, não precisa de get e set
-                //    return null;
-                //} else {
                     Funcionario novo = new Funcionario(this.gerarMatriculaSequencial(), conteudo);
                     funcionarios.add(novo);
                     return novo;
@@ -52,6 +53,12 @@ public class ControladorFuncionario {
         return null;
     }
 
+    /**
+     * É utilizado pela classe TelaFuncionario, no método exclusaoFuncionario().
+     * Se a matricula informada no parâmetro for existente, exclui o funcionário correspondente a mesma.
+     * @param matricula
+     * @return Verdadeiro se encontrar a matrícula e remover o funcionário. Falso se a matrícula não estiver cadastrada.
+     */
     public boolean excluirFuncionario(int matricula) {
         if (this.findFuncionarioByMatricula(matricula) != null) {
             for (int i = 0; i < this.funcionarios.size(); i++) {
@@ -64,6 +71,13 @@ public class ControladorFuncionario {
         return false;
     }
     
+    /**
+     * Altera dados cadastrais dos funcionários de acordo com o solicitado. Se a entrada do campo for 0 (ou 00/00/00 para nascimento)
+     * o dados se mantém, caso contrário, é alterado com a informação de entrada correspondente
+     * @param matricula
+     * @param conteudo
+     * @return 
+     */
 
     public Funcionario alterarFuncionario(int matricula, DadosFuncionario conteudo) {
         if (validaMatricula(matricula)) {
@@ -96,7 +110,9 @@ public class ControladorFuncionario {
     }
 
     
-
+    /**
+     * É utilizado pela TelaFuncionario para exibir a lista de funcionários já cadastrados.
+    */
     public void listarFuncionarios() {
         for(Funcionario funcionario: funcionarios){
             System.out.println("Matrícula: " + funcionario.getMatricula() + " | Nome: " + funcionario.getNome());
@@ -105,13 +121,18 @@ public class ControladorFuncionario {
 
     /**
      *
-     * @return O número da sequência de matrícula
+     * @return O número da sequência de matrícula.
      */
     public int gerarMatriculaSequencial() {
         this.matriculaSequencial++;
         return this.matriculaSequencial;
     }
 
+    /**
+     * 
+     * @param matricula 
+     * @return O funcionário correspondente ao número de matrícula informado, caso exista.
+     */
     public Funcionario findFuncionarioByMatricula(int matricula) {
         for (Funcionario funcionario : funcionarios) {
             if (funcionario.getMatricula() == matricula) {
@@ -121,6 +142,12 @@ public class ControladorFuncionario {
         return null;
     }
     
+    /**
+     * É utilizado na TelaFuncionario e garante que nenhum funcionário tenha CPF igual a outro
+     * @param cpf
+     * @return Verdadeiro se o CPF já estiver em uso por algum funcionário já cadastrado
+     * Falso caso contrário
+     */
         public boolean findFuncionarioByCpf(long cpf) {
         for (Funcionario funcionario : funcionarios) {
             if (funcionario.getCpf() == cpf) {
@@ -130,6 +157,12 @@ public class ControladorFuncionario {
         return false;
     }
 
+    /**
+     * 
+     * @param matricula
+     * @return Verdadeiro se o número de matrícula informado existir na lista de funcionários já cadastrados
+     * Falso caso contrário
+     */
     public boolean validaMatricula(int matricula) {
         for (Funcionario funcionario : funcionarios) {
             if (funcionario.getMatricula() == matricula) {

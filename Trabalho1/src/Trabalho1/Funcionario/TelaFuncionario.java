@@ -27,7 +27,7 @@ public class TelaFuncionario {
      * exceções do tipo IllegalArgumentException e InputMismatchException.
      *
      * @throws IllegalArgumentException Caso seja digitada uma opção inválida.
-     * @throws InputMismatchException Caso seja digitado um caractere inválido.
+     * @throws InputMismatchException Caso seja digitado um caracter inválido.
      */
     public void inicia() throws IllegalArgumentException, InputMismatchException {
         System.out.println("---Menu de Cadastro de Funcionários---");
@@ -162,6 +162,12 @@ public class TelaFuncionario {
             }
         }
     }
+    
+    /**
+     * Inicia a tela de alteração de dados cadastrais dos funcionários, faz o tratamento dos dados inseridos
+     * pelo usuário
+     * Utiliza o método alterarFuncionario, do ControladorFuncionario
+     */
 
     private void alteracaoFuncionario() {
         System.out.println("Bem-vindo à tela de alteração de dados dos funcionários.");
@@ -220,7 +226,12 @@ public class TelaFuncionario {
             this.controladorFuncionario.alterarFuncionario(matricula, novosDados);
             
         }
-        }
+    }
+    
+    /**
+     * Chama o método listarFuncionarios do controladorFuncionarios
+     * para listar os funcionários já cadastrados
+     */
     private void listarFuncionarios() {
         this.controladorFuncionario.listarFuncionarios();
         this.inicia();
