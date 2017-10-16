@@ -33,6 +33,10 @@ public class ControladorFuncionario {
     public ArrayList<Funcionario> getFuncionarios() {
         return funcionarios;
     }
+    
+        public ControladorPrincipal getControladorPrincipal() {
+        return this.controladorPrincipal;
+    }
 
     
     public Funcionario incluirFuncionario(DadosFuncionario conteudo) {
@@ -49,15 +53,18 @@ public class ControladorFuncionario {
         return null;
     }
 
-    public void excluirFuncionario(int matricula) {
-        if (validaMatricula(matricula)) {
+    public boolean excluirFuncionario(int matricula) {
+        if (this.findFuncionarioByMatricula(matricula) != null) {
             for (int i = 0; i < this.funcionarios.size(); i++) {
                 if (this.funcionarios.get(i).getMatricula() == matricula) {
                     funcionarios.remove(i);
+                    return true;
                 }
             }
         }
+        return false;
     }
+    
 
     public Funcionario alterarFuncionario(int matricula, DadosFuncionario conteudo) {
         if (validaMatricula(matricula)) {
