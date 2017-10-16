@@ -230,6 +230,14 @@ public class TelaCargo {
                         System.out.println("Digite os minutos do horário inicial.");
                         int minInicial = teclado.nextInt();
                         teclado.nextLine();
+                        
+                        Calendar menor = horarios.get(0);
+                        for(int i = 0; i < horarios.size(); i = i+2){
+                            Calendar horario = horarios.get(i);
+                            if(horario.getTime().before(menor.getTime())){
+                                menor = horario;
+                            }
+                        }                        
 
                         for (int i = 1; i < horarios.size(); i = i + 2) {
                             try {
@@ -247,7 +255,7 @@ public class TelaCargo {
                                     else {
                                         Calendar ultimoMin = Calendar.getInstance();
                                         ultimoMin.set(0, 0, 0, 23, 59);
-                                        if ((horario3.after(horarios.get(i)) && horario3.before(ultimoMin)) || horario3.before(horarios.get(0))) {
+                                        if ((horario3.after(horarios.get(i)) && horario3.before(ultimoMin)) || horario3.before(menor)) {
                                             horario1OK = true;
                                         } else {
                                             horario1OK = false;
@@ -270,20 +278,13 @@ public class TelaCargo {
                         int minFinal = teclado.nextInt();
                         teclado.nextLine();
                         
-                        Calendar menor = horarios.get(0);
-                        for(int i = 0; i < horarios.size(); i++){
-                            Calendar horario = horarios.get(i);
-                            if(horario.before(menor)){
-                                menor = horario;
-                            }
-                        }
                         
-                        for (int i = 0; i < horarios.size(); i = i + 2) {
+                      for (int i = 0; i < horarios.size(); i = i + 2) {
                             try {
                                 if (horaFinal >= 0 && horaFinal <= 23 && minFinal >= 0 && minFinal <= 59) {
                                     horario4.set(0, 0, 0, horaFinal, minFinal);
                                     if (horarios.get(i).after(horarios.get(i + 1))) {
-                                        if ((horario4.after(horario3)) && (horario4.before(horarios.get(i)))) {
+                                        if ((horario4.after(horario3)) && (horario4.before(menor))) {
                                             horario2OK = true;
                                         } else {
                                             horario2OK = false;
@@ -292,7 +293,7 @@ public class TelaCargo {
                                     } else {
                                         Calendar ultimoMin = Calendar.getInstance();
                                         ultimoMin.set(0, 0, 0, 23, 59);
-                                        if ((horario4.after(horario3) && horario4.before(ultimoMin)) && horario4.before(horarios.get(0))) {
+                                        if (!(horario4.after(horario3) && horario4.before(ultimoMin)) || horario4.before(horarios.get(0))) {
                                             horario2OK = true;
                                         } else {
                                             horario2OK = false;
