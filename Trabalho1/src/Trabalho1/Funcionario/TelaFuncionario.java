@@ -85,8 +85,13 @@ public class TelaFuncionario {
         String nome = teclado.nextLine();
 
         System.out.println("Código do cargo: ");
-        int codigo = teclado.nextInt();        
-        Cargo cargo = this.controladorFuncionario.getControladorPrincipal().getControladorCargo().findCargoByCodigo(codigo);
+        try {
+            int codigo = teclado.nextInt();        
+            Cargo cargo = this.controladorFuncionario.getControladorPrincipal().getControladorCargo().findCargoByCodigo(codigo);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            this.inicia();
+        }
         
         teclado.nextLine();
         
