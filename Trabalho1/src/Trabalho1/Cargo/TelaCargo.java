@@ -402,8 +402,8 @@ public class TelaCargo {
                     
                 case(3):
                     if(this.getControladorCargo().findCargoByCodigo(codigo).isEhGerencial()){
-                    System.out.println(""){
-                    }
+                    System.out.println("");
+                    
                 }
             }
         }
