@@ -10,7 +10,7 @@ import java.util.Date;
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
-public abstract class DadosFuncionario {
+public class DadosFuncionario {
     public final long cpf;
     public final String nome;
     public final Cargo cargo;
