@@ -18,7 +18,7 @@ public class ControladorFuncionario implements IControladorFuncionario {
  
     /**
      * Inicia a classe ControladorFuncionario
-     * @param controladorPrincipal 
+     * @param controladorPrincipal ControladorPrincipal criado pelo main
      */
     public ControladorFuncionario(ControladorPrincipal controladorPrincipal) {
         this.matriculaSequencial = 0;
