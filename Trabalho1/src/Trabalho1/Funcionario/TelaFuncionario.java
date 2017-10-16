@@ -77,12 +77,15 @@ public class TelaFuncionario {
         int codigo = teclado.nextInt();        
         Cargo cargo = this.controladorFuncionario.getControladorPrincipal().getControladorCargo().findCargoByCodigo(codigo);
         
+        teclado.nextLine();
+        
         System.out.println("Nascimento: ");
+        String data = teclado.nextLine();
+        
         System.out.println("O formato dia/mês/ano deve ser respeitado. Exemplo: 15/02/1994");
         Calendar nascimento = Calendar.getInstance();
         try {
             SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
-            String data = teclado.nextLine();
             nascimento.setTime(formatador.parse(data));
         }
         
@@ -99,6 +102,8 @@ public class TelaFuncionario {
         
         DadosFuncionario novoFuncionario = new DadosFuncionario(cpf, nome, cargo, nascimento, telefone, salario);
         this.controladorFuncionario.incluirFuncionario(novoFuncionario);
+        System.out.println("Funcionário cadastrado com sucesso!");
+        this.inicia();
         
     }
 
