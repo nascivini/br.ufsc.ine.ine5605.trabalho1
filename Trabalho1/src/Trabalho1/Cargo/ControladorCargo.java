@@ -61,29 +61,44 @@ public class ControladorCargo implements IControladorCargo {
 
     @Override
     public Cargo alterarCargo(DadosCargo conteudo, int codigo) {
+        Cargo alterado = findCargoByCodigo(codigo);
         if (conteudo != null) {
-            for (Cargo cargoLista : cargos) {
-                if (cargoLista.getCodigo() == codigo) {
-                    cargoLista.setEhGerencial(conteudo.ehGerencial);
-                    cargoLista.setPermiteAcesso(conteudo.permiteAcesso);
-                    cargoLista.setNome(conteudo.nome);
-                    //cargoLista.setHorario(conteudo.horarios);
-
-                    return cargoLista;
+                if(conteudo.horarios == null){
+                    alterado.setHorarios(new ArrayList<Calendar>());
+                }
+                if(conteudo.tipoCargo != null){
+                    alterado.setTipoCargo(conteudo.tipoCargo);
+                    return alterado;
+                }
+                else if(conteudo.nome != null){
+                    alterado.setNome(conteudo.nome);
+                    return alterado;
+                }
+                else if(conteudo.permiteAcesso == false){
+                    alterado.setPermiteAcesso(false);
+                    return alterado;
+                }
+                else if(conteudo.permiteAcesso){
+                    alterado.setPermiteAcesso(true);
+                    return alterado;
+                }
+                else{
+                    throw new IllegalArgumentException("Dado inválido! O cargo não foi alterado.");
                 }
             }
-        }
+        
         return null;
     }
 
     @Override
-    public Cargo findCargoByCodigo(int codigo) {
+    public Cargo findCargoByCodigo(int codigo) throws IllegalArgumentException{
         if (codigo > 0) {
             for (Cargo cargoLista : this.cargos) {
                 if (codigo == cargoLista.getCodigo()) {
                     return cargoLista;
                 }
             }
+            throw new IllegalArgumentException("Código Inválido!");
         }
         return null;
     }
@@ -117,14 +132,16 @@ public class ControladorCargo implements IControladorCargo {
     public void listarCargos() {
         DateFormat formatador = new SimpleDateFormat("HH:mm");
         for (Cargo cargoLista : cargos) {
-            System.out.println("Nome: " + cargoLista.getNome() + " | Código: " + cargoLista.getCodigo());
+            System.out.println("Nome: " + cargoLista.getNome() + " | Código: " + cargoLista.getCodigo() + "| " +  cargoLista.getTipoCargo().getDescricao() );
             System.out.println("Horários deste cargo :");
+            if(!cargoLista.getHorarios().isEmpty()){
             for (int i = 0; i < cargoLista.getHorarios().size(); i = i + 2) {
                 Date horario1 = cargoLista.getHorarios().get(i).getTime();
                 Date horario2 = cargoLista.getHorarios().get(i + 1).getTime();
-                System.out.println("De : " + formatador.format(horario1) + " à " + formatador.format(horario2) + ";");
+                System.out.println("De " + formatador.format(horario1) + " à " + formatador.format(horario2) + ";");
             }
             System.out.println();
+            }
         }
     }
 
@@ -152,15 +169,17 @@ public class ControladorCargo implements IControladorCargo {
             boolean horario1OK = false;
             boolean horario2OK = false;
 
-            for (int i = 1; i < horarios.size(); i = i + 2) {
+            for (int i = 0; i < horarios.size(); i = i + 2) {
                 if (horarios.get(i - 1).after(horarios.get(i))) {
                     if (horario1.after(horarios.get(i)) && horario1.before(horarios.get(i - 1))) {
                         horario1OK = true;
-                    } else {
+                    } 
+                    else {
                         horario1OK = false;
                         throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
                     }
-                } else {
+                } 
+                else {
                     Calendar ultimoMin = Calendar.getInstance();
                     ultimoMin.set(0, 0, 0, 23, 59);
                     if ((horario1.after(horarios.get(i)) && horario1.before(ultimoMin)) || horario1.before(menor)) {
@@ -171,22 +190,23 @@ public class ControladorCargo implements IControladorCargo {
                     }
                 }
             }
-            for (int i = 0; i < horarios.size(); i = i + 2) {
+            for (int i = 1; i < horarios.size(); i = i + 2) {
                 if (horarios.get(i).after(horarios.get(i + 1))) {
                     if ((horario2.after(horario1)) && (horario2.before(menor))) {
                         horario2OK = true;
                     } else {
                         horario2OK = false;
-                        throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
+                        throw new IllegalArgumentException("Horário final está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
                     }
-                } else {
+                } 
+                else {
                     Calendar ultimoMin = Calendar.getInstance();
                     ultimoMin.set(0, 0, 0, 23, 59);
                     if (!(horario2.after(horario2) && horario2.before(ultimoMin)) || horario2.before(horarios.get(0))) {
                         horario2OK = true;
                     } else {
                         horario2OK = false;
-                        throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
+                        throw new IllegalArgumentException("Horário final está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
                     }
                 }
             }

@@ -7,8 +7,6 @@ package Trabalho1.Funcionario;
  * @author Marco Aurelio Geremias
  */
 import Trabalho1.Cargo.Cargo;
-import Trabalho1.Funcionario.DadosFuncionario;
-import Trabalho1.Funcionario.ControladorFuncionario;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,14 +14,21 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TelaFuncionario {
-    private Scanner teclado;
-    private ControladorFuncionario controladorFuncionario;
+    private final Scanner teclado;
+    private final ControladorFuncionario controladorFuncionario;
 
     public TelaFuncionario(ControladorFuncionario controladorFuncionario){
         this.controladorFuncionario = controladorFuncionario;
         this.teclado = new Scanner(System.in);
     }
     
+    /**
+     * Inicia a tela com o Menu das opções para o módulo Funcionário. Pode jogar
+     * exceções do tipo IllegalArgumentException e InputMismatchException.
+     *
+     * @throws IllegalArgumentException Caso seja digitada uma opção inválida.
+     * @throws InputMismatchException Caso seja digitado um caractere inválido.
+     */
     public void inicia() throws IllegalArgumentException, InputMismatchException {
         System.out.println("---Menu de Cadastro de Funcionários---");
         System.out.println("Escolha a opção desejada, insira o número correspondente e tecle enter:");
@@ -63,6 +68,13 @@ public class TelaFuncionario {
         }
     }
     
+    /**
+     * Inicia o módulo de cadastro de Funcionários no sistema. Faz o tratamento dos
+     * dados inseridos e efetiva o cadastro de um Funcionario, se utilizando do
+     * controladorFuncionario(atributo). Utiliza os métodos findFuncionarioByCpf,
+     * e incluiFuncionario.
+     * Utiliza também o método findCargoByCodigo do controladorCargo em execução no programa, passando pelo controladorPrincipal.
+     */
         public void cadastroFuncionario() {
         System.out.println("Cadastro de Funcionário");
         System.out.println("Insira os dados requisitados. Após a inserção de todos os dados, o funcionário será cadastrado no sistema.");
@@ -89,8 +101,8 @@ public class TelaFuncionario {
         try {    
             int codigo = teclado.nextInt(); 
             cargo = this.controladorFuncionario.getControladorPrincipal().getControladorCargo().findCargoByCodigo(codigo);
-        } catch (InputMismatchException e) {
-            System.out.println("Código inválido!");
+        } 
+        catch (InputMismatchException e) {
             System.out.println(e.getMessage());
             this.inicia();
         }
@@ -126,6 +138,11 @@ public class TelaFuncionario {
         
     }
 
+     /**
+     * Inicia a tela de exclusão de funcionários, faz o tratamento dos dados inseridos
+     * pelo usuário e, antes da exclusão, verifica a existência do funcionário (retorno true or false).
+     * Utiliza o método excluirFuncionario, do controladorFuncionario(atributo).
+     */
     public void exclusaoFuncionario() {
         System.out.println("Para excluir um funcionário do sistema, digite a matrícula do mesmo.");
         int matricula = teclado.nextInt();

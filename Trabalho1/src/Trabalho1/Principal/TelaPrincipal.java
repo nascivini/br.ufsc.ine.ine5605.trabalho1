@@ -13,6 +13,11 @@ public class TelaPrincipal {
     private final ControladorPrincipal controladorPrincipal;
     private final Scanner teclado;
     
+    /**
+     * Recebe o controladorPrincipal como parametro para possibilitar a
+     * comunicacao e cria um objeto da Classe TelaPrincipal
+     * @param controladorPrincipal controladorPrincipal em execução no programa
+     */
     public TelaPrincipal(ControladorPrincipal controladorPrincipal) {
         this.controladorPrincipal = controladorPrincipal;
         this.teclado = new Scanner(System.in);
@@ -22,9 +27,14 @@ public class TelaPrincipal {
         return this.controladorPrincipal;
     }
     
+    /**
+     * Inicia a tela com o Menu das opções principais do sistema. Trata exceções do tipo 
+     * IllegalArgumentException e InputMismatchException que possam vir dos ontros controladores, impedindo a finalização do programa.
+     *
+     */
     public void inicia(){
+        
         try{
-
             System.out.println("--- Bem vindo ao sistema! ---");
             System.out.println("--- Para acessar os módulos, escolha uma das opções abaixo e tecle enter. ---");
             System.out.println("--- 1 - Cargos ---");
@@ -60,8 +70,7 @@ public class TelaPrincipal {
         
         catch(InputMismatchException e){
             System.out.println("Opção inválida! Escolha uma opção dentre as opções da lista.");
-            String [] args = null;
-            ClassePrincipal.main(args);
+            this.getControladorPrincipal().getTelaPrincipal().inicia();
         }
         
     }

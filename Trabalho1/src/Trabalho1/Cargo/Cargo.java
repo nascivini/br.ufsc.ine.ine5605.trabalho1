@@ -70,5 +70,10 @@ public class Cargo {
     public void setTipoCargo(TipoCargo tipoCargo) {
         this.tipoCargo = tipoCargo;
     }
- 
+
+    public void setHorarios(ArrayList<Calendar> horarios) {
+        this.horarios = horarios;
+    }
+    
+    
 }

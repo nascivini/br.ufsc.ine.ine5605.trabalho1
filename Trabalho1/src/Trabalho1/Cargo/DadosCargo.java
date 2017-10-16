@@ -14,7 +14,7 @@ public class DadosCargo {
     public String nome;
     public boolean  permiteAcesso;
     public final boolean ehGerencial;
-    public final ArrayList<Calendar> horarios;
+    public ArrayList<Calendar> horarios;
     public TipoCargo tipoCargo;
     
     /**
