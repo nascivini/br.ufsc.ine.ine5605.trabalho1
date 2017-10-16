@@ -16,6 +16,10 @@ public class ControladorFuncionario {
     private TelaFuncionario telaFuncionario;
     private int matriculaSequencial = 0;
  
+    /**
+     * 
+     * @param controladorPrincipal 
+     */
     public ControladorFuncionario(ControladorPrincipal controladorPrincipal) {
         this.funcionarios = new ArrayList<Funcionario>();
         this.controladorPrincipal = controladorPrincipal;
@@ -29,7 +33,12 @@ public class ControladorFuncionario {
     public ArrayList<Funcionario> getFuncionarios() {
         return funcionarios;
     }
+    
+        public ControladorPrincipal getControladorPrincipal() {
+        return this.controladorPrincipal;
+    }
 
+    
     public Funcionario incluirFuncionario(DadosFuncionario conteudo) {
         if (conteudo != null) {
             for (Funcionario funcionario : funcionarios) {
@@ -44,15 +53,18 @@ public class ControladorFuncionario {
         return null;
     }
 
-    public void excluirFuncionario(int matricula) {
-        if (validaMatricula(matricula)) {
+    public boolean excluirFuncionario(int matricula) {
+        if (this.findFuncionarioByMatricula(matricula) != null) {
             for (int i = 0; i < this.funcionarios.size(); i++) {
                 if (this.funcionarios.get(i).getMatricula() == matricula) {
                     funcionarios.remove(i);
+                    return true;
                 }
             }
         }
+        return false;
     }
+    
 
     public Funcionario alterarFuncionario(int matricula, DadosFuncionario conteudo) {
         if (validaMatricula(matricula)) {
@@ -63,8 +75,18 @@ public class ControladorFuncionario {
                 if (!conteudo.nome.equals("0")) {
                     this.findFuncionarioByMatricula(matricula).setNome(conteudo.nome);
                 }
-                
-
+                if (!conteudo.cargo.equals(0)) {
+                    this.findFuncionarioByMatricula(matricula).setCargo(conteudo.cargo);
+                }
+                if (!conteudo.nascimento.equals(0)) {
+                    this.findFuncionarioByMatricula(matricula).setNascimento(conteudo.nascimento);
+                }
+                if (conteudo.telefone != 0) {
+                    this.findFuncionarioByMatricula(matricula).setTelefone(conteudo.telefone);
+                }
+                if (conteudo.salario != 0) {
+                    this.findFuncionarioByMatricula(matricula).setSalario(conteudo.salario);
+                }              
             } else {
                 this.findFuncionarioByMatricula(matricula);
             }
@@ -77,7 +99,9 @@ public class ControladorFuncionario {
     
 
     public void listarFuncionarios() {
-
+        for(Funcionario funcionario: funcionarios){
+            System.out.println("Matrícula: " + funcionario.getMatricula() + " | Nome: " + funcionario.getNome());
+        }
     }
 
     /**
