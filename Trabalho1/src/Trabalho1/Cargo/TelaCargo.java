@@ -166,8 +166,7 @@ public class TelaCargo {
 
                         Calendar horario1 = Calendar.getInstance();
                         Calendar horario2 = Calendar.getInstance();
-
-                        boolean horariosOK = false;
+                        
                         try {
                             if (horaInicial >= 0 && horaInicial <= 23 && minInicial >= 0 && minInicial <= 59) {
                                 horario1.set(0, 0, 0, horaInicial, minInicial);
@@ -187,21 +186,32 @@ public class TelaCargo {
                         try {
                             if (horaFinal >= 0 && horaFinal <= 23 && minFinal >= 0 && minFinal <= 59) {
                                 horario2.set(0, 0, 0, horaFinal, minFinal);
-                                if (horario1.getTime() != horario2.getTime()) {
-                                    horariosOK = true;
-                                } else {
-                                    horariosOK = false;
-                                    throw new IllegalArgumentException("Horários são iguais!!");
-                                }
-                            } else {
+                            } 
+                            else {
                                 this.getControladorCargo().reduzSequencialCargo();
                                 throw new IllegalArgumentException("Digite um horário válido! Entre 00:00 e 23:59. O cargo não foi cadastrado.");
                             }
-                        } catch (IllegalArgumentException e) {
+                        } 
+                        catch (IllegalArgumentException e) {
                             System.out.println(e.getMessage());
                             this.inicia();
                         }
-
+                        
+                        try{
+                            if(this.getControladorCargo().verificaHorarios(horarios, horario1, horario2)){
+                                horarios.add(horario1);
+                                horarios.add(horario2);
+                                System.out.println("Horários cadastrados com sucesso!");
+                            }
+                            else{
+                                throw new IllegalArgumentException("Horários são iguais!! Cadastro não realizado.");
+                            }
+                        }
+                        catch(IllegalArgumentException e){
+                            System.out.println(e.getMessage());
+                            this.inicia();
+                        }
+                        
                         teclado.nextLine();
 
                         System.out.println("Deseja cadastrar mais horários de acesso? Digite Y caso sim, ou digite qualquer caractere para finalizar o cadastro do cargo.");
@@ -209,68 +219,36 @@ public class TelaCargo {
 
                         if (continuar.equals("Y") || continuar.equals("y")) {
                             continuaCadastro = true;
-                        } else {
+                        } 
+                        else {
                             continuaCadastro = false;
-                        }
-                        if(horariosOK){
-                            horarios.add(horario1);
-                            horarios.add(horario2);
-                            System.out.println("Horários cadastrados com sucesso!");
                         }
                         
                     } 
                     else {
                         Calendar horario3 = Calendar.getInstance();
                         Calendar horario4 = Calendar.getInstance();
-                        boolean horario1OK = false;
-                        boolean horario2OK = false;
-
+                        
                         System.out.println("Digite o horário inicial em que o acesso é permitido.(Hora)");
                         int horaInicial = teclado.nextInt();
                         System.out.println("Digite os minutos do horário inicial.");
                         int minInicial = teclado.nextInt();
-                        teclado.nextLine();
+                        teclado.nextLine();                      
                         
-                        Calendar menor = horarios.get(0);
-                        for(int i = 0; i < horarios.size(); i = i+2){
-                            Calendar horario = horarios.get(i);
-                            if(horario.getTime().before(menor.getTime())){
-                                menor = horario;
+                        try {
+                            if (horaInicial >= 0 && horaInicial <= 23 && minInicial >= 0 && minInicial <= 59) {
+                                horario3.set(0, 0, 0, horaInicial, minInicial);
+                            } 
+                            else {
+                                throw new IllegalArgumentException("Hora ou minuto são inválidos e não estão no formato válido de hora. Verifique os mesmos e tente novamente. O cargo não foi cadastrado.");
                             }
-                        }                        
-
-                        for (int i = 1; i < horarios.size(); i = i + 2) {
-                            try {
-                                if (horaInicial >= 0 && horaInicial <= 23 && minInicial >= 0 && minInicial <= 59) {
-                                    horario3.set(0, 0, 0, horaInicial, minInicial);
-                                    if (horarios.get(i - 1).after(horarios.get(i))) {
-                                        if (horario3.after(horarios.get(i)) && horario3.before(horarios.get(i - 1))) {
-                                            horario1OK = true;
-                                        }
-                                        else {
-                                            horario1OK = false;
-                                            throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
-					}
-                                    } 
-                                    else {
-                                        Calendar ultimoMin = Calendar.getInstance();
-                                        ultimoMin.set(0, 0, 0, 23, 59);
-                                        if ((horario3.after(horarios.get(i)) && horario3.before(ultimoMin)) || horario3.before(menor)) {
-                                            horario1OK = true;
-                                        } else {
-                                            horario1OK = false;
-                                            throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
-                                        }
-                                    }
-                                } else {
-                                    throw new IllegalArgumentException("Hora ou minuto são inválidos e não estão no formato válido de hora. Verifique os mesmos e tente novamente. O cargo não foi cadastrado.");
-                                }
-                            } catch (IllegalArgumentException e) {
-                                this.getControladorCargo().reduzSequencialCargo();
-                                System.out.println(e.getMessage());
-                                this.cadastroCargos();
-                            }
+                        } 
+                        catch (IllegalArgumentException e) {
+                            this.getControladorCargo().reduzSequencialCargo();
+                            System.out.println(e.getMessage());
+                            this.cadastroCargos();
                         }
+                        
 
                         System.out.println("Digite o horário final em que o acesso é permitido.(Hora)");
                         int horaFinal = teclado.nextInt();
@@ -278,38 +256,32 @@ public class TelaCargo {
                         int minFinal = teclado.nextInt();
                         teclado.nextLine();
                         
-                        
-                      for (int i = 0; i < horarios.size(); i = i + 2) {
-                            try {
-                                if (horaFinal >= 0 && horaFinal <= 23 && minFinal >= 0 && minFinal <= 59) {
-                                    horario4.set(0, 0, 0, horaFinal, minFinal);
-                                    if (horarios.get(i).after(horarios.get(i + 1))) {
-                                        if ((horario4.after(horario3)) && (horario4.before(menor))) {
-                                            horario2OK = true;
-                                        } else {
-                                            horario2OK = false;
-                                            throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
-                                        }
-                                    } else {
-                                        Calendar ultimoMin = Calendar.getInstance();
-                                        ultimoMin.set(0, 0, 0, 23, 59);
-                                        if (!(horario4.after(horario3) && horario4.before(ultimoMin)) || horario4.before(horarios.get(0))) {
-                                            horario2OK = true;
-                                        } else {
-                                            horario2OK = false;
-                                            throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
-                                        }
-                                    }
-                                } else {
-                                    throw new IllegalArgumentException("Hora ou minuto são inválidos e não estão no formato válido de hora. Verifique os mesmos e tente novamente. O cargo não foi cadastrado.");
-                                }
-                            } catch (IllegalArgumentException e) {
+                        try{    
+                            if (horaFinal >= 0 && horaFinal <= 23 && minFinal >= 0 && minFinal <= 59) {
+                                horario4.set(0, 0, 0, horaFinal, minFinal);
+                            }  
+                            else {
+                                throw new IllegalArgumentException("Hora ou minuto são inválidos e não estão no formato válido de hora. Verifique os mesmos e tente novamente. O cargo não foi cadastrado.");
+                            }
+                        }
+                        catch (IllegalArgumentException e) {
                                 this.getControladorCargo().reduzSequencialCargo();
                                 System.out.println(e.getMessage());
                                 this.cadastroCargos();
                             }
+                        
+                        
+                        try{
+                            this.getControladorCargo().verificaHorarios(horarios, horario3, horario4);
+                            horarios.add(horario3);
+                            horarios.add(horario4);
+                            System.out.println("Horarios cadastrados com sucesso!");
                         }
-
+                        catch(IllegalArgumentException e){
+                            System.out.println(e.getMessage());
+                            this.inicia();
+                        }
+                    
                         System.out.println("Deseja cadastrar mais horários de acesso? Digite Y caso sim, ou digite qualquer caractere para finalizar o cadastro do cargo.");
                         String continuar = teclado.nextLine();
 
@@ -318,13 +290,10 @@ public class TelaCargo {
                         } else {
                             continuaCadastro = false;
                         }
-
-                        if (horario1OK && horario2OK) {
-                            horarios.add(horario3);
-                            horarios.add(horario4);
-                        }
+                
                     }
                 }
+                
                 DadosCargo cargoNovo = new DadosCargo(nome, tipo, ehGerencial, horarios, tipoCargo);
                 this.getControladorCargo().incluirCargo(cargoNovo, codigo);
                 System.out.println("Cargo cadastrado com sucesso!");
