@@ -144,10 +144,14 @@ public class TelaAcesso {
      * realiza o acesso utilizando-se dos métodos de controladorAcesso.
      */
     public void realizarAcesso() {
-        System.out.println("Digite a matricula na qual deseja efetuar o acesso");
+		System.out.println("Digite a hora atual. Ex.: 22");
+		int hora = teclado.nextInt();
+		System.out.println("Digite o minuto atual. Ex.: 53");
+		int minuto = teclado.nextInt();
+        System.out.println("Agora digite a matricula na qual deseja efetuar o acesso");
         int matricula = teclado.nextInt();
         if (this.getControladorAcesso().getControladorPrincipal().getControladorFuncionario().validaMatricula(matricula)) {
-            Acesso acesso = this.getControladorAcesso().verificaAcesso(matricula);
+            Acesso acesso = this.getControladorAcesso().verificaAcesso(matricula, hora, minuto);
             switch (acesso.getMotivo()) {
                 case OK:
                     System.out.println("Acesso realizado com sucesso.");

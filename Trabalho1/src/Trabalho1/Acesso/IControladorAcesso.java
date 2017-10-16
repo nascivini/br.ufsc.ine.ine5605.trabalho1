@@ -1,7 +1,5 @@
 package Trabalho1.Acesso;
 
-import java.text.ParseException;
-
 /**
  *
  * @author Vinicius Cerqueira Nascimento
@@ -35,5 +33,5 @@ public interface IControladorAcesso {
      * @return Verdadeiro ou falso, dependendo se a matricula possui ou nao
      * acesso a porta
      */    
-    public Acesso verificaAcesso(int matricula);
+    public Acesso verificaAcesso(int matricula, int hora, int minuto);
 }

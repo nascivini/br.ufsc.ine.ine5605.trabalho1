@@ -27,7 +27,7 @@ public class Funcionario {
         this.nascimento = conteudo.nascimento;
         this.telefone = conteudo.telefone;
         this.salario = conteudo.salario;
-        this.nAcessosNegados = 0;
+        this.setnAcessosNegados(0);
     }
 
     public int getMatricula() {
@@ -85,6 +85,12 @@ public class Funcionario {
     public void setCpf(long cpf) {
         this.cpf = cpf;
     }
-    
-    
+
+	public int getnAcessosNegados() {
+		return nAcessosNegados;
+	}
+
+	public void setnAcessosNegados(int nAcessosNegados) {
+		this.nAcessosNegados = nAcessosNegados;
+	}        
 }
