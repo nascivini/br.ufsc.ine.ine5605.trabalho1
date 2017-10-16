@@ -33,7 +33,7 @@ public class TelaPrincipal {
      *
      */
     public void inicia(){
-        
+        int opcao = 0;
         try{
             System.out.println("--- Bem vindo ao sistema! ---");
             System.out.println("--- Para acessar os módulos, escolha uma das opções abaixo e tecle enter. ---");
@@ -42,9 +42,13 @@ public class TelaPrincipal {
             System.out.println("--- 3 - Acessar Setor Financeiro  ---");
             System.out.println("--- 4 - Sair  ---");
         
-            int opcao = teclado.nextInt();
-
-        switch(opcao){
+            try{
+                opcao = teclado.nextInt();
+            }
+            catch(InputMismatchException e){
+                throw new IllegalArgumentException("Opção inválida! Escolha uma opção dentre as opções na lista.");
+            }
+            switch(opcao){
                 case(1):
                     this.getControladorPrincipal().getControladorCargo().getTelaCargo().inicia();
                     break;
@@ -66,14 +70,9 @@ public class TelaPrincipal {
         }
         catch(IllegalArgumentException e){
             e.getMessage();
-        }
-        
-        catch(InputMismatchException e){
-            System.out.println("Opção inválida! Escolha uma opção dentre as opções da lista.");
-            this.getControladorPrincipal().getTelaPrincipal().inicia();
-        }
+            String [] args = {"1"};
+            ClassePrincipal.main(args);
+        }    
+    }  
         
     }
-
-}
-

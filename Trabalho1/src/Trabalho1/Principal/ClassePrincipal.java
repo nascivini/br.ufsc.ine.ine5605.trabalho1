@@ -11,6 +11,8 @@ package Trabalho1.Principal;
  * @author Marco Aurelio Geremias
  */
 public class ClassePrincipal {
+    
+    ControladorPrincipal ctrl;
 
     /**
      * @param args the command line arguments
@@ -18,13 +20,10 @@ public class ClassePrincipal {
     public static void main(String[] args) {
         ControladorPrincipal ctrl = new ControladorPrincipal();
         ctrl.getTelaPrincipal().inicia();
-        /*
-        try {
-			System.out.println((new Acesso().verificaAcessoPessoa(1l) ? "Entrada Permitida" : "Entrada Proibida"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		*/
-    }
+        
+        if(args[0].equals("1")){
+            ctrl.getTelaPrincipal().inicia();
+        }
     
+    }
 }
