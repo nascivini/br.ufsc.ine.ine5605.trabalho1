@@ -33,7 +33,8 @@ public class TelaPrincipal {
             System.out.println("--- 4 - Sair  ---");
         
             int opcao = teclado.nextInt();
-            switch(opcao){
+
+        switch(opcao){
                 case(1):
                     this.getControladorPrincipal().getControladorCargo().getTelaCargo().inicia();
                     break;
