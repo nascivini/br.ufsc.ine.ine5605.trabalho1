@@ -24,7 +24,7 @@ public class TelaFuncionario {
         this.teclado = new Scanner(System.in);
     }
     
-    public void inicia() throws IllegalArgumentException, InputMismatchException, ParseException {
+    public void inicia() throws IllegalArgumentException, InputMismatchException {
         System.out.println("---Menu de Cadastro de Funcionários---");
         System.out.println("Escolha a opção desejada, insira o número correspondente e tecle enter:");
         System.out.println("1 - Incluir Funcionario");
@@ -47,7 +47,7 @@ public class TelaFuncionario {
                     this.alteracaoFuncionario();
                     break;
                 case (4):
-                    this.listarFuncionario();
+                    this.listarFuncionarios();
                     break;
                 case (5):
                     controladorFuncionario.getControladorPrincipal().getTelaPrincipal().inicia();
@@ -63,7 +63,7 @@ public class TelaFuncionario {
         }
     }
     
-        public void cadastroFuncionario() throws ParseException {
+        public void cadastroFuncionario() {
         System.out.println("Cadastro de Funcionário");
         System.out.println("Insira os dados requisitados. Após a inserção de todos os dados, o funcionário será cadastrado no sistema.");
 
@@ -99,7 +99,7 @@ public class TelaFuncionario {
         
     }
 
-    public void exclusaoFuncionario() throws ParseException {
+    public void exclusaoFuncionario() {
         System.out.println("Para excluir um funcionário do sistema, digite a matrícula do mesmo.");
         int matricula = teclado.nextInt();
 
@@ -119,7 +119,7 @@ public class TelaFuncionario {
         }
     }
 
-    private void alteracaoFuncionario() throws ParseException {
+    private void alteracaoFuncionario() {
         System.out.println("Bem-vindo à tela de alteração de dados dos funcionários.");
         System.out.println("Só é possível alterar um dado por vez. Digite a matrícula a ser alterada, e selecione qual dado deseja alterar.");
         
@@ -167,7 +167,7 @@ public class TelaFuncionario {
             
         }
         }
-    private void listarFuncionarios() throws ParseException {
+    private void listarFuncionarios() {
         this.controladorFuncionario.listarFuncionarios();
         this.inicia();
     }
