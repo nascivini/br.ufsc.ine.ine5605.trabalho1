@@ -63,35 +63,31 @@ public class ControladorCargo implements IControladorCargo {
     public Cargo alterarCargo(DadosCargo conteudo, int codigo) {
         Cargo alterado = findCargoByCodigo(codigo);
         if (conteudo != null) {
-                if(conteudo.horarios == null){
-                    alterado.setHorarios(new ArrayList<Calendar>());
-                }
-                if(conteudo.tipoCargo != null){
-                    alterado.setTipoCargo(conteudo.tipoCargo);
-                    return alterado;
-                }
-                else if(conteudo.nome != null){
-                    alterado.setNome(conteudo.nome);
-                    return alterado;
-                }
-                else if(conteudo.permiteAcesso == false){
-                    alterado.setPermiteAcesso(false);
-                    return alterado;
-                }
-                else if(conteudo.permiteAcesso){
-                    alterado.setPermiteAcesso(true);
-                    return alterado;
-                }
-                else{
-                    throw new IllegalArgumentException("Dado inválido! O cargo não foi alterado.");
-                }
+            if (conteudo.horarios == null) {
+                alterado.setHorarios(new ArrayList<Calendar>());
             }
-        
+            if (conteudo.tipoCargo != null) {
+                alterado.setTipoCargo(conteudo.tipoCargo);
+                return alterado;
+            } else if (conteudo.nome != null) {
+                alterado.setNome(conteudo.nome);
+                return alterado;
+            } else if (conteudo.permiteAcesso == false) {
+                alterado.setPermiteAcesso(false);
+                return alterado;
+            } else if (conteudo.permiteAcesso) {
+                alterado.setPermiteAcesso(true);
+                return alterado;
+            } else {
+                throw new IllegalArgumentException("Dado inválido! O cargo não foi alterado.");
+            }
+        }
+
         return null;
     }
 
     @Override
-    public Cargo findCargoByCodigo(int codigo) throws IllegalArgumentException{
+    public Cargo findCargoByCodigo(int codigo) throws IllegalArgumentException {
         if (codigo > 0) {
             for (Cargo cargoLista : this.cargos) {
                 if (codigo == cargoLista.getCodigo()) {
@@ -132,15 +128,15 @@ public class ControladorCargo implements IControladorCargo {
     public void listarCargos() {
         DateFormat formatador = new SimpleDateFormat("HH:mm");
         for (Cargo cargoLista : cargos) {
-            System.out.println("Nome: " + cargoLista.getNome() + " | Código: " + cargoLista.getCodigo() + "| " +  cargoLista.getTipoCargo().getDescricao() );
+            System.out.println("Nome: " + cargoLista.getNome() + " | Código: " + cargoLista.getCodigo() + "| " + cargoLista.getTipoCargo().getDescricao());
             System.out.println("Horários deste cargo :");
-            if(!cargoLista.getHorarios().isEmpty()){
-            for (int i = 0; i < cargoLista.getHorarios().size(); i = i + 2) {
-                Date horario1 = cargoLista.getHorarios().get(i).getTime();
-                Date horario2 = cargoLista.getHorarios().get(i + 1).getTime();
-                System.out.println("De " + formatador.format(horario1) + " à " + formatador.format(horario2) + ";");
-            }
-            System.out.println();
+            if (!cargoLista.getHorarios().isEmpty()) {
+                for (int i = 0; i < cargoLista.getHorarios().size(); i = i + 2) {
+                    Date horario1 = cargoLista.getHorarios().get(i).getTime();
+                    Date horario2 = cargoLista.getHorarios().get(i + 1).getTime();
+                    System.out.println("De " + formatador.format(horario1) + " à " + formatador.format(horario2) + ";");
+                }
+                System.out.println();
             }
         }
     }
@@ -158,51 +154,54 @@ public class ControladorCargo implements IControladorCargo {
                 return true;
             }
         } else {
-            Calendar menor = horarios.get(0);
-            for (Calendar horarioAtual : horarios) {
-                Calendar horario = horarioAtual;
-                if (horario.getTime().before(menor.getTime())) {
-                    menor = horario;
-                }
-            }
-
             boolean horario1OK = false;
             boolean horario2OK = false;
 
             for (int i = 0; i < horarios.size(); i = i + 2) {
-                if (horarios.get(i - 1).after(horarios.get(i))) {
-                    if (horario1.after(horarios.get(i)) && horario1.before(horarios.get(i - 1))) {
-                        horario1OK = true;
-                    } 
-                    else {
-                        horario1OK = false;
-                        throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
-                    }
-                } 
-                else {
-                    Calendar ultimoMin = Calendar.getInstance();
-                    ultimoMin.set(0, 0, 0, 23, 59);
-                    if ((horario1.after(horarios.get(i)) && horario1.before(ultimoMin)) || horario1.before(menor)) {
-                        horario1OK = true;
-                    } else {
-                        horario1OK = false;
-                        throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
-                    }
-                }
-            }
-            for (int i = 1; i < horarios.size(); i = i + 2) {
                 if (horarios.get(i).after(horarios.get(i + 1))) {
-                    if ((horario2.after(horario1)) && (horario2.before(menor))) {
+                    if (horario1.before(horarios.get(i)) && horario1.after(horarios.get(i + 1))) {
+                        horario1OK = true;
+                    } else {
+                        horario1OK = false;
+                        throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
+                    }
+                } else {
+                    if (!(horario1.after(horarios.get(i)) && horario1.before(horarios.get(i + 1)))) {
+                        horario1OK = true;
+                    } else {
+                        horario1OK = false;
+                        throw new IllegalArgumentException("Horário inicial está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
+                    }
+                }
+            }
+            for (int i = 0; i < horarios.size(); i = i + 2) {
+                if (horarios.get(i).after(horarios.get(i + 1))) {
+                    if ((horario2.after(horario1)) && (horario2.before(horarios.get(i)))) {
                         horario2OK = true;
                     } else {
                         horario2OK = false;
                         throw new IllegalArgumentException("Horário final está dentro de uma faixa de horários já cadastrada ou é nulo. Verifique o mesmo e tente novamente. O cargo não foi cadastrado.");
                     }
-                } 
-                else {
-                    Calendar ultimoMin = Calendar.getInstance();
-                    ultimoMin.set(0, 0, 0, 23, 59);
-                    if (!(horario2.after(horario2) && horario2.before(ultimoMin)) || horario2.before(horarios.get(0))) {
+                } else {
+                    Calendar maior = horarios.get(0);
+                    for (Calendar horario : horarios) {
+                        if (horario.after(maior)) {
+                            maior = horario;
+                        }
+                    }
+
+                    Calendar menor = horarios.get(0);
+                    for (Calendar horario : horarios) {
+                        if (horario.before(menor)) {
+                            menor = horario;
+                        }
+                    }
+
+                    boolean validador = false;
+                    if (horario1.equals(maior) && horario2.equals(menor)) {
+                        validador = true;
+                    }
+                    if ((!(horario2.after(horarios.get(i)) && horario2.before(horarios.get(i + 1)))) || validador) {
                         horario2OK = true;
                     } else {
                         horario2OK = false;
@@ -210,13 +209,11 @@ public class ControladorCargo implements IControladorCargo {
                     }
                 }
             }
-            if(horario1OK && (!horario2OK)){
+            if (horario1OK && (!horario2OK)) {
                 return false;
-            }
-            else if((!horario1OK) && horario2OK){
+            } else if ((!horario1OK) && horario2OK) {
                 return false;
-            }
-            else{
+            } else {
                 return true;
             }
         }
