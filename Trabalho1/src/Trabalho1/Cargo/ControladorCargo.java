@@ -120,11 +120,8 @@ public class ControladorCargo implements IControladorCargo {
         this.sequencialCargo++;
         return this.sequencialCargo;
     }
-
-    /**
-     * É usado pela TelaCargo para listar os cargos já cadastrados.
-     */
-    //ficamos em dúvida entre colocar este método na tela ou no controlador
+    
+    @Override
     public void listarCargos() {
         DateFormat formatador = new SimpleDateFormat("HH:mm");
         for (Cargo cargoLista : cargos) {
@@ -141,13 +138,12 @@ public class ControladorCargo implements IControladorCargo {
         }
     }
 
-    /**
-     * Reduz o sequencial de cargos em uma unidade.
-     */
+    @Override
     public void reduzSequencialCargo() {
         this.sequencialCargo = sequencialCargo - 1;
     }
-
+    
+    @Override
     public boolean verificaHorarios(ArrayList<Calendar> horarios, Calendar horario1, Calendar horario2) {
         if (horarios.isEmpty()) {
             if (horario1.getTime() != horario2.getTime()) {
