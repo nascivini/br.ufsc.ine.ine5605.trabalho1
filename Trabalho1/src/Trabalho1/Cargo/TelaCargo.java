@@ -372,11 +372,12 @@ public class TelaCargo {
         if (this.getControladorCargo().findCargoByCodigo(codigo) == null) {
             System.out.println("Cargo não encontrado. Digite um código válido.");
             this.alteracaoCargos();
-        } else {
+        } 
+        else {
             System.out.println("---------------------------------------------------------");
             System.out.println("1 - Alterar nome do cargo.");
             System.out.println("2 - Alterar tipo do cargo.");
-            System.out.println("4 - Alterar permissão de acesso do cargo");
+            System.out.println("3 - Alterar permissão de acesso do cargo");
 
             int opcao = teclado.nextInt();
             switch (opcao) {
@@ -398,6 +399,12 @@ public class TelaCargo {
                     System.out.println("1 - Gerencial");
                     System.out.println("2 - Comum");
                     System.out.println("3 - Convidado");
+                    
+                case(3):
+                    if(this.getControladorCargo().findCargoByCodigo(codigo).isEhGerencial()){
+                    System.out.println(""){
+                    }
+                }
             }
         }
     }
