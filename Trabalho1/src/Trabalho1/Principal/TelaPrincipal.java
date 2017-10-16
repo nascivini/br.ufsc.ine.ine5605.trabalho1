@@ -70,7 +70,7 @@ public class TelaPrincipal {
         }
         catch(IllegalArgumentException e){
             e.getMessage();
-            String [] args = {"1"};
+            String [] args = null;
             ClassePrincipal.main(args);
         }    
     }  

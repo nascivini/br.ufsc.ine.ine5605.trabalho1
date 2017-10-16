@@ -20,10 +20,6 @@ public class ClassePrincipal {
     public static void main(String[] args) {
         ControladorPrincipal ctrl = new ControladorPrincipal();
         ctrl.getTelaPrincipal().inicia();
-        
-        if(args[0].equals("1")){
-            ctrl.getTelaPrincipal().inicia();
-        }
     
     }
 }
