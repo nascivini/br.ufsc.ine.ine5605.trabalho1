@@ -85,10 +85,12 @@ public class TelaFuncionario {
         String nome = teclado.nextLine();
 
         System.out.println("Código do cargo: ");
-        try {
-            int codigo = teclado.nextInt();        
-            Cargo cargo = this.controladorFuncionario.getControladorPrincipal().getControladorCargo().findCargoByCodigo(codigo);
-        } catch (IllegalArgumentException e) {
+        Cargo cargo = null;
+        try {    
+            int codigo = teclado.nextInt(); 
+            cargo = this.controladorFuncionario.getControladorPrincipal().getControladorCargo().findCargoByCodigo(codigo);
+        } catch (InputMismatchException e) {
+            System.out.println("Código inválido!");
             System.out.println(e.getMessage());
             this.inicia();
         }
@@ -109,6 +111,7 @@ public class TelaFuncionario {
             System.out.println("Essa não é uma data válida.");
             this.controladorFuncionario.getTelaFuncionario().inicia();
         }
+        
         
         System.out.println("Telefone: ");
         long telefone = teclado.nextLong();
@@ -157,7 +160,16 @@ public class TelaFuncionario {
             System.out.println("ATENÇÃO: Digite 0 nos campos que você não quiser alterar.");
            
             System.out.println("CPF: ");
-            int cpf = teclado.nextInt();
+        long cpf = teclado.nextLong();
+        
+        try {
+            if (this.controladorFuncionario.findFuncionarioByCpf(cpf)) {
+                throw new IllegalArgumentException("Este CPF já está em uso.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            this.inicia();
+        }
             
             System.out.println("Nome: ");
             String nome = teclado.nextLine();
@@ -168,6 +180,7 @@ public class TelaFuncionario {
            
             System.out.println("Nascimento:");
             System.out.println("O formato dia/mês/ano deve ser respeitado. Exemplo: 15/02/1994");
+            System.out.println("Se não quiser alterar o Nascimento, digite 00/00/00");
                 Calendar nascimento = Calendar.getInstance();
                 try {
                 SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");

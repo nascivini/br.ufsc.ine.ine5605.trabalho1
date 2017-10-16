@@ -77,7 +77,7 @@ public class ControladorFuncionario {
                 if (!conteudo.cargo.equals(0)) {
                     this.findFuncionarioByMatricula(matricula).setCargo(conteudo.cargo);
                 }
-                if (!conteudo.nascimento.equals(0)) {
+                if (!conteudo.nascimento.equals(00/00/00)) {
                     this.findFuncionarioByMatricula(matricula).setNascimento(conteudo.nascimento);
                 }
                 if (conteudo.telefone != 0) {
