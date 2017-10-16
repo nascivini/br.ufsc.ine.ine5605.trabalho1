@@ -132,8 +132,8 @@ public class TelaFuncionario {
         float salario = teclado.nextFloat();
         
         DadosFuncionario novoFuncionario = new DadosFuncionario(cpf, nome, cargo, nascimento, telefone, salario);
-        this.controladorFuncionario.incluirFuncionario(novoFuncionario);
-        System.out.println("Funcionário cadastrado com sucesso!");
+        Funcionario incluido = this.controladorFuncionario.incluirFuncionario(novoFuncionario);
+        System.out.println("Funcionário cadastrado com sucesso!" + " | Matricula gerada: " + incluido.getMatricula());
         this.inicia();
         
     }
@@ -174,6 +174,7 @@ public class TelaFuncionario {
         System.out.println("Só é possível alterar um dado por vez. Digite a matrícula a ser alterada, e selecione qual dado deseja alterar.");
         
         int matricula = teclado.nextInt();
+        teclado.nextLine();
         if(this.controladorFuncionario.findFuncionarioByMatricula(matricula) == null){
             System.out.println("Funcionário não encontrado. Digite uma matrícula válida.");
             this.alteracaoFuncionario();
@@ -183,8 +184,9 @@ public class TelaFuncionario {
             System.out.println("ATENÇÃO: Digite 0 nos campos que você não quiser alterar.");
            
             System.out.println("CPF: ");
-        long cpf = teclado.nextLong();
-        
+            long cpf = teclado.nextLong();
+            teclado.nextLine();
+            
         try {
             if (this.controladorFuncionario.findFuncionarioByCpf(cpf)) {
                 throw new IllegalArgumentException("Este CPF já está em uso.");
