@@ -161,7 +161,7 @@ public class TelaFuncionario {
             
             System.out.println("Salário: ");
             float salario = teclado.nextFloat();
-            
+        
             DadosFuncionario novosDados = new DadosFuncionario(long cpf, String nome, Cargo cargo, Calendar nascimento, long telefone, float salario);
             this.controladorFuncionario.alterarFuncionario(matricula, novosDados);
             
