@@ -29,7 +29,11 @@ public class Funcionario {
         this.salario = conteudo.salario;
         this.setnAcessosNegados(0);
     }
-
+    
+    /**
+     * 
+     * @return A matrícula do funcionário.
+     */
     public int getMatricula() {
         return matricula;
     }
@@ -37,7 +41,11 @@ public class Funcionario {
     public void setMatricula(int matricula) {
         this.matricula = matricula;
     }
-
+    
+    /**
+     * 
+     * @return O nome do funcionário.
+     */
     public String getNome() {
         return nome;
     }
@@ -45,7 +53,11 @@ public class Funcionario {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
+    
+    /**
+     * 
+     * @return O cargo do funcionário. 
+     */
     public Cargo getCargo() {
         return cargo;
     }
@@ -53,7 +65,11 @@ public class Funcionario {
     public void setCargo(Cargo cargo) {
         this.cargo = cargo;
     }
-
+    
+    /**
+     * 
+     * @return A data de nascimento do funcionário.
+     */
     public Calendar getNascimento() {
         return nascimento;
     }
@@ -62,6 +78,10 @@ public class Funcionario {
         this.nascimento = nascimento;
     }
 
+    /**
+     * 
+     * @return O número de telefone do funcionário.
+     */
     public long getTelefone() {
         return telefone;
     }
@@ -70,6 +90,10 @@ public class Funcionario {
         this.telefone = telefone;
     }
 
+    /**
+     * 
+     * @return O salário do funcionário.
+     */
     public float getSalario() {
         return salario;
     }
@@ -78,6 +102,10 @@ public class Funcionario {
         this.salario = salario;
     }
 
+    /**
+     * 
+     * @return O CPF do funcionário.
+     */
     public long getCpf() {
         return cpf;
     }
@@ -85,7 +113,11 @@ public class Funcionario {
     public void setCpf(long cpf) {
         this.cpf = cpf;
     }
-
+    
+    /**
+     * 
+     * @return O número de acessos negados do funcionário.
+     */
 	public int getnAcessosNegados() {
 		return nAcessosNegados;
 	}

@@ -18,6 +18,16 @@ public class DadosFuncionario {
     public final long telefone;
     public final float salario;
 
+    /**
+     * Recebe os dados de um funcionário, vindo da TelaFuncionario
+     * @param cpf CPF do funcionário
+     * @param nome Nome do funcionário
+     * @param cargo Cargo do funcionário
+     * @param nascimento Data de nascimento do funcionário
+     * @param telefone Telefone do funcionário
+     * @param salario Salário do funcionário
+     */
+    
     public DadosFuncionario(long cpf, String nome, Cargo cargo, Calendar nascimento, long telefone, float salario) {
         this.cpf = cpf;
         this.nome = nome;
