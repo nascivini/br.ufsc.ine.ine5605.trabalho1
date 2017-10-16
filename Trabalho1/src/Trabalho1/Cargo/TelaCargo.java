@@ -1,7 +1,5 @@
 package Trabalho1.Cargo;
 
-import Trabalho1.Principal.ClassePrincipal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.InputMismatchException;
@@ -67,10 +65,10 @@ public class TelaCargo {
                 default:
                     throw new IllegalArgumentException();
             }
-        } catch (IllegalArgumentException | InputMismatchException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println("Opção Inválida! Escolha uma opção dentre das opções na lista.");
             String[] args = null;
-            ClassePrincipal.main(args);
+            this.inicia();
         }
     }
 
