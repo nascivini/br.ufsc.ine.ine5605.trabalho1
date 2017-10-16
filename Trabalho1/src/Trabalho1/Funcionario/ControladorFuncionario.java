@@ -41,9 +41,9 @@ public class ControladorFuncionario implements IControladorFuncionario {
 
     public Funcionario incluirFuncionario(DadosFuncionario conteudo) {
         if (conteudo != null) {
-                    Funcionario novo = new Funcionario(this.gerarMatriculaSequencial(), conteudo);
-                    funcionarios.add(novo);
-                    return novo;
+            Funcionario novo = new Funcionario(this.gerarMatriculaSequencial(), conteudo);
+            funcionarios.add(novo);
+            return novo;
         }
         return null;
     }
@@ -94,6 +94,8 @@ public class ControladorFuncionario implements IControladorFuncionario {
     public void listarFuncionarios() {
         for(Funcionario funcionario: funcionarios){
             System.out.println("Matrícula: " + funcionario.getMatricula() + " | Nome: " + funcionario.getNome());
+            System.out.println("Telefone :" + funcionario.getTelefone() + "|Salário :" + funcionario.getSalario() + " |Cargo :" + funcionario.getCargo().getNome());
+            System.out.println("");
         }
     }
     
