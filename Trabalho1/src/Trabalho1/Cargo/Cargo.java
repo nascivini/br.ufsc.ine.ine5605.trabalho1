@@ -1,5 +1,6 @@
 package Trabalho1.Cargo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -9,7 +10,7 @@ import java.util.Calendar;
  * @author Marina Ribeiro Kodama
  * @author Marco Aurelio Geremias
  */
-public class Cargo {
+public class Cargo implements Serializable{
     
     private int codigo;
     private String nome;

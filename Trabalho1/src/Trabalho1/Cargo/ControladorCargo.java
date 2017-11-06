@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -16,19 +17,19 @@ import java.util.Date;
 public class ControladorCargo implements IControladorCargo {
 
     private final ControladorPrincipal controladorPrincipal;
-    private final ArrayList<Cargo> cargos;
+    private CargoDAO cargoDAO;
     private final TelaCargo telaCargo;
     private int sequencialCargo;
 
     public ControladorCargo(ControladorPrincipal controladorPrincipal) {
-        this.cargos = new ArrayList<>();
+        this.cargoDAO = new CargoDAO();
         this.telaCargo = new TelaCargo(this);
         this.controladorPrincipal = controladorPrincipal;
         this.sequencialCargo = 0;
     }
 
     public ArrayList<Cargo> getCargos() {
-        return cargos;
+        return new ArrayList<Cargo>(cargoDAO.getList());
     }
 
     public TelaCargo getTelaCargo() {
@@ -42,19 +43,15 @@ public class ControladorCargo implements IControladorCargo {
     @Override
     public Cargo incluirCargo(DadosCargo conteudo, int codigo) {
         Cargo novo = new Cargo(conteudo, codigo);
-        cargos.add(novo);
+        cargoDAO.put(novo);
         return novo;
     }
 
     @Override
     public boolean excluirCargo(int codigo) {
-        if (this.findCargoByCodigo(codigo) != null) {
-            for (int i = 0; i < cargos.size(); i++) {
-                if (cargos.get(i).getCodigo() == codigo) {
-                    cargos.remove(i);
-                    return true;
-                }
-            }
+        if(this.findCargoByCodigo(codigo) != null){
+            this.cargoDAO.remove(this.cargoDAO.get(codigo));
+            return true;
         }
         return false;
     }
@@ -88,20 +85,18 @@ public class ControladorCargo implements IControladorCargo {
 
     @Override
     public Cargo findCargoByCodigo(int codigo) throws IllegalArgumentException {
-        if (codigo > 0) {
-            for (Cargo cargoLista : this.cargos) {
-                if (codigo == cargoLista.getCodigo()) {
-                    return cargoLista;
-                }
-            }
+        Cargo cargo = cargoDAO.get(codigo);
+        if (cargo != null) {
+            return cargo;
+        }
+        else{
             throw new IllegalArgumentException("Código Inválido!");
         }
-        return null;
     }
 
     @Override
     public boolean findCargoByNome(String nome) {
-        for (Cargo cargoAtual : cargos) {
+        for (Cargo cargoAtual : this.cargoDAO.getList()) {
             if (cargoAtual.getNome().equals(nome)) {
                 return true;
             }
@@ -124,7 +119,7 @@ public class ControladorCargo implements IControladorCargo {
     @Override
     public void listarCargos() {
         DateFormat formatador = new SimpleDateFormat("HH:mm");
-        for (Cargo cargoLista : cargos) {
+        for (Cargo cargoLista : this.cargoDAO.getList()) {
             System.out.println("Nome: " + cargoLista.getNome() + " | Código: " + cargoLista.getCodigo() + "| " + cargoLista.getTipoCargo().getDescricao());
             System.out.println("Horários deste cargo :");
             if (!cargoLista.getHorarios().isEmpty()) {
